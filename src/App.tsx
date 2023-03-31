@@ -1,5 +1,3 @@
-import "./bidlo.sass";
-
 export const App = () => {
   return (
     <div className="App">
