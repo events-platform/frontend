@@ -3,7 +3,7 @@ import { store, useAppDispatch } from "../store/store";
 
 export const VenchTest = () => {
   const dispatch = useAppDispatch();
-  const val = store.getState().login.value;
+  const val = store.getState().test.value;
   const addNumber = () => {
     dispatch(increment());
     // eslint-disable-next-line no-console

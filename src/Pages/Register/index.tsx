@@ -1,14 +1,39 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Heading, Input, User, Lock, Mail, Button, Arrow } from "../../Components/Auth";
 import { Description } from "../../Components/Auth/Description";
 import styles from "./Register.module.sass";
 import { useState } from "react";
+import { create } from "../../API/login";
 
 export const Register = () => {
   const [nameState, setNameState] = useState("");
   const [emailState, setEmailState] = useState("");
   const [passwordState, setPasswordState] = useState("");
   const [confirmPasswordState, setConfirmPassowrdState] = useState("");
+  const [errorState, setErrorState] = useState("");
+  const navigate = useNavigate();
+  const onCreateAccountClicked = (): boolean => {
+    if (passwordState !== confirmPasswordState) {
+      setErrorState("Пароли не совпадают");
+      return false;
+    }
+    if (nameState === "" || emailState === "" || passwordState === "") {
+      setErrorState("Не заполненны все обязательные поля");
+      return false;
+    }
+    create(nameState, emailState, passwordState)
+      .then((res) => {
+        if (res.status === 201) {
+          navigate("/login");
+        }
+      })
+      .catch((res) => {
+        if ("response" in res) {
+          setErrorState(res.response.data);
+        }
+      });
+    return true;
+  };
   return (
     <div className={styles.Register}>
       {nameState && emailState && passwordState && confirmPasswordState ? null : null}
@@ -27,8 +52,9 @@ export const Register = () => {
         <Input type={"password"} text={"Повторите пароль"} setState={setConfirmPassowrdState}>
           <Lock />
         </Input>
+        <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
         <Description text={"Пароль должен содержать не менее 8 знаков, включая буквы и цифры."} color={"rgba(0, 0, 0, 0.5)"} />
-        <Button text={"Зарегистрироваться"}/>
+        <Button text={"Зарегистрироваться"} onClick={onCreateAccountClicked}/>
       </div>
       <div className={styles.login}>
         <Link to="/login">
