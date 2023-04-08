@@ -4,6 +4,8 @@ import { Description } from "../../Components/Auth/Description";
 import styles from "./Register.module.sass";
 import { useState } from "react";
 import { create } from "../../API/login";
+import { useAppDispatch } from "../../store/store";
+import { setToken, setUserName, setSignIn } from "../../store/reducers/userReducer";
 
 export const Register = () => {
   const [nameState, setNameState] = useState("");
@@ -11,6 +13,7 @@ export const Register = () => {
   const [passwordState, setPasswordState] = useState("");
   const [confirmPasswordState, setConfirmPassowrdState] = useState("");
   const [errorState, setErrorState] = useState("");
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const onCreateAccountClicked = (): boolean => {
     if (passwordState !== confirmPasswordState) {
@@ -24,7 +27,10 @@ export const Register = () => {
     create(nameState, emailState, passwordState)
       .then((res) => {
         if (res.status === 201) {
-          navigate("/login");
+          dispatch(setToken(res.data));
+          dispatch(setUserName(emailState));
+          dispatch(setSignIn(true));
+          navigate("/");
         }
       })
       .catch((res) => {

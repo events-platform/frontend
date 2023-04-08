@@ -1,17 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import testReducer from "./reducers/test";
 import userReducer from "./reducers/userReducer";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 const reducer = {
-  test: testReducer,
   user: userReducer
 };
 
 const preloadedState = {
-  test: {
-    value: 10
-  },
-  visibilityFilter: "SHOW_COMPLETED"
 };
 
 export const store = configureStore({
