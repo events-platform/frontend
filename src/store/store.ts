@@ -1,15 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import testReducer from "./reducers/test";
+import userReducer from "./reducers/userReducer";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 const reducer = {
-  login: testReducer
+  user: userReducer
 };
 
 const preloadedState = {
-  login: {
-    value: 10
-  },
-  visibilityFilter: "SHOW_COMPLETED"
 };
 
 export const store = configureStore({
@@ -20,5 +16,8 @@ export const store = configureStore({
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-export const useAppDispatch = () => useDispatch<AppDispatch>();
+
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+type DispatchFunc = () => AppDispatch
+export const useAppDispatch: DispatchFunc = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
