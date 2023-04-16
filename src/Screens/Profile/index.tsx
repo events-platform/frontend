@@ -1,13 +1,14 @@
-import { Header } from "../../Components/Main";
-import { AccountInfo } from "../../Components/Profile";
+
+import { useParams } from "react-router-dom";
+import { AccountInfo } from "../../Pages/Profile";
 import styles from "./Profile.module.sass";
 
 export const Profile = () => {
+  const params = useParams();
+  const profileId: string = params.profileId || "";
   return (
     <div className={styles.Profile}>
-      <Header />
-      <AccountInfo />
-      1
+      <AccountInfo username={profileId}/>
     </div>
   );
 };

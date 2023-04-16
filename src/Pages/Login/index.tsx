@@ -40,7 +40,7 @@ export const Login = () => {
       {/* чтобы линтер не ругался ))) */}
       <div className={styles.LoginContent}>
         <Heading text={"Вход"} />
-        <Input type={"email"} text={"Почта"} setState={setMailState}>
+        <Input type={"email"} text={"Логин"} setState={setMailState}>
           <Mail />
         </Input>
         <Input type={"password"} text={"Пароль"} setState={setPasswordState}>
