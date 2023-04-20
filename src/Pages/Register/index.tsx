@@ -28,7 +28,7 @@ export const Register = () => {
       .then((res) => {
         if (res.status === 201) {
           dispatch(setToken(res.data));
-          dispatch(setUserName(emailState));
+          dispatch(setUserName(nameState));
           dispatch(setSignIn(true));
           navigate("/");
         }

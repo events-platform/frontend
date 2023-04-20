@@ -1,1 +1,1 @@
-export { AccountInfo } from "./AccountInfo";
+export { Modal } from "./Modal";

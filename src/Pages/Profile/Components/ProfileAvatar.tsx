@@ -1,32 +1,25 @@
 import React, { useState } from "react";
 import styles from "../AccountInfo/AccountInfo.module.sass";
-import { sendProfileImage } from "../../../API/profile";
+import { Modal } from "../../../Components/Profile";
+import { ModalEditAvatar } from "../ModalEditAvatar";
 interface profileProps {
   username: string
 }
 
 export const ProfileIamge: React.FC<profileProps> = ({ username }) => {
-  const [profileImage, setProfileImage] = useState<File | null>(null);
-  const onProfileImageChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files !== null) {
-      setProfileImage(e.target.files[0]);
-    }
+  const [isHidden, setisHidden] = useState<boolean>(true);
+  const closeModal = () => {
+    setisHidden(true);
   };
-  const updateProfileImg = (e: any) => {
-    e.preventDefault();
-    sendProfileImage(profileImage)
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log(err);
-      });
+  const openModal = () => {
+    setisHidden(false);
   };
   return (
-    <div>
-      <img src={profileImage ? URL.createObjectURL(profileImage) : `http://localhost:7999/user/${username}/avatar`} width="200" className={styles.ProfileImg} />
-      <form onSubmit={updateProfileImg}>
-        <input type="file" name="file" onChange={onProfileImageChange} />
-        <input type="submit" />
-      </form>
+    <div className={styles.ImageContainer}>
+      <img onClick={openModal} src={`http://venchass.ru:7999/user/${username}/avatar`} className={styles.ProfileImg} />
+      <Modal isHidden={isHidden} closeModal={closeModal}>
+        <ModalEditAvatar closeModal={closeModal}/>
+      </Modal>
     </div>
   );
 };

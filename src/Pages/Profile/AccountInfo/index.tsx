@@ -9,6 +9,7 @@ import { EventsNavbar } from "../Components/EventsNavbar";
 import { Events } from "../Components/Events/EventsList";
 import { ProfileIamge } from "../Components/ProfileAvatar";
 import { Modal } from "../../../Components/Profile/Modal";
+import { ModalProfileEdit } from "../ModalEditProfile";
 import { useNavigate } from "react-router-dom";
 
 interface profileProps {
@@ -53,7 +54,9 @@ export const AccountInfo: React.FC<profileProps> = ({ username }) => {
         <EventsNavbar selected={selectedTab} setSelected={setselectedTab}/>
       </div>
       <Events selected={selectedTab}/>
-      <Modal inputMode={inputMode} setInputMode={setinputMode} isHidden={modalHidden} closeModal={() => setModalHidden(true)}/>
+      <Modal isHidden={modalHidden} closeModal={() => setModalHidden(true)}>
+        <ModalProfileEdit inputMode={inputMode} setInputMode={setinputMode} isHidden={modalHidden} closeModal={() => setModalHidden(true)}/>
+      </Modal>
     </>
   );
 };
