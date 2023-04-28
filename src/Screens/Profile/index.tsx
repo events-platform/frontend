@@ -1,4 +1,3 @@
-
 import { useParams } from "react-router-dom";
 import { AccountInfo } from "../../Pages/Profile";
 import styles from "./Profile.module.sass";

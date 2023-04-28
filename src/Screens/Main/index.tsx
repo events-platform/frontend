@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { connect } from "react-redux";
-import { Footer, Header, AnonymousHeader } from "../../Components/Main";
+import { Footer, Header } from "../../Components/Main";
 import { RootState, store } from "../../store/store";
 import styles from "./Main.module.sass";
 
@@ -13,7 +13,7 @@ const HeaderConn = () => {
   const isSignedIn = store.getState().user.isSignedIn;
   return (
     <>
-      { isSignedIn === true ? <Header name={name}/> : <AnonymousHeader />}
+      <Header name={name} isSignedIn={isSignedIn} />
     </>
   );
 };
