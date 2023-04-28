@@ -1,9 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import { Main, Auth, Profile } from "./Screens";
-import { Login, Register, Posts, Post } from "./Pages";
+import { Login, Register, Posts, Post, PostCreation } from "./Pages";
 import "./style/clear.sass";
 import "./style/fonts.sass";
-// import "./style/other.sass";
 
 export const App = () => {
   return (
@@ -12,6 +11,7 @@ export const App = () => {
         <Route path='/' element={<Main><Posts /></Main>} />
         <Route path='/posts' element={<Main><Posts /></Main>} />
         <Route path="/posts/*" element={<Main><Post /></Main>} />
+        <Route path="/posts/create" element={<Main><PostCreation /></Main>} />
         <Route path="/profile/:profileId" element={<Main><Profile /></Main> } />
         <Route path='/login' element={<Auth><Login /></Auth>} />
         <Route path='/reg' element={<Auth><Register /></Auth>} />
