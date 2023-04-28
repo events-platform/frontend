@@ -3,7 +3,6 @@ import { Main, Auth, Profile } from "./Screens";
 import { Login, Register, Posts, Post, PostCreation } from "./Pages";
 import "./style/clear.sass";
 import "./style/fonts.sass";
-// import "./style/other.sass";
 
 export const App = () => {
   return (
