@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Main, Auth, Profile } from "./Screens";
-import { Login, Register, Posts, Post, PostCreation } from "./Pages";
+import { Login, Register, Posts, Post, PostCreation, Menu } from "./Pages";
 import "./style/clear.sass";
 import "./style/fonts.sass";
 
@@ -8,7 +8,7 @@ export const App = () => {
   return (
     <div className="App">
       <Routes>
-        <Route path='/' element={<Main><Posts /></Main>} />
+        <Route path='/' element={<Main><Menu /></Main>} />
         <Route path='/posts' element={<Main><Posts /></Main>} />
         <Route path="/posts/*" element={<Main><Post /></Main>} />
         <Route path="/posts/create" element={<Main><PostCreation /></Main>} />
