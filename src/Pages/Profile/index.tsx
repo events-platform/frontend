@@ -52,7 +52,7 @@ export const Profile = () => {
           <div className={styles.ProfileTools}>
             <ToolButton
               text={"Создать мероприятие"}
-              onClick={() => { navigate("/createpost"); }}
+              onClick={() => { navigate("/posts/create"); }}
               bgColor={"#5AAE81"}
               color={"white"}
               border={"1px solid"}
@@ -73,14 +73,16 @@ export const Profile = () => {
         <EventsNavbar selected={selectedTab} setSelected={setselectedTab}/>
       </div>
       <Events selected={selectedTab}/>
-      <Modal isHidden={modalHidden} closeModal={() => setModalHidden(true)}>
-        <ModalProfileEdit
-          inputMode={inputMode}
-          setInputMode={setinputMode}
-          isHidden={modalHidden}
-          closeModal={() => setModalHidden(true)}
-        />
-      </Modal>
+      {!modalHidden
+        ? <Modal isHidden={modalHidden} closeModal={() => setModalHidden(true)}>
+          <ModalProfileEdit
+            inputMode={inputMode}
+            setInputMode={setinputMode}
+            isHidden={modalHidden}
+            closeModal={() => setModalHidden(true)}
+          />
+        </Modal>
+        : null }
     </>
   );
 };
