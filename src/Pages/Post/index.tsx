@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Cross, Favorite, Share, Description } from "../../Components/Post";
 import styles from "./Post.module.sass";
 
@@ -17,10 +18,12 @@ interface PostProps {
 }
 
 export const Post: React.FC<PostProps> = ({ preview, name, author, avatar, type, mail, site, date, number, address, text }) => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.Post}>
       <div className={styles.topButtons}>
-        <button>
+        <button onClick={() => navigate(-1)}>
           <Cross />
         </button>
         <div className={styles.topButtonsRight}>

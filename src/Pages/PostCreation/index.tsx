@@ -1,8 +1,11 @@
 import { SetStateAction, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Input, Arrow, Cross } from "../../Components/PostCreation";
 import styles from "./PostCreation.module.sass";
 
 export const PostCreation = () => {
+  const navigate = useNavigate();
+
   const [textarea, setTextArea] = useState("");
 
   const handleChange = (event: { target: { value: SetStateAction<string>; style: { height: string; }; scrollHeight: any; }; }) => {
@@ -14,7 +17,9 @@ export const PostCreation = () => {
   return (
     <div className={styles.PostCreation}>
       <div className={styles.topBar}>
-        <Arrow />
+        <button onClick={() => navigate(-1)}>
+          <Arrow />
+        </button>
         <h1>
           Создание мероприятия
         </h1>

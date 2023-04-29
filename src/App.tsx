@@ -1,10 +1,17 @@
-import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Main, Auth, Profile } from "./Screens";
 import { Login, Register, Posts, Post, PostCreation, Menu } from "./Pages";
 import "./style/clear.sass";
 import "./style/fonts.sass";
 
 export const App = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <div className="App">
       <Routes>
