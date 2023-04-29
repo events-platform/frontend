@@ -1,7 +1,7 @@
 import React from "react";
 import { NavBarButton } from "../";
 import { SelectedTab } from "../../../Pages/Profile";
-import styles from "../../../Pages/Profile/Profile.module.sass";
+import styles from "./EventsNavbar.module.sass";
 
 interface EventsNavbarInterface {
   selected: SelectedTab,
