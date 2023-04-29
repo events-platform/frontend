@@ -1,12 +1,12 @@
-import styles from "./ModalEditAvatar.module.sass";
 import React, { useState, DragEvent } from "react";
-import { CloseButton } from "../../../Components/Profile/CloseButton";
-import { SaveButton } from "../../../Components/Profile/SaveButton";
+import { CloseButton, SaveButton } from "../";
 import { sendProfileImage } from "../../../API/profile";
+import styles from "./ModalEditAvatar.module.sass";
 
 interface ModalEditAvatarInterface {
   closeModal: () => void
 }
+
 export const ModalEditAvatar: React.FC<ModalEditAvatarInterface> = ({ closeModal }) => {
   const [avatarPreview, setavatarPreview] = useState<File | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);

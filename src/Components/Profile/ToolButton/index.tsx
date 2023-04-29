@@ -1,5 +1,6 @@
 import React from "react";
-import styles from "../AccountInfo/AccountInfo.module.sass";
+import styles from "./ToolButton.module.sass";
+
 interface ToolButtonIntarface {
   children: React.ReactNode,
   text: string,
@@ -8,6 +9,7 @@ interface ToolButtonIntarface {
   border: string,
   onClick?: () => void
 }
+
 export const ToolButton: React.FC<ToolButtonIntarface> = ({ children, text, bgColor, color, border, onClick }) => {
   return (
     <div>

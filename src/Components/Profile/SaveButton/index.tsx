@@ -4,6 +4,7 @@ import styles from "./SaveButton.module.sass";
 interface SaveButtonInterface {
   onClick?: () => void
 }
+
 export const SaveButton: React.FC<SaveButtonInterface> = ({ onClick }) => {
   return (
     <>
@@ -11,6 +12,7 @@ export const SaveButton: React.FC<SaveButtonInterface> = ({ onClick }) => {
     </>
   );
 };
+
 SaveButton.defaultProps = {
   onClick: () => {}
 };

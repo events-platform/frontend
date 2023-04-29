@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { CloseButton } from "../../../Components/Profile/CloseButton";
-import { SaveButton } from "../../../Components/Profile/SaveButton";
-import { EditSVG } from "../SVGs/edit";
+import React from "react";
+import { SaveButton, CloseButton, EditSVG } from "../";
 import styles from "./ModalEditProfile.module.sass";
 
 interface modalFieldInterface {
@@ -50,9 +48,9 @@ interface ModalProfileEditInterface {
 }
 
 export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden, closeModal, inputMode, setInputMode }) => {
-  const [profileName, setprofileName] = useState("Дядя Богдан");
-  const [profileNumber, setprofileNumber] = useState("7 (924) 552-81-61");
-  const [profileMail, setprofileMail] = useState("bogdan@gmail.com");
+  const [profileName, setprofileName] = React.useState("Дядя Богдан");
+  const [profileNumber, setprofileNumber] = React.useState("7 (924) 552-81-61");
+  const [profileMail, setprofileMail] = React.useState("bogdan@gmail.com");
   return (
     <div className={styles.ModalContainer}>
       <ModalHeader setInputMode={setInputMode} inputMode={inputMode}/>
