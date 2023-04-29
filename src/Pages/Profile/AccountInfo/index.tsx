@@ -1,6 +1,6 @@
 import styles from "./AccountInfo.module.sass";
 import { About } from "../Components/AboutButton";
-import React, { useState } from "react";
+import { useState } from "react";
 import { AddSVG } from "../SVGs/add";
 import { ToolButton } from "../Components/ToolButton";
 import { EditSVG } from "../SVGs/edit";
@@ -10,11 +10,8 @@ import { Events } from "../Components/Events/EventsList";
 import { ProfileIamge } from "../Components/ProfileAvatar";
 import { Modal } from "../../../Components/Profile/Modal";
 import { ModalProfileEdit } from "../ModalEditProfile";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-interface profileProps {
-  username: string
-}
 export enum SelectedTab {
   // eslint-disable-next-line no-unused-vars
   MyEvents,
@@ -22,7 +19,9 @@ export enum SelectedTab {
   MyFavoriteEvents
 }
 
-export const AccountInfo: React.FC<profileProps> = ({ username }) => {
+export const AccountInfo = () => {
+  const params = useParams();
+  const username: string = params.profileId || "";
   const navigate = useNavigate();
   const user = getProfileInfo(username) || { username: "-", description: "-" };
   const [selectedTab, setselectedTab] = useState<SelectedTab>(SelectedTab.MyEvents);
