@@ -1,7 +1,8 @@
 import React from "react";
+import { EventCard } from "../../EventCard";
+import { SelectedTab } from "../../../Pages/Profile";
 import styles from "./Events.module.sass";
-import { EventCard } from "../../../../Components/EventCard";
-import { SelectedTab } from "../../AccountInfo";
+
 interface EventsInterface {
   selected: SelectedTab
 }
@@ -9,7 +10,7 @@ interface EventsInterface {
 const EventsEmpty = () => {
   return (
     <div className={styles.EventsEmpty}>
-      <img src={require("../../Images/Yn6hmt4S69A.jpg")} alt="здесь пусто" width={328}/>
+      <img src={require("../../../assets/profile/Yn6hmt4S69A.jpg")} alt="здесь пусто" width={328}/>
       <p className={styles.EmptyEventsText}>
         Ой, тут пусто.
         Создайте мероприятие нажав на соответствующую кнопку в верхней части профиля.

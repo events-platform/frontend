@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Main, Auth } from "./Screens";
-import { Login, Register, Posts, Post, PostCreation, Menu } from "./Pages";
+import { Login, Register, Posts, Post, PostCreation, Menu, Profile } from "./Pages";
 import "./style/clear.sass";
 import "./style/fonts.sass";
-import { AccountInfo } from "./Pages/Profile";
 
 export const App = () => {
   const { pathname } = useLocation();
@@ -20,7 +19,7 @@ export const App = () => {
         <Route path='/posts' element={<Main><Posts /></Main>} />
         <Route path="/posts/*" element={<Main><Post /></Main>} />
         <Route path="/posts/create" element={<Main><PostCreation /></Main>} />
-        <Route path="/profile/:profileId" element={<Main><AccountInfo /></Main> } />
+        <Route path="/profile/:profileId" element={<Main><Profile /></Main> } />
         <Route path='/login' element={<Auth><Login /></Auth>} />
         <Route path='/reg' element={<Auth><Register /></Auth>} />
         <Route path='*' element={<div>404</div>} />
