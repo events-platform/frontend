@@ -12,23 +12,51 @@ export const Register = () => {
   const [emailState, setEmailState] = useState("");
   const [passwordState, setPasswordState] = useState("");
   const [confirmPasswordState, setConfirmPassowrdState] = useState("");
+  const [nameColor, setNameColor] = useState("#D9D9D9");
+  const [emailColor, setEmailColor] = useState("#D9D9D9");
+  const [passwordColor, setPasswordColor] = useState("#D9D9D9");
+  const [confirmPasswordColor, setConfirmPassowrdColor] = useState("#D9D9D9");
   const [errorState, setErrorState] = useState("");
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const onCreateAccountClicked = (): boolean => {
-    if (passwordState !== confirmPasswordState) {
-      setErrorState("Пароли не совпадают");
-      return false;
+    if (nameState) {
+      setNameColor("#D9D9D9");
+    } else {
+      setNameColor("rgba(255, 77, 77, 0.9)");
     }
+    if (emailState) {
+      setEmailColor("#D9D9D9");
+    } else {
+      setEmailColor("rgba(255, 77, 77, 0.9)");
+    }
+    if (passwordState) {
+      setPasswordColor("#D9D9D9");
+    } else {
+      setPasswordColor("rgba(255, 77, 77, 0.9)");
+    }
+    if (passwordState !== confirmPasswordState) {
+      setConfirmPassowrdColor("#D9D9D9");
+    } else {
+      setConfirmPassowrdColor("rgba(255, 77, 77, 0.9)");
+    }
+
     if (nameState === "" || emailState === "" || passwordState === "") {
       setErrorState("Не заполненны все обязательные поля");
       return false;
     }
+    if (passwordState !== confirmPasswordState) {
+      setErrorState("Пароли не совпадают");
+      return false;
+    }
+
     create(nameState, emailState, passwordState)
       .then((res) => {
         if (res.status === 201) {
           dispatch(setToken(res.data));
-          dispatch(setUserName(emailState));
+          dispatch(setUserName(nameState));
           dispatch(setSignIn(true));
           navigate("/");
         }
@@ -40,22 +68,21 @@ export const Register = () => {
       });
     return true;
   };
+
   return (
     <div className={styles.Register}>
-      {nameState && emailState && passwordState && confirmPasswordState ? null : null}
-      {/* чтобы линтер не ругался ))) */}
       <div className={styles.RegisterContent}>
         <Heading text={"Регистрация"} />
-        <Input type={"text"} text={"Введите имя или никнейм"} setState={setNameState}>
+        <Input type={"text"} text={"Введите имя или никнейм"} setState={setNameState} color={nameColor}>
           <User />
         </Input>
-        <Input type={"email"} text={"Введите почту"} setState={setEmailState}>
+        <Input type={"email"} text={"Введите почту"} setState={setEmailState} color={emailColor}>
           <Mail />
         </Input>
-        <Input type={"password"} text={"Введите пароль"} setState={setPasswordState}>
+        <Input type={"password"} text={"Введите пароль"} setState={setPasswordState} color={passwordColor}>
           <Lock />
         </Input>
-        <Input type={"password"} text={"Повторите пароль"} setState={setConfirmPassowrdState}>
+        <Input type={"password"} text={"Повторите пароль"} setState={setConfirmPassowrdState} color={confirmPasswordColor}>
           <Lock />
         </Input>
         <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />

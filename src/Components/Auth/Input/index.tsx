@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { RefObject, ReactNode } from "react";
 import styles from "./Input.module.sass";
 
 interface InputProps {
@@ -7,16 +7,17 @@ interface InputProps {
   color?: string;
   children?: ReactNode;
   setState: Function;
+  ref?: RefObject<HTMLInputElement>;
 }
 
-export const Input: React.FC<InputProps> = ({ text, children, type, color, setState }) => {
+export const Input: React.FC<InputProps> = ({ text, children, type, color, setState, ref }) => {
   const handleChange = (event: { target: { value: any; }; }) => {
     setState(event.target.value);
   };
 
   return (
     <div className={styles.InputWrapper}>
-      <input type={type} className={`${styles.Input} media`} required placeholder={text} style={{ borderColor: color }} onChange={handleChange} />
+      <input type={type} className={`${styles.Input} media`} required placeholder={text} style={{ borderColor: color }} onChange={handleChange} ref={ref} />
       {children}
     </div>
   );
