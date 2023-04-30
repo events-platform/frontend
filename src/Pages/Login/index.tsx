@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Heading, Input, Lock, Mail, Button, Arrow, Description } from "../../Components/Auth";
 import styles from "./Login.module.sass";
 import { login } from "../../API/login";
-import { store, useAppDispatch } from "../../store/store";
-import { setSignIn, setToken, setUserName } from "../../store/reducers/userReducer";
+import { useAppDispatch } from "../../store/store";
+import { setSignIn, setToken } from "../../store/reducers/userReducer";
 
 export const Login = () => {
   const [emailState, setMailState] = useState("");
@@ -16,11 +16,8 @@ export const Login = () => {
     login(emailState, passwordState)
       .then((res) => {
         if (res.status === 200) {
-          dispatch(setToken(res.data));
-          dispatch(setUserName(emailState));
+          dispatch(setToken(res.data.accessToken));
           dispatch(setSignIn(true));
-          // eslint-disable-next-line no-console
-          console.log(store.getState().user);
           navigate("/");
         } else {
           // eslint-disable-next-line no-console

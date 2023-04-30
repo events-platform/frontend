@@ -1,16 +1,16 @@
 import styles from "./AccountInfo.module.sass";
 import { About } from "../Components/AboutButton";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AddSVG } from "../SVGs/add";
 import { ToolButton } from "../Components/ToolButton";
 import { EditSVG } from "../SVGs/edit";
-import { getProfileInfo } from "../../../API/profile";
 import { EventsNavbar } from "../Components/EventsNavbar";
 import { Events } from "../Components/Events/EventsList";
 import { ProfileIamge } from "../Components/ProfileAvatar";
 import { Modal } from "../../../Components/Profile/Modal";
 import { ModalProfileEdit } from "../ModalEditProfile";
 import { useNavigate } from "react-router-dom";
+import { editUser, getUserData } from "../../../API/profile";
 
 interface profileProps {
   username: string
@@ -24,7 +24,10 @@ export enum SelectedTab {
 
 export const AccountInfo: React.FC<profileProps> = ({ username }) => {
   const navigate = useNavigate();
-  const user = getProfileInfo(username) || { username: "-", description: "-" };
+  const [description, setdescription] = useState("");
+  const [profileUsername, setprofileUsername] = useState(username);
+  const [phone, setphone] = useState("");
+  const [email, setemail] = useState("");
   const [selectedTab, setselectedTab] = useState<SelectedTab>(SelectedTab.MyEvents);
   const [modalHidden, setModalHidden] = useState(true);
   const [inputMode, setinputMode] = useState(true);
@@ -36,14 +39,41 @@ export const AccountInfo: React.FC<profileProps> = ({ username }) => {
     setinputMode(true);
     setModalHidden(false);
   };
+  const updateProfileInfo = (username: string) => {
+    getUserData(username)
+      .then(res => {
+        setdescription(res.data.about);
+        setprofileUsername(res.data.username);
+        setphone(res.data.phone);
+        setemail(res.data.email);
+      });
+    return () => {
+    };
+  };
+  const sendProfileInfo = (username: string, about: string, phone: string, email: string) => {
+    editUser(username, about, email, phone)
+      .then(res => {
+        navigate(`/profile/${username}`);
+        updateProfileInfo(username);
+      })
+      .catch(err => {
+        if (err.code === 422) {
+          // eslint-disable-next-line no-console
+          console.log("validathion error");
+        }
+      });
+  };
+  useEffect(() => {
+    updateProfileInfo(username);
+  }, []);
   return (
     <>
       <div className={styles.AccountInfo}>
         <div className={styles.ProfileInfo}>
           <ProfileIamge username={username} />
           <div className={styles.Description}>
-            <h1 className={styles.ProfileName}>{user.username}</h1>
-            <p className={styles.ProfileDescription}>{user.description}</p>
+            <h1 className={styles.ProfileName}>{profileUsername}</h1>
+            <p className={styles.ProfileDescription}>{description}</p>
             <About onClick={openModal}/>
           </div>
           <div className={styles.ProfileTools}>
@@ -55,7 +85,7 @@ export const AccountInfo: React.FC<profileProps> = ({ username }) => {
       </div>
       <Events selected={selectedTab}/>
       <Modal isHidden={modalHidden} closeModal={() => setModalHidden(true)}>
-        <ModalProfileEdit inputMode={inputMode} setInputMode={setinputMode} isHidden={modalHidden} closeModal={() => setModalHidden(true)}/>
+        <ModalProfileEdit sendProfileInfo={sendProfileInfo} username={profileUsername} about={description} phone={phone} email={email} inputMode={inputMode} setInputMode={setinputMode} isHidden={modalHidden} closeModal={() => setModalHidden(true)}/>
       </Modal>
     </>
   );
