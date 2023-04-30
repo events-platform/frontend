@@ -1,6 +1,8 @@
-import React from "react";
-import { SaveButton, CloseButton, EditSVG } from "../";
+import React, { useState, useEffect } from "react";
+import { CloseButton } from "../../../Components/Profile/CloseButton";
+import { SaveButton } from "../../../Components/Profile/SaveButton";
 import styles from "./ModalEditProfile.module.sass";
+import { EditSVG } from "../SVGs";
 
 interface modalFieldInterface {
   titleText: string,
@@ -16,8 +18,8 @@ const ModalField: React.FC<modalFieldInterface> = ({ titleText, valueText, input
     <div className={styles.ModalField}>
       <p className={styles.fieldTitle}>{titleText}</p>
       {inputMode
-        ? <input className={styles.fieldValue} value={valueText} onChange={valueChange}/>
-        : <input className={`${styles.fieldValue} ${styles.fieldValueNoInput}`} value={valueText} />}
+        ? <input className={styles.fieldValue} value={valueText || ""} onChange={valueChange}/>
+        : <input className={`${styles.fieldValue} ${styles.fieldValueNoInput}`} value={valueText || ""} />}
     </div>
   );
 };
@@ -45,12 +47,31 @@ interface ModalProfileEditInterface {
   closeModal: () => void,
   inputMode: boolean,
   setInputMode: React.Dispatch<React.SetStateAction<boolean>>,
+  username: string,
+  about: string,
+  phone: string,
+  email: string,
+  sendProfileInfo: (
+    username: string,
+    about: string,
+    phone: string,
+    email: string) => void
 }
 
-export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden, closeModal, inputMode, setInputMode }) => {
-  const [profileName, setprofileName] = React.useState("Дядя Богдан");
-  const [profileNumber, setprofileNumber] = React.useState("7 (924) 552-81-61");
-  const [profileMail, setprofileMail] = React.useState("bogdan@gmail.com");
+export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden, closeModal, inputMode, setInputMode, username, about, email, phone, sendProfileInfo }) => {
+  const [profileName, setprofileName] = useState(username);
+  const [profileNumber, setprofileNumber] = useState(phone);
+  const [profileMail, setprofileMail] = useState(email);
+  const [profileAbout, setprofileAbout] = useState(about);
+  // eslint-disable-next-line no-console
+  useEffect(() => { setprofileName(username); }, [username]);
+  useEffect(() => { setprofileNumber(phone); }, [phone]);
+  useEffect(() => { setprofileMail(email); }, [email]);
+  useEffect(() => { setprofileAbout(about); }, [about]);
+
+  const handleChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    setprofileAbout(event.target.value);
+  };
   return (
     <div className={styles.ModalContainer}>
       <ModalHeader setInputMode={setInputMode} inputMode={inputMode}/>
@@ -60,10 +81,10 @@ export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden
       <ModalField titleText="адрес эл. почты" valueText={profileMail} setValueText={setprofileMail} inputMode={inputMode}/>
       <div className={styles.underline}></div>
       <p className={styles.ModalBlockTitle}>Описание</p>
-      <textarea readOnly={!inputMode} className={styles.ModalHug} defaultValue={"Простой человек с ключом на 9"} name="" id="" cols={30} rows={10}></textarea>
+      <textarea readOnly={!inputMode} className={styles.ModalHug} value={profileAbout || ""} onChange={handleChange} name="" id="" cols={30} rows={10}></textarea>
       <div className={styles.underline}></div>
       <div style={{ display: "flex" }}>
-        {inputMode ? <SaveButton onClick={() => {}} /> : null }
+        {inputMode ? <SaveButton onClick={() => { sendProfileInfo(profileName, profileAbout, profileNumber, profileMail); }} /> : null }
         <CloseButton onClick={closeModal} />
       </div>
     </div>

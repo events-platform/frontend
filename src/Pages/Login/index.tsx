@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Heading, Input, Lock, Mail, Button, Arrow, Description } from "../../Components/Auth";
 import styles from "./Login.module.sass";
-import { login } from "../../API/login";
+import { getUserSelf, login } from "../../API/login";
 import { useAppDispatch } from "../../store/store";
-import { setSignIn, setToken, setUserName } from "../../store/reducers/userReducer";
+import { setAvatarUrl, setSignIn, setToken, setUserName } from "../../store/reducers/userReducer";
 
 export const Login = () => {
   const [emailState, setMailState] = useState("");
@@ -20,6 +20,11 @@ export const Login = () => {
         if (res.status === 200) {
           dispatch(setToken(res.data.accessToken));
           dispatch(setSignIn(true));
+          getUserSelf()
+            .then((res) => {
+              dispatch(setUserName(res.data.username));
+              dispatch(setAvatarUrl(res.data.avatar));
+            });
           navigate("/");
         }
       })

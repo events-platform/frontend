@@ -3,10 +3,11 @@ import { Modal, ModalEditAvatar } from "../";
 import styles from "./ProfileImage.module.sass";
 
 interface profileProps {
-  username: string
+  username: string,
+  avtarUrl: string
 }
 
-export const ProfileImage: React.FC<profileProps> = ({ username }) => {
+export const ProfileImage: React.FC<profileProps> = ({ username, avtarUrl }) => {
   const [isHidden, setisHidden] = React.useState<boolean>(true);
 
   const closeModal = () => {
@@ -19,7 +20,7 @@ export const ProfileImage: React.FC<profileProps> = ({ username }) => {
 
   return (
     <div className={styles.ImageContainer}>
-      <img onClick={openModal} src={`http://venchass.ru:7999/user/${username}/avatar`} className={styles.ProfileImg} />
+      <img onClick={openModal} src={avtarUrl} className={styles.ProfileImg} />
       <Modal isHidden={isHidden} closeModal={closeModal}>
         <ModalEditAvatar closeModal={closeModal}/>
       </Modal>

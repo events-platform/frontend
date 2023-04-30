@@ -1,17 +1,17 @@
 import React from "react";
 import { SearchInput } from "./SearchInput";
-import { Avatar, Logo, MapPoint } from "./SVGs";
+import { Logo, MapPoint } from "./SVGs";
 import styles from "./Header.module.sass";
 import { Link } from "react-router-dom";
 
 interface HeaderProps {
-  name?: string;
-  avatar?: string;
-  city?: string;
-  isSignedIn?: boolean;
+  name?: string,
+  city?: string,
+  isSignedIn?: boolean,
+  avatarUrl?: string
 }
 
-export const Header: React.FC<HeaderProps> = ({ name, avatar, city, isSignedIn }) => {
+export const Header: React.FC<HeaderProps> = ({ name, city, isSignedIn, avatarUrl }) => {
   const profileUrl = "/profile/" + name;
   return (
     <header className={styles.Header}>
@@ -36,7 +36,7 @@ export const Header: React.FC<HeaderProps> = ({ name, avatar, city, isSignedIn }
             </span>
           </Link>
           <Link to={profileUrl}>
-            <Avatar />
+            <img className={styles.Avatar} src={avatarUrl} alt="avatar" />
             <span>
               {name}
             </span>

@@ -39,8 +39,8 @@ export const ModalEditAvatar: React.FC<ModalEditAvatarInterface> = ({ closeModal
   };
   const SaveButtonClicked = () => {
     sendProfileImage(avatarPreview)
-      .then(() => {
-
+      .then((res) => {
+        closeModal();
       });
   };
   return (
