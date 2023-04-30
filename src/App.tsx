@@ -16,9 +16,9 @@ export const App = () => {
     <div className="App">
       <Routes>
         <Route path='/' element={<Main><Menu /></Main>} />
-        <Route path='/posts' element={<Main><Posts /></Main>} />
-        <Route path="/posts/*" element={<Main><Post /></Main>} />
-        <Route path="/posts/create" element={<Main><PostCreation /></Main>} />
+        <Route path='/events' element={<Main><Posts /></Main>} />
+        <Route path="/events/*" element={<Main><Post /></Main>} />
+        <Route path="/events/create" element={<Main><PostCreation /></Main>} />
         <Route path="/profile/:profileId" element={<Main><Profile /></Main> } />
         <Route path='/login' element={<Auth><Login /></Auth>} />
         <Route path='/reg' element={<Auth><Register /></Auth>} />
