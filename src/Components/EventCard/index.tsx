@@ -1,6 +1,7 @@
 import React from "react";
 import { Star } from "./Star";
 import styles from "./EventCard.module.sass";
+import { Link } from "react-router-dom";
 
 interface EventCardProps {
   preview?: string;
@@ -13,32 +14,35 @@ interface EventCardProps {
 
 export const EventCard: React.FC<EventCardProps> = ({ preview, author, name, type, date, id }) => {
   return (
-    <div className={styles.EventCard}>
-      <div className={styles.preview} style={{ backgroundImage: `url(${preview})` }} />
-      <div className={styles.content}>
-        <p className={styles.author}>
-          {author}
-        </p>
-        <p className={styles.name}>
-          {name}
-        </p>
-        <p className={styles.type}>
-          {type}
-        </p>
-        <p className={styles.date}>
-          {date}
-        </p>
-      </div>
-      <div className={styles.buttons}>
-        <button className={styles.reg}>
+    <Link to={`/events/${id}`} className={styles.EventCard}>
+      <div className={styles.wrapper}>
+        <div className={styles.preview} style={{ backgroundImage: `url(${preview})` }} />
+        <div className={styles.content}>
+          <p className={styles.author}>
+            {author}
+          </p>
+          <p className={styles.name}>
+            {name}
+          </p>
+          <p className={styles.type}>
+            {type}
+          </p>
+          <p className={styles.date}>
+            {date}
+          </p>
+        </div>
+        <div className={styles.buttons}>
+          <button className={styles.reg}>
           По записи
-        </button>
-        <button className={styles.favorite}>
-          <Star />
+          </button>
+          <button className={styles.favorite}>
+            <Star />
           Избранное
-        </button>
+          </button>
+        </div>
       </div>
-    </div>
+    </Link>
+
   );
 };
 
@@ -48,5 +52,5 @@ EventCard.defaultProps = {
   name: "Пик IT: Мероприятие для программистов",
   type: "Выставка",
   date: "17 марта 13:00 - 21:00",
-  id: Math.floor(Math.random())
+  id: Math.floor(Math.random() * 1000)
 };

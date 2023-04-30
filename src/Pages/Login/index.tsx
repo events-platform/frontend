@@ -4,14 +4,16 @@ import { Heading, Input, Lock, Mail, Button, Arrow, Description } from "../../Co
 import styles from "./Login.module.sass";
 import { login } from "../../API/login";
 import { useAppDispatch } from "../../store/store";
-import { setSignIn, setToken } from "../../store/reducers/userReducer";
+import { setSignIn, setToken, setUserName } from "../../store/reducers/userReducer";
 
 export const Login = () => {
   const [emailState, setMailState] = useState("");
   const [passwordState, setPasswordState] = useState("");
   const [errorState, setErrorState] = useState("");
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const onLoginClicked = () => {
     login(emailState, passwordState)
       .then((res) => {
@@ -19,22 +21,19 @@ export const Login = () => {
           dispatch(setToken(res.data.accessToken));
           dispatch(setSignIn(true));
           navigate("/");
-        } else {
-          // eslint-disable-next-line no-console
-          console.log(res.data);
-          setErrorState("error");
         }
       })
-      .catch((res) => {
-        if ("response" in res) {
-          setErrorState("Error code " + res.code);
+      .catch((err) => {
+        if ("response" in err) {
+          setErrorState("Неправильный логин или пароль");
+        } else {
+          setErrorState("Ошибка соединения");
         }
       });
   };
+
   return (
     <div className={styles.Login}>
-      {emailState && passwordState ? null : null}
-      {/* чтобы линтер не ругался ))) */}
       <div className={styles.LoginContent}>
         <Heading text={"Вход"} />
         <Input type={"email"} text={"Логин"} setState={setMailState}>
@@ -43,7 +42,9 @@ export const Login = () => {
         <Input type={"password"} text={"Пароль"} setState={setPasswordState}>
           <Lock />
         </Input>
-        <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"}/>
+        <div className={styles.error}>
+          <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
+        </div>
         <Button text={"Вход"} onClick={onLoginClicked}/>
         <Link className={styles.forgot} to="/reset">
           Забыли пароль?
