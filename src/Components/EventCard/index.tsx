@@ -14,7 +14,7 @@ interface EventCardProps {
 
 export const EventCard: React.FC<EventCardProps> = ({ preview, author, name, type, date, id }) => {
   return (
-    <Link to={`/posts/${id}`} className={styles.EventCard}>
+    <Link to={`/events/${id}`} className={styles.EventCard}>
       <div className={styles.wrapper}>
         <div className={styles.preview} style={{ backgroundImage: `url(${preview})` }} />
         <div className={styles.content}>

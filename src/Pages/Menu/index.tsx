@@ -22,13 +22,13 @@ export const Menu = () => {
             <EventCard key={el} />
           ))};
         </div>
-        <Button text="Посмотреть все мероприятия" link="/posts" />
+        <Button text="Посмотреть все мероприятия" link="/events" />
         <Gradient>
           <div className={styles.firstGradient}>
             <p>
               Не нашли интересующее мероприятие? Мы предлагаем вам создать его самим!
             </p>
-            <Button text="Создать мероприятие" link="/posts/create" />
+            <Button text="Создать мероприятие" link="/events/create" />
           </div>
         </Gradient>
         <Heading text="О нас" />
