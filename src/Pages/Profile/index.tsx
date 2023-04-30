@@ -52,7 +52,7 @@ export const Profile = () => {
           <div className={styles.ProfileTools}>
             <ToolButton
               text={"Создать мероприятие"}
-              onClick={() => { navigate("/posts/create"); }}
+              onClick={() => { navigate("/events/create"); }}
               bgColor={"#5AAE81"}
               color={"white"}
               border={"1px solid"}
