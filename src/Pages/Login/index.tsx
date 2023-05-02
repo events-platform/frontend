@@ -5,6 +5,7 @@ import styles from "./Login.module.sass";
 import { getUserSelf, login } from "../../API/login";
 import { useAppDispatch } from "../../store/store";
 import { setAvatarUrl, setSignIn, setToken, setUserName } from "../../store/reducers/userReducer";
+import { useCookies } from "react-cookie";
 
 export const Login = () => {
   const [emailState, setMailState] = useState("");
@@ -13,13 +14,15 @@ export const Login = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const [, setCookie] = useCookies(["access_token", "refresh_token"]);
   const onLoginClicked = () => {
     login(emailState, passwordState)
       .then((res) => {
         if (res.status === 200) {
           dispatch(setToken(res.data.accessToken));
           dispatch(setSignIn(true));
+          setCookie("access_token", res.data.accessToken);
+          setCookie("refresh_token", res.data.refreshToken);
           getUserSelf()
             .then((res) => {
               dispatch(setUserName(res.data.username));

@@ -29,14 +29,15 @@ ModalField.defaultProps = {
 
 interface ModalHeaderInterface {
   setInputMode: React.Dispatch<React.SetStateAction<boolean>>,
-  inputMode: boolean
+  inputMode: boolean,
+  myOwnProfile: boolean
 }
-const ModalHeader: React.FC<ModalHeaderInterface> = ({ setInputMode, inputMode }) => {
+const ModalHeader: React.FC<ModalHeaderInterface> = ({ setInputMode, inputMode, myOwnProfile }) => {
   return (
     <div className={styles.ModalHeader}>
       {inputMode ? "Редактирование информации" : "Сведения о пользователе"}
       <div style={{ marginLeft: "auto" }} onClick={() => { setInputMode(!inputMode); }}>
-        <EditSVG />
+        { myOwnProfile ? <EditSVG /> : null }
       </div>
     </div>
   );
@@ -51,6 +52,7 @@ interface ModalProfileEditInterface {
   about: string,
   phone: string,
   email: string,
+  myOwnProfile: boolean,
   sendProfileInfo: (
     username: string,
     about: string,
@@ -58,11 +60,14 @@ interface ModalProfileEditInterface {
     email: string) => void
 }
 
-export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden, closeModal, inputMode, setInputMode, username, about, email, phone, sendProfileInfo }) => {
-  const [profileName, setprofileName] = useState(username);
-  const [profileNumber, setprofileNumber] = useState(phone);
-  const [profileMail, setprofileMail] = useState(email);
-  const [profileAbout, setprofileAbout] = useState(about);
+export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden, closeModal, inputMode, setInputMode, username, about, email, phone, sendProfileInfo, myOwnProfile }) => {
+  if (!myOwnProfile) {
+    inputMode = false;
+  }
+  const [profileName, setprofileName] = useState<string>("");
+  const [profileNumber, setprofileNumber] = useState<string>("");
+  const [profileMail, setprofileMail] = useState<string>("");
+  const [profileAbout, setprofileAbout] = useState<string>("");
   // eslint-disable-next-line no-console
   useEffect(() => { setprofileName(username); }, [username]);
   useEffect(() => { setprofileNumber(phone); }, [phone]);
@@ -74,7 +79,7 @@ export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden
   };
   return (
     <div className={styles.ModalContainer}>
-      <ModalHeader setInputMode={setInputMode} inputMode={inputMode}/>
+      <ModalHeader setInputMode={setInputMode} inputMode={inputMode} myOwnProfile={myOwnProfile}/>
       <p className={styles.ModalBlockTitle}>Контактная информация</p>
       <ModalField titleText="Имя" valueText={profileName} setValueText={setprofileName} inputMode={inputMode}/>
       <ModalField titleText="Телефон" valueText={profileNumber} setValueText={setprofileNumber} inputMode={inputMode}/>

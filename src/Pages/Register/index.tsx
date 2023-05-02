@@ -6,6 +6,7 @@ import { useState } from "react";
 import { create } from "../../API/login";
 import { useAppDispatch } from "../../store/store";
 import { setToken, setUserName, setSignIn } from "../../store/reducers/userReducer";
+import { useCookies } from "react-cookie";
 
 export const Register = () => {
   const [nameState, setNameState] = useState("");
@@ -51,10 +52,12 @@ export const Register = () => {
       setErrorState("Пароли не совпадают");
       return false;
     }
-
+    const [, setCookie] = useCookies(["access_token", "refresh_token"]);
     create(nameState, emailState, passwordState)
       .then((res) => {
         if (res.status === 201) {
+          setCookie("access_token", res.data.accessToken);
+          setCookie("refresh_token", res.data.refreshToken);
           dispatch(setToken(res.data.accessToken));
           dispatch(setUserName(nameState));
           dispatch(setSignIn(true));

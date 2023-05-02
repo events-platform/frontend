@@ -1,8 +1,11 @@
 import React from "react";
 import { SearchInput } from "./SearchInput";
-import { Logo, MapPoint } from "./SVGs";
+import { Logo, LogoutSVG, MapPoint } from "./SVGs";
 import styles from "./Header.module.sass";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { useAppDispatch } from "../../../store/store";
+import { logoutUser } from "../../../store/reducers/userReducer";
 
 interface HeaderProps {
   name?: string,
@@ -13,6 +16,13 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ name, city, isSignedIn, avatarUrl }) => {
   const profileUrl = "/profile/" + name;
+  const [, setCookie] = useCookies(["access_token", "refresh_token"]);
+  const dispatch = useAppDispatch();
+  const logOutClicked = () => {
+    setCookie("access_token", undefined);
+    setCookie("refresh_token", undefined);
+    dispatch(logoutUser());
+  };
   return (
     <header className={styles.Header}>
       <div className={styles.leftSide}>
@@ -41,6 +51,9 @@ export const Header: React.FC<HeaderProps> = ({ name, city, isSignedIn, avatarUr
               {name}
             </span>
           </Link>
+          <div className={styles.logoutBtn} onClick={logOutClicked}>
+            <LogoutSVG />
+          </div>
         </div>
         : <div className={styles.rigthSide}>
           <Link to="/404">
