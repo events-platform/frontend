@@ -21,6 +21,7 @@ export const Register = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [, setCookie] = useCookies(["access_token", "refresh_token"]);
 
   const onCreateAccountClicked = (): boolean => {
     if (nameState) {
@@ -52,7 +53,6 @@ export const Register = () => {
       setErrorState("Пароли не совпадают");
       return false;
     }
-    const [, setCookie] = useCookies(["access_token", "refresh_token"]);
     create(nameState, emailState, passwordState)
       .then((res) => {
         if (res.status === 201) {
