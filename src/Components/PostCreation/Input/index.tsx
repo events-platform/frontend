@@ -5,10 +5,15 @@ interface InputProps {
   name?: string,
   placeholder?: string,
   width?: string,
-  require?: boolean
+  require?: boolean,
+  state: string,
+  setState: (val: string) => void
 }
 
-export const Input: React.FC<InputProps> = ({ name, placeholder, require, width }) => {
+export const Input: React.FC<InputProps> = ({ name, placeholder, require, width, state, setState }) => {
+  const handleChange = (event: { target: { value: any; }; }) => {
+    setState(event.target.value);
+  };
   return (
     <div className={styles.Input}>
       <p>
@@ -17,7 +22,7 @@ export const Input: React.FC<InputProps> = ({ name, placeholder, require, width 
         </span>
         {name}
       </p>
-      <input placeholder={placeholder} required={require} style={{ width }} />
+      <input value={state} onChange={handleChange} placeholder={placeholder} required={require} style={{ width }} />
     </div>
   );
 };
