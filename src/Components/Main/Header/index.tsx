@@ -34,7 +34,6 @@ export const Header: React.FC<HeaderProps> = ({ name, city, isSignedIn, avatarUr
       {isSignedIn
         ? <div className={styles.rigthSide}>
           <Link to={profileUrl}>
-            <MapPoint />
             <span>
               Мои мероприятия
             </span>
