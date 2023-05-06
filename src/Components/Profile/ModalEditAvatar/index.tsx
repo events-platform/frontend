@@ -1,13 +1,13 @@
 import React, { useState, DragEvent } from "react";
 import { CloseButton, SaveButton } from "../";
-import { sendProfileImage } from "../../../API/profile";
 import styles from "./ModalEditAvatar.module.sass";
 
 interface ModalEditAvatarInterface {
-  closeModal: () => void
+  closeModal: () => void,
+  loadAvatar: (profileImage: File | null) => void
 }
 
-export const ModalEditAvatar: React.FC<ModalEditAvatarInterface> = ({ closeModal }) => {
+export const ModalEditAvatar: React.FC<ModalEditAvatarInterface> = ({ closeModal, loadAvatar }) => {
   const [avatarPreview, setavatarPreview] = useState<File | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const [dragActive, setDragActive] = React.useState(false);
@@ -38,10 +38,7 @@ export const ModalEditAvatar: React.FC<ModalEditAvatarInterface> = ({ closeModal
     }
   };
   const SaveButtonClicked = () => {
-    sendProfileImage(avatarPreview)
-      .then((res) => {
-        closeModal();
-      });
+    loadAvatar(avatarPreview);
   };
   return (
     <div className={styles.ModalBody}>

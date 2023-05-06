@@ -84,7 +84,7 @@ export const Profile = () => {
     <>
       <div className={styles.AccountInfo}>
         <div className={styles.ProfileInfo}>
-          <ProfileImage username={username} avtarUrl={avatar} />
+          <ProfileImage username={username} avtarUrl={avatar} setAvatar={setAvatar} />
           <div className={styles.Description}>
             <h1 className={styles.ProfileName}>{username}</h1>
             <p className={styles.ProfileDescription}>{description}</p>

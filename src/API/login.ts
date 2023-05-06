@@ -19,10 +19,16 @@ export const create = (username: string, email: string, password: string) => {
     password
   });
 };
-
+interface userSelfInterface {
+  username: string,
+  about: string,
+  email: string,
+  phone: string,
+  avatar: string
+}
 export const getUserSelf = () => {
   const JWT = getJWT();
-  return axios.get("/user/self", {
+  return axios.get<userSelfInterface>("/user/self", {
     headers: {
       Authorization: JWT
     }

@@ -38,11 +38,13 @@ export const CookiesApp = () => {
   if (cookies.access_token) {
     const dispatch = useAppDispatch();
     dispatch(setToken(cookies.access_token));
-    getUserSelf().then((res) => {
-      dispatch(setUserName(res.data.username));
-      dispatch(setAvatarUrl(res.data.avatar));
-      dispatch(setSignIn(true));
-    });
+
+    getUserSelf()
+      .then((res) => {
+        dispatch(setUserName(res.data.username));
+        dispatch(setAvatarUrl(res.data.avatar));
+        dispatch(setSignIn(true));
+      });
   }
   return (
     <App />
