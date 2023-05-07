@@ -91,39 +91,41 @@ export const Profile = () => {
   return (
     <>
       <div className={styles.AccountInfo}>
-        <div className={styles.ProfileInfo}>
-          <ProfileImage username={username} avtarUrl={avatar} setAvatar={setAvatar} />
-          <div className={styles.Description}>
-            <h1 className={styles.ProfileName}>{username}</h1>
-            <p className={styles.ProfileDescription}>{description}</p>
-            <About onClick={openModal} />
-          </div>
-          {isOwnProfile
-            ? <div className={styles.ProfileTools}>
-              <ToolButton
-                text={"Создать мероприятие"}
-                onClick={() => {
-                  navigate("/events/create");
-                }}
-                bgColor={"#5AAE81"}
-                color={"white"}
-                border={"1px solid"}
-              >
-                <AddSVG />
-              </ToolButton>
-              <ToolButton
-                text={"Редактировать профиль"}
-                onClick={openModalChangeMode}
-                bgColor={"white"}
-                color={"black"}
-                border={"1px solid #D9D9D9"}
-              >
-                <EditSVG />
-              </ToolButton>
+        <div className={styles.accContent}>
+          <div className={styles.ProfileInfo}>
+            <ProfileImage username={username} avtarUrl={avatar} setAvatar={setAvatar} />
+            <div className={styles.Description}>
+              <h1 className={styles.ProfileName}>{username}</h1>
+              <p className={styles.ProfileDescription}>{description}</p>
+              <About onClick={openModal} />
             </div>
-            : null }
+            {isOwnProfile
+              ? <div className={styles.ProfileTools}>
+                <ToolButton
+                  text={"Создать мероприятие"}
+                  onClick={() => {
+                    navigate("/events/create");
+                  }}
+                  bgColor={"#5AAE81"}
+                  color={"white"}
+                  border={"1px solid"}
+                >
+                  <AddSVG />
+                </ToolButton>
+                <ToolButton
+                  text={"Редактировать профиль"}
+                  onClick={openModalChangeMode}
+                  bgColor={"white"}
+                  color={"black"}
+                  border={"1px solid #D9D9D9"}
+                >
+                  <EditSVG />
+                </ToolButton>
+              </div>
+              : null }
+          </div>
+          <EventsNavbar selected={selectedTab} setSelected={setselectedTab} />
         </div>
-        <EventsNavbar selected={selectedTab} setSelected={setselectedTab} />
       </div>
       <Events selected={selectedTab} profileOwnEvents={profileEvents} profileFavoriteEvents={[]} />
       <Modal isHidden={modalHidden} closeModal={() => setModalHidden(true)}>

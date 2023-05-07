@@ -47,66 +47,68 @@ export const Post: React.FC<PostProps> = ({ preview, name, author, avatar, type,
 
   return (
     <div className={styles.Post}>
-      <div className={styles.preview} style={{ backgroundImage: `url(${preview})` }}>
-        <div className={styles.black}>
-          <button className={styles.arrow} onClick={() => navigate(-1)}>
-            <Arrow />
-          </button>
-          <div className={styles.description}>
-            <h2 className={styles.typedate}>
-              {type} | {date}
-            </h2>
-            <h1 className={styles.name}>
-              {name}
-            </h1>
-            <h2 className={styles.avatarauthor}>
-              <img src={avatar} alt="avatar" />
-              {author}
-            </h2>
-            <div className={styles.buttons}>
-              <Button>
+      <div className={styles.postContent}>
+        <div className={styles.preview} style={{ backgroundImage: `url(${preview})` }}>
+          <div className={styles.black}>
+            <button className={styles.arrow} onClick={() => navigate(-1)}>
+              <Arrow />
+            </button>
+            <div className={styles.description}>
+              <h2 className={styles.typedate}>
+                {type} | {date}
+              </h2>
+              <h1 className={styles.name}>
+                {name}
+              </h1>
+              <h2 className={styles.avatarauthor}>
+                <img src={avatar} alt="avatar" />
+                {author}
+              </h2>
+              <div className={styles.buttons}>
+                <Button>
                 Буду участвовать
-              </Button>
-              <Button borderRadius="6px">
-                <Star />
-              </Button>
+                </Button>
+                <Button borderRadius="6px">
+                  <Star />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className={styles.content}>
-        <div className={styles.optional}>
-          <button className={styles.show} onClick={() => handleOptional()}>
-            <h3>
+        <div className={styles.content}>
+          <div className={styles.optional}>
+            <button className={styles.show} onClick={() => handleOptional()}>
+              <h3>
               Дополнительная информация
-            </h3>
-            <div className={styles.optionalWrapper} ref={optionalSVGRef} >
-              <Optional color={optionalColor} />
+              </h3>
+              <div className={styles.optionalWrapper} ref={optionalSVGRef} >
+                <Optional color={optionalColor} />
+              </div>
+            </button>
+            <div className={styles.hidden} ref={hiddenRef}>
+              <Description name={"Почта:"} text={`${mail}`} />
+              <Description name={"Кол-во мест:"} text={`${slots}`} />
+              <Description name={"Место проведения:"} text={`${address}`} color={"rgba(90, 174, 129, 1)"} />
+              <Description name={"Сайт:"} text={`${site}`} color={"rgba(90, 174, 129, 1)"} />
             </div>
-          </button>
-          <div className={styles.hidden} ref={hiddenRef}>
-            <Description name={"Почта:"} text={`${mail}`} />
-            <Description name={"Кол-во мест:"} text={`${slots}`} />
-            <Description name={"Место проведения:"} text={`${address}`} color={"rgba(90, 174, 129, 1)"} />
-            <Description name={"Сайт:"} text={`${site}`} color={"rgba(90, 174, 129, 1)"} />
           </div>
-        </div>
-        <h2 className={styles.about}>
+          <h2 className={styles.about}>
           О мероприятии
-        </h2>
-        <p className={styles.text}>
-          {text}
-          {/* {text.split("\n").map((line, index) => (
+          </h2>
+          <p className={styles.text}>
+            {text}
+            {/* {text.split("\n").map((line, index) => (
             <React.Fragment key={index}>
               {line}
               <br/>
             </React.Fragment>
           ))} */}
-        </p>
-        <div className={styles.submit}>
-          <Button>
+          </p>
+          <div className={styles.submit}>
+            <Button>
             Буду участвовать
-          </Button>
+            </Button>
+          </div>
         </div>
       </div>
     </div>
