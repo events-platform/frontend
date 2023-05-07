@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -17,6 +17,7 @@ import styles from "./Profile.module.sass";
 import { editUser, getUserData } from "../../API/profile";
 import { store, useAppDispatch } from "../../store/store";
 import { setUserName } from "../../store/reducers/userReducer";
+import { Ipost, getSelfPosts } from "../../API/post";
 
 export enum SelectedTab {
   // eslint-disable-next-line no-unused-vars
@@ -41,6 +42,7 @@ export const Profile = () => {
   );
   const [modalHidden, setModalHidden] = useState(true);
   const [inputMode, setinputMode] = useState(true);
+  const [profileEvents, setprofileEvents] = useState<Ipost[]>([]);
   const openModal = () => {
     setinputMode(false);
     setModalHidden(false);
@@ -80,6 +82,12 @@ export const Profile = () => {
       });
   };
   updateProfileInfo(username);
+  useEffect(() => {
+    getSelfPosts()
+      .then((res) => {
+        setprofileEvents(res.data);
+      });
+  }, []);
   return (
     <>
       <div className={styles.AccountInfo}>
@@ -117,7 +125,7 @@ export const Profile = () => {
         </div>
         <EventsNavbar selected={selectedTab} setSelected={setselectedTab} />
       </div>
-      <Events selected={selectedTab} />
+      <Events selected={selectedTab} profileOwnEvents={profileEvents} profileFavoriteEvents={[]} />
       <Modal isHidden={modalHidden} closeModal={() => setModalHidden(true)}>
         <ModalProfileEdit
           myOwnProfile={isOwnProfile}

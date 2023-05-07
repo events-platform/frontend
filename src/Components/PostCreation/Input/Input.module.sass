@@ -13,8 +13,9 @@
   input
     padding: 8px 12px
     width: 377px
+    flex-shrink: 1
     background: #FFFFFF
-    border: 1px solid #D9D9D9
+    border: none
     border-radius: 8px
     font-family: 'Roboto'
     font-style: normal
@@ -26,3 +27,21 @@
     color: rgba(0, 0, 0, 0.88)
   input:focus
     outline: none
+
+.inputContainer
+  display: flex
+  border: 1px solid #D9D9D9
+  border-radius: 8px
+  width: 377px
+
+.select
+  background-color: #D9D9D9
+  flex-shrink: 0
+  width: 50px
+  border-top-right-radius: 6px
+  border-bottom-right-radius: 6px
+
+.dropdownMenu
+  position: absolute
+  transform: translateY(18px)
+  background-color: #cc2929

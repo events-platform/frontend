@@ -2,9 +2,12 @@ import React from "react";
 import { EventCard } from "../../EventCard";
 import { SelectedTab } from "../../../Pages/Profile";
 import styles from "./Events.module.sass";
+import { Ipost } from "../../../API/post";
 
 interface EventsInterface {
-  selected: SelectedTab
+  selected: SelectedTab,
+  profileOwnEvents: Ipost[],
+  profileFavoriteEvents: Ipost[],
 }
 
 const EventsEmpty = () => {
@@ -19,7 +22,7 @@ const EventsEmpty = () => {
   );
 };
 
-export const Events: React.FC<EventsInterface> = ({ selected }) => {
+export const Events: React.FC<EventsInterface> = ({ selected, profileOwnEvents, profileFavoriteEvents }) => {
   return (
     <div className={styles.profileEvents}>
       {
@@ -27,7 +30,11 @@ export const Events: React.FC<EventsInterface> = ({ selected }) => {
           ? Array.from(Array(10).keys()).map((el) => (
             <EventCard key={el} />
           ))
-          : <EventsEmpty />
+          : profileOwnEvents.length !== 0
+            ? profileOwnEvents.map((el) => (
+              <EventCard preview={el.image} author={"author"} name={el.name} type={el.format} date={new Date(el.endDate).toString()} id={1}/>
+            ))
+            : <EventsEmpty />
       }
     </div>
   );
