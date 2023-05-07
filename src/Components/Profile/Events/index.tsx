@@ -25,17 +25,19 @@ const EventsEmpty = () => {
 export const Events: React.FC<EventsInterface> = ({ selected, profileOwnEvents, profileFavoriteEvents }) => {
   return (
     <div className={styles.profileEvents}>
-      {
-        selected === SelectedTab.MyFavoriteEvents
-          ? Array.from(Array(10).keys()).map((el) => (
-            <EventCard key={el} />
-          ))
-          : profileOwnEvents.length !== 0
-            ? profileOwnEvents.map((el) => (
-              <EventCard preview={el.image} author={"author"} name={el.name} type={el.format} date={new Date(el.endDate).toString()} id={1}/>
+      <div className={styles.eventsContent}>
+        {
+          selected === SelectedTab.MyFavoriteEvents
+            ? Array.from(Array(10).keys()).map((el) => (
+              <EventCard key={el} />
             ))
-            : <EventsEmpty />
-      }
+            : profileOwnEvents.length !== 0
+              ? profileOwnEvents.map((el) => (
+                <EventCard preview={el.image} author={"author"} name={el.name} type={el.format} date={new Date(el.endDate).toString()} id={1}/>
+              ))
+              : <EventsEmpty />
+        }
+      </div>
     </div>
   );
 };
