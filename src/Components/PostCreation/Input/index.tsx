@@ -56,8 +56,8 @@ export const Input: React.FC<InputProps> = ({
               {showSelect
                 ? (
                   <div className={styles.dropdownMenu}>
-                    {selectValues?.map((el) => {
-                      return (<div onClick={() => { setState(el); }} className={styles.dropDownElement} >{el}</div>);
+                    {selectValues?.map((el, index) => {
+                      return (<div key={index} onClick={() => { setState(el); }} className={styles.dropDownElement} >{el}</div>);
                     })}
                   </div>
                 )

@@ -1,10 +1,12 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input, Arrow, Cross } from "../../Components/PostCreation";
 import styles from "./PostCreation.module.sass";
 import { Modal, ModalEditAvatar, SaveButton } from "../../Components/Profile";
-import { createPost, getEventFormats } from "../../API/post";
-
+import { createPost, formatDate, getEventFormats } from "../../API/post";
+import { Calendar } from "@natscale/react-calendar";
+import "@natscale/react-calendar/dist/main.css";
+import { Value } from "@natscale/react-calendar/dist/utils/types";
 export const PostCreation = () => {
   const navigate = useNavigate();
   const [description, setTextArea] = useState("");
@@ -50,6 +52,16 @@ export const PostCreation = () => {
   const onCancelButtonClick = () => {
     setFile(null);
   };
+
+  const [beginDateCalendar, setbeginDateCalendar] = useState<Value>();
+  const onBeginDateCalendarChange = useCallback(
+    (value: Value) => {
+      const yourDate = value as Date;
+      setbeginDateCalendar(value);
+      setBeginDate(formatDate(yourDate));
+    },
+    [setbeginDateCalendar]
+  );
 
   return (
     <>
@@ -130,8 +142,9 @@ export const PostCreation = () => {
               require={true}
               width="168.5px"
               state={beginDate}
-              setState={setBeginDate}
+              setState={() => {}}
             />
+            <Calendar value={beginDateCalendar} onChange={onBeginDateCalendarChange} />
             <Input
               name="Дата окончания"
               placeholder="YYYY-MM-DD"

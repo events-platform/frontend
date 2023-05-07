@@ -32,7 +32,7 @@ export const createPost = (obj: postObject) => {
   const beginDate = new Date(obj.beginDate);
   const endDate = new Date(obj.endDate);
   formData.append("name", obj.name);
-  formData.append("format", obj.format);
+  formData.append("format", obj.format === "Онлайн" ? "ONLINE" : "OFFLINE");
   formData.append("city", obj.city);
   formData.append("registrationLimit", obj.registrationLimit);
   formData.append("beginDate", parseDate(beginDate));
@@ -89,4 +89,15 @@ export const getEventFormats = (): string[] => {
     "Хакатон",
     "Концерт"
   ];
+};
+
+export const formatDate = (date: Date): string => {
+  const d = new Date(date);
+  let month = "" + (d.getMonth() + 1);
+  let day = "" + d.getDate();
+  const year = d.getFullYear();
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+
+  return [year, month, day].join("-");
 };
