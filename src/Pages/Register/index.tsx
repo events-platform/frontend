@@ -39,7 +39,7 @@ export const Register = () => {
     } else {
       setPasswordColor("rgba(255, 77, 77, 0.9)");
     }
-    if (passwordState !== confirmPasswordState) {
+    if (passwordState === confirmPasswordState) {
       setConfirmPassowrdColor("#D9D9D9");
     } else {
       setConfirmPassowrdColor("rgba(255, 77, 77, 0.9)");

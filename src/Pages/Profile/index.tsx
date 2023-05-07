@@ -85,8 +85,6 @@ export const Profile = () => {
   useEffect(() => {
     getSelfPosts()
       .then((res) => {
-        // eslint-disable-next-line no-console
-        console.log(res);
         setprofileEvents(res.data);
       });
   }, []);

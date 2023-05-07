@@ -32,7 +32,7 @@ export const Events: React.FC<EventsInterface> = ({ selected, profileOwnEvents, 
           ))
           : profileOwnEvents.length !== 0
             ? profileOwnEvents.map((el) => (
-              <EventCard preview={el.image} author={"author"} name={el.name} type={el.format} date={el.endDate} id={1}/>
+              <EventCard preview={el.image} author={"author"} name={el.name} type={el.format} date={new Date(el.endDate).toString()} id={1}/>
             ))
             : <EventsEmpty />
       }

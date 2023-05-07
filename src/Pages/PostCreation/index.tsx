@@ -9,14 +9,16 @@ export const PostCreation = () => {
   const navigate = useNavigate();
   const [description, setTextArea] = useState("");
   const [name, setName] = useState("");
-  const [format, setFormat] = useState("");
-  const [city, setCity] = useState("");
+  const [eventFormat, setFormat] = useState("");
   const [registrationLimit, setRegistrationLimit] = useState("");
   const [beginDate, setBeginDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [location, setLocation] = useState("");
   const [modalHidden, setmodalHidden] = useState<boolean>(true);
   const [file, setFile] = useState<File | null>();
+  const [email, setEmail] = useState("");
+  const [eventType, setEventType] = useState("");
+  const [eventLink, setEventLink] = useState("");
   const closeModal = () => {
     setmodalHidden(true);
   };
@@ -37,12 +39,15 @@ export const PostCreation = () => {
     if (!file) {
       return;
     }
-    createPost({ name, format, city, registrationLimit: Number(registrationLimit), beginDate, endDate, location, description, file })
+    createPost({ name, format: eventFormat, city: "Екатиеринбург", registrationLimit: Number(registrationLimit), beginDate, endDate, location, description, file })
       .then((res) => {
         navigate(-1);
       })
       .catch(() => {
       });
+  };
+  const onCancelButtonClick = () => {
+    setFile(null);
   };
 
   return (
@@ -59,9 +64,11 @@ export const PostCreation = () => {
             ? <img src={URL.createObjectURL(file)} className={styles.image} onClick={openModal} />
             : <img src={require("../../../src/Components/PostCreation/Assets/placeholderPost.jpg")} className={styles.image} alt="" onClick={openModal} />
           }
-          <button>
-            <Cross />
-          </button>
+          <div>
+            <button onClick={onCancelButtonClick} >
+              <Cross />
+            </button>
+          </div>
         </div>
         <h2>Основная информация</h2>
         <div className={styles.inputWrapper}>
@@ -76,31 +83,49 @@ export const PostCreation = () => {
             name="Формат мероприятия"
             placeholder="Формат мероприятия"
             require={true}
-            state={format}
+            state={eventFormat}
             setState={setFormat}
+            selectMode={true}
+            selectValues={["Онлайн", "Оффлайн"]}
+          />
+          <Input
+            name="Почта"
+            placeholder="Почта"
+            require={false}
+            state={email}
+            setState={setEmail}
           />
         </div>
         <div className={styles.inputWrapper}>
           <Input
-            name="Город проведения"
-            placeholder="Город проведения"
-            require={true}
-            state={city}
-            setState={setCity}
+            name="Адрес проведения"
+            placeholder="Адрес проведения"
+            require={false}
+            state={location}
+            setState={setLocation}
           />
           <Input
-            name="Количество мест"
-            placeholder="Число или не ограничено"
+            name="Тип мероприятия"
+            placeholder="Тип мероприятия"
             require={true}
-            state={registrationLimit}
-            setState={setRegistrationLimit}
+            state={eventType}
+            setState={setEventType}
+            selectMode={true}
+
+          />
+          <Input
+            name="Сайт или соц.сети"
+            placeholder="Сайт или соц.сети"
+            require={false}
+            state={eventLink}
+            setState={setEventLink}
           />
         </div>
         <div className={styles.inputWrapper}>
           <div className={styles.dateWrapper}>
             <Input
               name="Дата начала"
-              placeholder="DD-MM-YYYY"
+              placeholder="YYYY-MM-DD"
               require={true}
               width="168.5px"
               state={beginDate}
@@ -116,11 +141,11 @@ export const PostCreation = () => {
             />
           </div>
           <Input
-            name="Адрес проведения"
-            placeholder="Адрес проведения"
+            name="Количество мест"
+            placeholder="Количество мест"
             require={true}
-            state={location}
-            setState={setLocation}
+            state={registrationLimit}
+            setState={setRegistrationLimit}
           />
         </div>
         <h2>Описание</h2>
