@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Input.module.sass";
+import { SelectArrow } from "../SelectArrow";
 
 interface InputProps {
   name?: string;
@@ -22,10 +23,14 @@ export const Input: React.FC<InputProps> = ({
   selectMode,
   selectValues
 }) => {
-  const handleChange = (event: { target: { value: any } }) => {
-    setState(event.target.value);
-  };
   const [showSelect, setShowSelect] = useState(false);
+  const handleChange = (event: { target: { value: any } }) => {
+    if (!selectMode) {
+      setState(event.target.value);
+    } else {
+      setShowSelect(true);
+    }
+  };
   const onShowClicked = () => {
     setShowSelect(!showSelect);
   };
@@ -45,12 +50,14 @@ export const Input: React.FC<InputProps> = ({
         {selectMode
           ? (
             <div className={styles.select} onClick={onShowClicked}>
-            select
+              <div className={`${styles.centered} ${showSelect ? styles.selectOpened : ""}`}>
+                <SelectArrow />
+              </div>
               {showSelect
                 ? (
                   <div className={styles.dropdownMenu}>
-                    {selectValues?.map((el) => {
-                      return (<div>{el}</div>);
+                    {selectValues?.map((el, index) => {
+                      return (<div key={index} onClick={() => { setState(el); }} className={styles.dropDownElement} >{el}</div>);
                     })}
                   </div>
                 )
