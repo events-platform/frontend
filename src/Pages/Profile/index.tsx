@@ -93,8 +93,8 @@ export const Profile = () => {
   return (
     <>
       <div className={styles.AccountInfo}>
-        <div className={styles.ProfileInfo}>
-          <div className={styles.accContent}>
+        <div className={styles.accContent}>
+          <div className={styles.ProfileInfo}>
             <ProfileImage username={username} avtarUrl={avatar} setAvatar={setAvatar} />
             <div className={styles.Description}>
               <h1 className={styles.ProfileName}>{username}</h1>
@@ -126,8 +126,8 @@ export const Profile = () => {
               </div>
               : null }
           </div>
+          <EventsNavbar selected={selectedTab} setSelected={setselectedTab} />
         </div>
-        <EventsNavbar selected={selectedTab} setSelected={setselectedTab} />
       </div>
       <Events selected={selectedTab} profileOwnEvents={profileEvents} profileFavoriteEvents={[]} />
       <Modal isHidden={modalHidden} closeModal={() => setModalHidden(true)}>
