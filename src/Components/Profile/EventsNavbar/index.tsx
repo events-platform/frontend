@@ -23,6 +23,12 @@ export const EventsNavbar: React.FC<EventsNavbarInterface> = ({ selected, setSel
         count={4}
         onClick={() => { setSelected(SelectedTab.MyFavoriteEvents); }}
       />
+      <NavBarButton
+        text="Участвую"
+        active={selected === SelectedTab.MyParticipation}
+        count={4}
+        onClick={() => { setSelected(SelectedTab.MyParticipation); }}
+      />
     </div>
   );
 };
