@@ -44,10 +44,10 @@ export const Login = () => {
     <div className={styles.Login}>
       <div className={styles.LoginContent}>
         <Heading text={"Вход"} />
-        <Input type={"email"} text={"Логин"} setState={setMailState}>
+        <Input type={"email"} text={"Логин"} setState={setMailState} onEnter={onLoginClicked}>
           <Mail />
         </Input>
-        <Input type={"password"} text={"Пароль"} setState={setPasswordState}>
+        <Input type={"password"} text={"Пароль"} setState={setPasswordState} onEnter={onLoginClicked}>
           <Lock />
         </Input>
         <div className={styles.error}>

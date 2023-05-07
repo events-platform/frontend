@@ -76,16 +76,16 @@ export const Register = () => {
     <div className={styles.Register}>
       <div className={styles.RegisterContent}>
         <Heading text={"Регистрация"} />
-        <Input type={"text"} text={"Введите имя или никнейм"} setState={setNameState} color={nameColor}>
+        <Input type={"text"} text={"Введите имя или никнейм"} setState={setNameState} color={nameColor} onEnter={onCreateAccountClicked}>
           <User />
         </Input>
-        <Input type={"email"} text={"Введите почту"} setState={setEmailState} color={emailColor}>
+        <Input type={"email"} text={"Введите почту"} setState={setEmailState} color={emailColor} onEnter={onCreateAccountClicked}>
           <Mail />
         </Input>
-        <Input type={"password"} text={"Введите пароль"} setState={setPasswordState} color={passwordColor}>
+        <Input type={"password"} text={"Введите пароль"} setState={setPasswordState} color={passwordColor} onEnter={onCreateAccountClicked}>
           <Lock />
         </Input>
-        <Input type={"password"} text={"Повторите пароль"} setState={setConfirmPassowrdState} color={confirmPasswordColor}>
+        <Input type={"password"} text={"Повторите пароль"} setState={setConfirmPassowrdState} color={confirmPasswordColor} onEnter={onCreateAccountClicked}>
           <Lock />
         </Input>
         <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
