@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Input, Arrow, Cross } from "../../Components/PostCreation";
 import styles from "./PostCreation.module.sass";
 import { Modal, ModalEditAvatar, SaveButton } from "../../Components/Profile";
-import { createPost } from "../../API/post";
+import { createPost, getEventFormats } from "../../API/post";
 
 export const PostCreation = () => {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ export const PostCreation = () => {
   const [email, setEmail] = useState("");
   const [eventType, setEventType] = useState("");
   const [eventLink, setEventLink] = useState("");
+  const eventsFormats = getEventFormats();
   const closeModal = () => {
     setmodalHidden(true);
   };
@@ -111,7 +112,7 @@ export const PostCreation = () => {
             state={eventType}
             setState={setEventType}
             selectMode={true}
-
+            selectValues={eventsFormats}
           />
           <Input
             name="Сайт или соц.сети"
