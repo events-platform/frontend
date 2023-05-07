@@ -24,6 +24,8 @@ export enum SelectedTab {
   MyEvents,
   // eslint-disable-next-line no-unused-vars
   MyFavoriteEvents,
+  // eslint-disable-next-line no-unused-vars
+  MyParticipation
 }
 
 export const Profile = () => {
