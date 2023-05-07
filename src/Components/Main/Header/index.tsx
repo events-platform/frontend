@@ -38,12 +38,12 @@ export const Header: React.FC<HeaderProps> = ({ name, city, isSignedIn, avatarUr
               Мои мероприятия
             </span>
           </Link>
-          <Link to={"/404"}>
+          <div className={styles.mapPoint}>
             <MapPoint />
             <span>
               {city}
             </span>
-          </Link>
+          </div>
           <Link to={profileUrl}>
             <img className={styles.Avatar} src={avatarUrl} alt="avatar" />
             <span>
@@ -55,9 +55,9 @@ export const Header: React.FC<HeaderProps> = ({ name, city, isSignedIn, avatarUr
           </div>
         </div>
         : <div className={styles.rigthSide}>
-          <Link to="/404">
+          <div className={styles.mapPoint}>
             <MapPoint />
-          </Link>
+          </div>
           <Link to={"/login/"}>
             <span>
             Вход
