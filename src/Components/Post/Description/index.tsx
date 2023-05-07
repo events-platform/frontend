@@ -2,17 +2,18 @@ import React from "react";
 import styles from "./Description.module.sass";
 
 interface DescriptionProps {
-  heading?: string,
-  text?: string
+  name: string,
+  text: string,
+  color?: string
 }
 
-export const Description: React.FC<DescriptionProps> = ({ heading, text }) => {
+export const Description: React.FC<DescriptionProps> = ({ name, text, color }) => {
   return (
     <div className={styles.Description}>
-      <p className={styles.heading}>
-        {heading}
+      <p className={styles.name}>
+        {name}
       </p>
-      <p className={styles.text}>
+      <p style={{ color }}>
         {text}
       </p>
     </div>

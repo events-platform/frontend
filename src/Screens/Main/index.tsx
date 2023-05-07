@@ -10,10 +10,11 @@ interface ButtonProps {
 
 const HeaderConn = () => {
   const name = store.getState().user.username;
+  const avatarUrl = store.getState().user.avatarUrl;
   const isSignedIn = store.getState().user.isSignedIn;
   return (
     <>
-      <Header name={name} isSignedIn={isSignedIn} />
+      <Header name={name} isSignedIn={isSignedIn} avatarUrl={avatarUrl} />
     </>
   );
 };

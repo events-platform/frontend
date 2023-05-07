@@ -2,12 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface userState {
   token: string,
   username: string,
-  isSignedIn: boolean
+  isSignedIn: boolean,
+  avatarUrl: string
 }
 const initialState:userState = {
   token: "",
   username: "Дядя Богдан",
-  isSignedIn: false
+  isSignedIn: false,
+  avatarUrl: ""
 };
 
 const userReducer = createSlice({
@@ -27,9 +29,12 @@ const userReducer = createSlice({
     },
     setSignIn (state, action: PayloadAction<boolean>) {
       state.isSignedIn = action.payload;
+    },
+    setAvatarUrl (state, action: PayloadAction<string>) {
+      state.avatarUrl = action.payload;
     }
   }
 });
 
 export default userReducer.reducer;
-export const { setToken, setUserName, logoutUser, setSignIn } = userReducer.actions;
+export const { setToken, setUserName, logoutUser, setSignIn, setAvatarUrl } = userReducer.actions;

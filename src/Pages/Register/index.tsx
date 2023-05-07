@@ -6,6 +6,7 @@ import { useState } from "react";
 import { create } from "../../API/login";
 import { useAppDispatch } from "../../store/store";
 import { setToken, setUserName, setSignIn } from "../../store/reducers/userReducer";
+import { useCookies } from "react-cookie";
 
 export const Register = () => {
   const [nameState, setNameState] = useState("");
@@ -20,6 +21,7 @@ export const Register = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [, setCookie] = useCookies(["access_token", "refresh_token"]);
 
   const onCreateAccountClicked = (): boolean => {
     if (nameState) {
@@ -37,7 +39,7 @@ export const Register = () => {
     } else {
       setPasswordColor("rgba(255, 77, 77, 0.9)");
     }
-    if (passwordState !== confirmPasswordState) {
+    if (passwordState === confirmPasswordState) {
       setConfirmPassowrdColor("#D9D9D9");
     } else {
       setConfirmPassowrdColor("rgba(255, 77, 77, 0.9)");
@@ -51,11 +53,12 @@ export const Register = () => {
       setErrorState("Пароли не совпадают");
       return false;
     }
-
     create(nameState, emailState, passwordState)
       .then((res) => {
         if (res.status === 201) {
-          dispatch(setToken(res.data));
+          setCookie("access_token", res.data.accessToken);
+          setCookie("refresh_token", res.data.refreshToken);
+          dispatch(setToken(res.data.accessToken));
           dispatch(setUserName(nameState));
           dispatch(setSignIn(true));
           navigate("/");
@@ -73,16 +76,16 @@ export const Register = () => {
     <div className={styles.Register}>
       <div className={styles.RegisterContent}>
         <Heading text={"Регистрация"} />
-        <Input type={"text"} text={"Введите имя или никнейм"} setState={setNameState} color={nameColor}>
+        <Input type={"text"} text={"Введите имя или никнейм"} setState={setNameState} color={nameColor} onEnter={onCreateAccountClicked}>
           <User />
         </Input>
-        <Input type={"email"} text={"Введите почту"} setState={setEmailState} color={emailColor}>
+        <Input type={"email"} text={"Введите почту"} setState={setEmailState} color={emailColor} onEnter={onCreateAccountClicked}>
           <Mail />
         </Input>
-        <Input type={"password"} text={"Введите пароль"} setState={setPasswordState} color={passwordColor}>
+        <Input type={"password"} text={"Введите пароль"} setState={setPasswordState} color={passwordColor} onEnter={onCreateAccountClicked}>
           <Lock />
         </Input>
-        <Input type={"password"} text={"Повторите пароль"} setState={setConfirmPassowrdState} color={confirmPasswordColor}>
+        <Input type={"password"} text={"Повторите пароль"} setState={setConfirmPassowrdState} color={confirmPasswordColor} onEnter={onCreateAccountClicked}>
           <Lock />
         </Input>
         <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />

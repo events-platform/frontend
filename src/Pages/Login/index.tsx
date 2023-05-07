@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Heading, Input, Lock, Mail, Button, Arrow, Description } from "../../Components/Auth";
 import styles from "./Login.module.sass";
-import { login } from "../../API/login";
+import { getUserSelf, login } from "../../API/login";
 import { useAppDispatch } from "../../store/store";
-import { setSignIn, setToken, setUserName } from "../../store/reducers/userReducer";
+import { setAvatarUrl, setSignIn, setToken, setUserName } from "../../store/reducers/userReducer";
+import { useCookies } from "react-cookie";
 
 export const Login = () => {
   const [emailState, setMailState] = useState("");
@@ -13,14 +14,20 @@ export const Login = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const [, setCookie] = useCookies(["access_token", "refresh_token"]);
   const onLoginClicked = () => {
     login(emailState, passwordState)
       .then((res) => {
         if (res.status === 200) {
-          dispatch(setToken(res.data));
-          dispatch(setUserName(emailState));
+          dispatch(setToken(res.data.accessToken));
           dispatch(setSignIn(true));
+          setCookie("access_token", res.data.accessToken);
+          setCookie("refresh_token", res.data.refreshToken);
+          getUserSelf()
+            .then((res) => {
+              dispatch(setUserName(res.data.username));
+              dispatch(setAvatarUrl(res.data.avatar));
+            });
           navigate("/");
         }
       })
@@ -37,10 +44,10 @@ export const Login = () => {
     <div className={styles.Login}>
       <div className={styles.LoginContent}>
         <Heading text={"Вход"} />
-        <Input type={"email"} text={"Логин"} setState={setMailState}>
+        <Input type={"email"} text={"Логин"} setState={setMailState} onEnter={onLoginClicked}>
           <Mail />
         </Input>
-        <Input type={"password"} text={"Пароль"} setState={setPasswordState}>
+        <Input type={"password"} text={"Пароль"} setState={setPasswordState} onEnter={onLoginClicked}>
           <Lock />
         </Input>
         <div className={styles.error}>

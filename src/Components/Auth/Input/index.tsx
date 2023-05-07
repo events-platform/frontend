@@ -8,16 +8,32 @@ interface InputProps {
   children?: ReactNode;
   setState: Function;
   ref?: RefObject<HTMLInputElement>;
+  onEnter: Function;
 }
 
-export const Input: React.FC<InputProps> = ({ text, children, type, color, setState, ref }) => {
-  const handleChange = (event: { target: { value: any; }; }) => {
+export const Input: React.FC<InputProps> = ({ text, children, type, color, setState, ref, onEnter }) => {
+  const handleChange = (event: { target: { value: any; }}) => {
     setState(event.target.value);
+  };
+
+  const handleKeyDown = (event: { key: any;}) => {
+    if (event.key === "Enter") {
+      onEnter();
+    }
   };
 
   return (
     <div className={styles.InputWrapper}>
-      <input type={type} className={`${styles.Input} media`} required placeholder={text} style={{ borderColor: color }} onChange={handleChange} ref={ref} />
+      <input
+        type={type}
+        className={`${styles.Input} media`}
+        required
+        placeholder={text}
+        style={{ borderColor: color }}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        ref={ref}
+      />
       {children}
     </div>
   );

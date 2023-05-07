@@ -1,90 +1,125 @@
 .Post
-  padding: 65px 40px 149px 40px
-
-.topButtons
-  display: flex
-  align-items: center
-  justify-content: space-between
-  button
-    border: 1px solid #DFDFDF
-    border-radius: 6px
-    background: none
-    padding: 13px
-    margin: none
-    display: flex
-    align-items: center
-
-.topButtonsRight
-  display: flex
-  gap: 14px
-  align-items: center
-
-.preview
-    height: 543px
+  .preview
+    margin-top: 48px
+    background-size: cover
+    background-repeat: no-repeat
+    background-position: center center
     width: 100%
-    background-size: cover
-    background-repeat: no-repeat
-    background-position: center center
-    margin: 15px 0 40px 0
-
-.name
-  font-family: 'Roboto'
-  font-weight: 500
-  font-size: 40px
-  line-height: 30px
-  color: rgba(0, 0, 0, 0.85)
-  margin-bottom: 30px
-
-.author
-  display: flex
-  gap: 10px
-  align-items: center
-  margin-bottom: 24px
-  div
-    height: 40px
-    width: 40px
-    border-radius: 9999px
-    background-size: cover
-    background-repeat: no-repeat
-    background-position: center center
-  p
+    max-width: 1440px
+    height: 610px
+    .black
+      height: 100%
+      width: 100%
+      background: rgba(0, 0, 0, 0.6)
+      display: flex
+      flex-direction: column
+      justify-content: space-between
+      .arrow
+        border: none
+        background: initial
+        margin: 45px 45px 0 45px
+        padding: 0
+        cursor: default
+        display: flex
+        svg
+          cursor: pointer
+      .description
+        margin: 0 40px 40px 40px
+        color: white
+        font-family: 'Roboto'
+        .typedate
+          font-weight: 400
+          font-size: 30px
+          line-height: 30px
+          color: rgba(255, 255, 255, 0.88)
+        .name
+          font-weight: 600
+          font-size: 40px
+          line-height: 30px
+          color: rgba(255, 255, 255, 0.85)
+          margin-top: 20px
+        .avatarauthor
+          display: flex
+          gap: 11px
+          align-items: center
+          font-style: normal
+          font-weight: 400
+          font-size: 30px
+          line-height: 30px
+          color: rgba(255, 255, 255, 0.88)
+          margin-top: 35px
+          img
+            width: 40px
+            height: 40px
+            border-radius: 100px
+        .buttons
+          margin-top: 40px
+          display: flex
+          gap: 20px
+.content
+  max-width: 1440px
+  width: 100%
+  padding: 0 40px
+  .optional
+    margin-top: 40px
+    background: #FFFFFF
+    box-shadow: 0px 10px 4px rgba(217, 217, 217, 0.25)
+    border-radius: 70px
+    .show
+      cursor: pointer
+      width: 100%
+      border: none
+      margin: 0
+      padding: 0
+      display: flex
+      background: none
+      justify-content: space-between
+      align-items: center
+      padding: 20px 40px
+      outline: none
+      -webkit-tap-highlight-color: transparent
+      z-index: 1
+      position: relative
+      background: #FFFFFF
+      border-radius: 70px
+      h3
+        font-family: 'Roboto'
+        font-style: normal
+        font-weight: 400
+        font-size: 20px
+        line-height: 40px
+        color: #000000
+      .optionalWrapper
+        height: 40px
+        width: 40px
+        border-radius: 100px
+        transition: 600ms
+    .hidden
+      border-top: 1px solid #E4E4E4
+      padding: 20px 40px
+      display: flex
+      gap: 50px
+      transition: 500ms
+      margin-top: -106px
+      opacity: 0
+    button:focus
+      outline: none
+      -webkit-tap-highlight-color: transparent
+  .about
+    margin-top: 50px
     font-family: 'Roboto'
+    font-style: normal
+    font-weight: 600
     font-size: 30px
     line-height: 30px
     color: rgba(0, 0, 0, 0.88)
-
-.descriptions
-  display: flex
-  flex-wrap: wrap
-  justify-content: space-between
-  margin-bottom: 30px
-
-.text
-  font-family: 'Roboto'
-  font-size: 20px
-  line-height: 40px
-  color: rgba(0, 0, 0, 0.88)
-  margin-bottom: 50px
-
-.textHeading
-  font-family: 'Roboto'
-  font-style: normal
-  font-weight: 500
-  font-size: 30px
-  line-height: 30px
-  color: rgba(0, 0, 0, 0.88)
-  margin: 12px 0 15px 0
-
-.join
-  font-family: 'Roboto'
-  font-style: normal
-  font-weight: 400
-  font-size: 16px
-  line-height: 24px
-  text-align: center
-  color: #FFFFFF
-  background: #5AAE81
-  border: 1px solid #5AAE81
-  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043)
-  border-radius: 8px
-  padding: 21px 38px
+  .text
+    margin-top: 15px
+    font-family: 'Roboto'
+    font-style: normal
+    font-weight: 400
+    font-size: 20px
+    line-height: 40px
+    color: rgba(0, 0, 0, 0.88)
+  .submit
+    padding: 40px 0 80px 0

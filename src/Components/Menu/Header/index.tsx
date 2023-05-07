@@ -1,18 +1,25 @@
-import { Link } from "react-router-dom";
+import React from "react";
 import styles from "./Header.module.sass";
 
-export const Header = () => {
+interface HeaderProps {
+  link: (event: React.SyntheticEvent, targetRef: React.RefObject<HTMLDivElement>) => void,
+  categoriesRef: React.RefObject<HTMLDivElement>,
+  popularRef: React.RefObject<HTMLDivElement>,
+  aboutRef: React.RefObject<HTMLDivElement>
+}
+
+export const Header: React.FC<HeaderProps> = ({ link, categoriesRef, popularRef, aboutRef }) => {
   return (
     <header className={styles.Header}>
-      <Link to="/404">
+      <button onClick={(event) => link(event, categoriesRef)}>
         Категории
-      </Link>
-      <Link to="/404">
+      </button>
+      <button onClick={(event) => link(event, popularRef)}>
         Популярное
-      </Link>
-      <Link to="/404">
+      </button>
+      <button onClick={(event) => link(event, aboutRef)}>
         О нас
-      </Link>
+      </button>
     </header>
   );
 };

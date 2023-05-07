@@ -2,7 +2,7 @@ export { About } from "./About";
 export { CloseButton } from "./CloseButton";
 export { Events } from "./Events";
 export { EventsNavbar } from "./EventsNavbar";
-export { Modal } from "./Modal";
+export { Modal } from "../Modal";
 export { ModalEditAvatar } from "./ModalEditAvatar";
 export { ModalProfileEdit } from "./ModalProfileEdit";
 export { NavBarButton } from "./NavBarButton";
