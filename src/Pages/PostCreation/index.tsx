@@ -1,18 +1,18 @@
-import { SetStateAction, useState, useCallback } from "react";
+import { SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input, Arrow, Cross } from "../../Components/PostCreation";
 import styles from "./PostCreation.module.sass";
 import { Modal, ModalEditAvatar, SaveButton } from "../../Components/Profile";
-import { createPost, formatDate, getEventFormats } from "../../API/post";
-import { Calendar } from "@natscale/react-calendar";
-import "@natscale/react-calendar/dist/main.css";
-import { Value } from "@natscale/react-calendar/dist/utils/types";
+import { createPost, getEventFormats } from "../../API/post";
+import { CalendarContainer } from "../../Components/PostCreation/Calendar";
+
 export const PostCreation = () => {
   const navigate = useNavigate();
   const [description, setTextArea] = useState("");
   const [name, setName] = useState("");
   const [eventFormat, setFormat] = useState("");
   const [registrationLimit, setRegistrationLimit] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [beginDate, setBeginDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [location, setLocation] = useState("");
@@ -32,7 +32,6 @@ export const PostCreation = () => {
     setFile(file);
     closeModal();
   };
-
   const handleChange = (event: { target: { value: SetStateAction<string>; style: { height: string; }; scrollHeight: any; }; }) => {
     setTextArea(event.target.value);
     event.target.style.height = "auto";
@@ -52,17 +51,8 @@ export const PostCreation = () => {
   const onCancelButtonClick = () => {
     setFile(null);
   };
-
-  const [beginDateCalendar, setbeginDateCalendar] = useState<Value>();
-  const onBeginDateCalendarChange = useCallback(
-    (value: Value) => {
-      const yourDate = value as Date;
-      setbeginDateCalendar(value);
-      setBeginDate(formatDate(yourDate));
-    },
-    [setbeginDateCalendar]
-  );
-
+  const [showBeginCalendar, setshowBeginCalendar] = useState(false);
+  const [showEndCalendar, setshowEndCalendar] = useState(false);
   return (
     <>
       <div className={styles.PostCreation}>
@@ -86,6 +76,7 @@ export const PostCreation = () => {
         <h2>Основная информация</h2>
         <div className={styles.inputWrapper}>
           <Input
+            width="377px"
             name="Название"
             placeholder="Название"
             require={true}
@@ -93,6 +84,7 @@ export const PostCreation = () => {
             setState={setName}
           />
           <Input
+            width="377px"
             name="Формат мероприятия"
             placeholder="Формат мероприятия"
             require={true}
@@ -102,6 +94,7 @@ export const PostCreation = () => {
             selectValues={["Онлайн", "Оффлайн"]}
           />
           <Input
+            width="377px"
             name="Почта"
             placeholder="Почта"
             require={false}
@@ -111,6 +104,7 @@ export const PostCreation = () => {
         </div>
         <div className={styles.inputWrapper}>
           <Input
+            width="377px"
             name="Адрес проведения"
             placeholder="Адрес проведения"
             require={false}
@@ -118,6 +112,7 @@ export const PostCreation = () => {
             setState={setLocation}
           />
           <Input
+            width="377px"
             name="Тип мероприятия"
             placeholder="Тип мероприятия"
             require={true}
@@ -127,6 +122,7 @@ export const PostCreation = () => {
             selectValues={eventsFormats}
           />
           <Input
+            width="377px"
             name="Сайт или соц.сети"
             placeholder="Сайт или соц.сети"
             require={false}
@@ -136,25 +132,32 @@ export const PostCreation = () => {
         </div>
         <div className={styles.inputWrapper}>
           <div className={styles.dateWrapper}>
-            <Input
-              name="Дата начала"
-              placeholder="YYYY-MM-DD"
-              require={true}
-              width="168.5px"
-              state={beginDate}
-              setState={() => {}}
-            />
-            <Calendar value={beginDateCalendar} onChange={onBeginDateCalendarChange} />
-            <Input
-              name="Дата окончания"
-              placeholder="YYYY-MM-DD"
-              require={true}
-              width="168.5px"
-              state={endDate}
-              setState={setEndDate}
-            />
+            <div onFocus={() => setshowBeginCalendar(true)} >
+              <Input
+                name="Дата начала"
+                placeholder="YYYY-MM-DD"
+                require={true}
+                width="168.5px"
+                state={beginDate}
+                setState={() => {}}
+              />
+              {showBeginCalendar ? <CalendarContainer setBeginDate={(val) => { setshowBeginCalendar(false); setBeginDate(val); }} setShowCalendar={setshowBeginCalendar} /> : null}
+            </div>
+            <div onFocus={() => setshowEndCalendar(true)}>
+              <Input
+                name="Дата окончания"
+                placeholder="YYYY-MM-DD"
+                require={true}
+                width="168.5px"
+                state={endDate}
+                setState={() => {}}
+              />
+              {showEndCalendar ? <CalendarContainer setBeginDate={(val) => { setshowEndCalendar(false); setEndDate(val); }} setShowCalendar={setshowEndCalendar} /> : null}
+            </div>
+
           </div>
           <Input
+            width="377px"
             name="Количество мест"
             placeholder="Количество мест"
             require={true}
