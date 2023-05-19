@@ -6,7 +6,7 @@ export const SearchInput = () => {
   return (
     <div className={styles.SearchInput}>
       <input type="text" placeholder="Поиск" />
-      <Link to="404">
+      <Link to="/events">
         <SearchLogo />
       </Link>
     </div>

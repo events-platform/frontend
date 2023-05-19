@@ -49,9 +49,9 @@ export const Menu = () => {
       <section className={styles.menuContent}>
         <Heading text="Популярные категории" />
         <div className={styles.popular} ref={categoriesRef}>
-          <Popular link={"/404"} name="Вечеринки" backgroundImage={"url(https://sun9-78.userapi.com/impg/jCSv0NFk-7kmgEoDqUQA5TK0GIyyC7qSWkDWlw/fYn23QYvBxg.jpg?size=420x480&quality=96&sign=fbf315e1ac4d5df7f7ed222d07d9fabb&type=album)"} />
-          <Popular link="/404" name="Настольные игры" backgroundImage={"url(https://sun9-80.userapi.com/impg/v7frH9a6JEkhEDd6mDmndvDsbsD8_5SVPV8bNg/73I8cefbHHA.jpg?size=420x480&quality=96&sign=b0d60c7234af29fe872f385891dbc05b&type=album)"} />
-          <Popular link="/404" name="Выставки" backgroundImage={"url(https://sun9-76.userapi.com/impg/l7BLKfu0n-0lwgUBb9WUnHJu4SM4YWnOqYb6kw/wEhUFqT8AyU.jpg?size=420x480&quality=96&sign=91af51c3e275cace1e204de8d9f592d1&type=album)"} />
+          <Popular link={"/events"} name="Вечеринки" backgroundImage={"url(https://sun9-78.userapi.com/impg/jCSv0NFk-7kmgEoDqUQA5TK0GIyyC7qSWkDWlw/fYn23QYvBxg.jpg?size=420x480&quality=96&sign=fbf315e1ac4d5df7f7ed222d07d9fabb&type=album)"} />
+          <Popular link="/events" name="Настольные игры" backgroundImage={"url(https://sun9-80.userapi.com/impg/v7frH9a6JEkhEDd6mDmndvDsbsD8_5SVPV8bNg/73I8cefbHHA.jpg?size=420x480&quality=96&sign=b0d60c7234af29fe872f385891dbc05b&type=album)"} />
+          <Popular link="/events" name="Выставки" backgroundImage={"url(https://sun9-76.userapi.com/impg/l7BLKfu0n-0lwgUBb9WUnHJu4SM4YWnOqYb6kw/wEhUFqT8AyU.jpg?size=420x480&quality=96&sign=91af51c3e275cace1e204de8d9f592d1&type=album)"} />
         </div>
         <Button text="Посмотреть все категории" link="/404" />
         <Heading text="Популярное" />
