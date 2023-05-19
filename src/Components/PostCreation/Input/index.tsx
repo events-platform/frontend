@@ -74,7 +74,7 @@ export const Select: React.FC<SelectProps> = ({
     <div className={styles.inputContainer} style={{ width }} onClick={() => setShowSelect(!showSelect)}>
       {showSelect
         ? (
-          <div className={styles.dropdownMenu}>
+          <div className={styles.dropdownMenu} style={{ width }}>
             {selectValues?.map((el, index) => {
               return (
                 <div
