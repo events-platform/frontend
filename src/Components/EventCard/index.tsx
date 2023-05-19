@@ -35,7 +35,7 @@ export const EventCard: React.FC<EventCardProps> = ({ preview, author, name, typ
         </div>
         <div className={styles.buttons}>
           <SaveButton text="По записи" />
-          <SecondaryButton text="Избранное" width={128}>{<Star />}</SecondaryButton>
+          <SecondaryButton text="Избранное" width={128} onClick={() => {}} >{<Star />}</SecondaryButton>
         </div>
       </div>
     </Link>
