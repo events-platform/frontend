@@ -23,16 +23,8 @@ export const Input: React.FC<InputProps> = ({
   selectMode,
   selectValues
 }) => {
-  const [showSelect, setShowSelect] = useState(false);
-  const handleChange = (event: { target: { value: any } }) => {
-    if (!selectMode) {
-      setState(event.target.value);
-    } else {
-      setShowSelect(true);
-    }
-  };
-  const onShowClicked = () => {
-    setShowSelect(!showSelect);
+  const onInputChange = (e: any) => {
+    setState(e.target.value);
   };
   return (
     <div className={styles.Input}>
@@ -40,36 +32,76 @@ export const Input: React.FC<InputProps> = ({
         <span>{require ? "* " : null}</span>
         {name}
       </p>
-      <div className={styles.inputContainer} style={{ width }}>
-        <input
-          value={state}
-          onChange={handleChange}
+      {selectMode
+        ? <Select
+          width={width}
           placeholder={placeholder}
-          required={require}
+          state={state}
+          setState={setState}
+          selectValues={selectValues}
         />
-        {selectMode
-          ? (
-            <div className={styles.select} onClick={onShowClicked}>
-              <div className={`${styles.centered} ${showSelect ? styles.selectOpened : ""}`}>
-                <SelectArrow />
-              </div>
-              {showSelect
-                ? (
-                  <div className={styles.dropdownMenu}>
-                    {selectValues?.map((el, index) => {
-                      return (<div key={index} onClick={() => { setState(el); }} className={styles.dropDownElement} >{el}</div>);
-                    })}
-                  </div>
-                )
-                : null}
-            </div>
-          )
-          : null}
-      </div>
+        : <div className={styles.inputContainer} style={{ width }}>
+          <input value={state} onChange={onInputChange} placeholder={placeholder} />
+        </div>
+      }
     </div>
   );
 };
 Input.defaultProps = {
   selectMode: false,
   selectValues: []
+};
+
+interface SelectProps {
+  placeholder?: string;
+  width?: string;
+  state: string;
+  setState: (val: string) => void;
+  selectValues?: string[];
+}
+export const Select: React.FC<SelectProps> = ({
+  placeholder,
+  width,
+  state,
+  setState,
+  selectValues
+}) => {
+  const [showSelect, setShowSelect] = useState(false);
+  const onShowClicked = () => {
+    setShowSelect(!showSelect);
+  };
+  return (
+    <div className={styles.inputContainer} style={{ width }} onClick={() => setShowSelect(!showSelect)}>
+      {showSelect
+        ? (
+          <div className={styles.dropdownMenu} style={{ width }}>
+            {selectValues?.map((el, index) => {
+              return (
+                <div
+                  key={index}
+                  onClick={() => {
+                    setState(el);
+                    setShowSelect(false);
+                  }}
+                  className={styles.dropDownElement}
+                >
+                  {el}
+                </div>
+              );
+            })}
+          </div>
+        )
+        : null}
+      <input readOnly value={state} placeholder={placeholder} />
+      <div className={styles.select} onClick={onShowClicked}>
+        <div
+          className={`${styles.centered} ${
+            showSelect ? styles.selectOpened : ""
+          }`}
+        >
+          <SelectArrow />
+        </div>
+      </div>
+    </div>
+  );
 };

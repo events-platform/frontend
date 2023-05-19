@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { EventCard } from "../../Components/EventCard";
 import { Header, Popular, Gradient, Button, Heading } from "../../Components/Menu";
 import styles from "./Menu.module.sass";
+import { Ipost, getAllPosts } from "../../API/post";
 
 export const Menu = () => {
-  const template = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const categoriesRef = React.useRef<HTMLDivElement>(null);
   const popularRef = React.useRef<HTMLDivElement>(null);
   const aboutRef = React.useRef<HTMLDivElement>(null);
-
+  const [posts, setPosts] = useState<Ipost[]>([]);
   const handleScroll = (event: React.WheelEvent<HTMLDivElement>) => {
     event.preventDefault();
     const scrollDirection = event.deltaY > 0 ? 1 : -1;
@@ -45,6 +45,12 @@ export const Menu = () => {
     return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
   };
 
+  useEffect(() => {
+    getAllPosts().then((res) => {
+      setPosts(res.data);
+    });
+  }, []);
+
   return (
     <div className={styles.Menu}>
       <Header link={handleClick} categoriesRef={categoriesRef} popularRef={popularRef} aboutRef={aboutRef} />
@@ -58,9 +64,9 @@ export const Menu = () => {
         <Button text="Посмотреть все категории" link="/404" />
         <Heading text="Популярное" />
         <div className={styles.events} onWheel={handleScroll} ref={popularRef}>
-          {template.map((el) => (
-            <EventCard key={el} />
-          ))};
+          {posts.map((el, index) => (
+            <EventCard key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
+          ))}
         </div>
         <Button text="Посмотреть все мероприятия" link="/events" />
         <Heading text="О нас" />

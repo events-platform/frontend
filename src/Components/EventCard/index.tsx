@@ -1,7 +1,7 @@
 import React from "react";
-import { Star } from "./Star";
 import styles from "./EventCard.module.sass";
 import { Link } from "react-router-dom";
+import { SaveButton } from "../Profile";
 
 interface EventCardProps {
   preview?: string;
@@ -32,13 +32,7 @@ export const EventCard: React.FC<EventCardProps> = ({ preview, author, name, typ
           </p>
         </div>
         <div className={styles.buttons}>
-          <button className={styles.reg}>
-          По записи
-          </button>
-          <button className={styles.favorite}>
-            <Star />
-          Избранное
-          </button>
+          <SaveButton text="Открыть" />
         </div>
       </div>
     </Link>

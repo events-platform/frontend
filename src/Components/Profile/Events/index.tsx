@@ -32,8 +32,8 @@ export const Events: React.FC<EventsInterface> = ({ selected, profileOwnEvents, 
               <EventCard key={el} />
             ))
             : profileOwnEvents.length !== 0
-              ? profileOwnEvents.map((el) => (
-                <EventCard preview={el.image} author={"author"} name={el.name} type={el.format} date={new Date(el.endDate).toString()} id={1}/>
+              ? profileOwnEvents.map((el, index) => (
+                <EventCard key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
               ))
               : <EventsEmpty />
         }
