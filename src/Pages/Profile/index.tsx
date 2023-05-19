@@ -17,7 +17,7 @@ import styles from "./Profile.module.sass";
 import { editUser, getUserData } from "../../API/profile";
 import { store, useAppDispatch } from "../../store/store";
 import { setUserName } from "../../store/reducers/userReducer";
-import { Ipost, getSelfPosts } from "../../API/post";
+import { Ipost, getUserPosts } from "../../API/post";
 
 export enum SelectedTab {
   // eslint-disable-next-line no-unused-vars
@@ -85,7 +85,7 @@ export const Profile = () => {
   };
   updateProfileInfo(username);
   useEffect(() => {
-    getSelfPosts()
+    getUserPosts(username)
       .then((res) => {
         setprofileEvents(res.data);
       });

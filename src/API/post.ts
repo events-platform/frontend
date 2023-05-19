@@ -3,26 +3,32 @@ import { getJWT } from "./cookies";
 
 export interface postObject {
   name: string;
-  format: string;
-  city: string;
-  registrationLimit: number;
+  location: string;
   beginDate: string;
   endDate: string;
-  location: string;
+  format: string;
+  type: string;
+  registrationLimit: number;
+  email: string;
+  externalLink: string;
   description: string;
   file: File
 }
 
 export interface Ipost {
+  id: number;
   name: string;
   format: string;
-  city: string;
+  type: string;
   registrationLimit: number;
   beginDate: string;
   endDate: string;
   location: string;
   description: string;
-  image: string
+  email: string;
+  externalLink: string;
+  image: string;
+  ownerName: string;
 }
 
 export const createPost = (obj: postObject) => {
@@ -32,12 +38,14 @@ export const createPost = (obj: postObject) => {
   const beginDate = new Date(obj.beginDate);
   const endDate = new Date(obj.endDate);
   formData.append("name", obj.name);
-  formData.append("format", obj.format === "Онлайн" ? "ONLINE" : "OFFLINE");
-  formData.append("city", obj.city);
-  formData.append("registrationLimit", obj.registrationLimit);
+  formData.append("location", obj.location);
   formData.append("beginDate", parseDate(beginDate));
   formData.append("endDate", parseDate(endDate));
-  formData.append("location", obj.location);
+  formData.append("format", obj.format === "Онлайн" ? "ONLINE" : "OFFLINE");
+  formData.append("type", convertFormat(obj.type));
+  formData.append("registrationLimit", obj.registrationLimit);
+  formData.append("email", obj.email);
+  formData.append("externalLink", obj.externalLink);
   formData.append("description", obj.description);
   formData.append("file", obj.file, obj.file?.name);
 
@@ -56,15 +64,16 @@ const parseDate = (date: Date) => {
   return date.toISOString();
 };
 
-export const getSelfPosts = () => {
-  const JWT = getJWT();
-  return axios.get<Ipost[]>("/post/created",
+export const getUserPosts = (username: string) => {
+  return axios.get<Ipost[]>("/user/post/created",
     {
-      headers: {
-        Authorization: JWT
-      }
+      params: { username }
     }
   );
+};
+
+export const getPostById = (id: number) => {
+  return axios.get<Ipost>(`/post/${id}`);
 };
 
 export const getEventFormats = (): string[] => {
@@ -89,6 +98,33 @@ export const getEventFormats = (): string[] => {
     "Хакатон",
     "Концерт"
   ];
+};
+
+const eventsFormatsEng = [
+  "ACCELERATOR",
+  "WORKSHOP",
+  "MEETING",
+  "EXHIBITION",
+  "DEMO_DAY",
+  "OPEN_DAY",
+  "CONFERENCE",
+  "ROUND_TABLE",
+  "LECTURE",
+  "MASTER_CLASS",
+  "MEETUP",
+  "SURVEY",
+  "PANEL_DISCUSSION",
+  "PITCH",
+  "SEMINAR",
+  "SPORTS_EVENT",
+  "FORUM",
+  "HACKATHON",
+  "CONCERT"
+];
+
+export const convertFormat = (eventFormat: string): string => {
+  const id = getEventFormats().findIndex((el) => el === eventFormat);
+  return eventsFormatsEng[id];
 };
 
 export const formatDate = (date: Date): string => {

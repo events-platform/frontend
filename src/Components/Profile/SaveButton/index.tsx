@@ -2,17 +2,19 @@ import React from "react";
 import styles from "./SaveButton.module.sass";
 
 interface SaveButtonInterface {
-  onClick?: () => void
+  onClick?: () => void,
+  text?: string
 }
 
-export const SaveButton: React.FC<SaveButtonInterface> = ({ onClick }) => {
+export const SaveButton: React.FC<SaveButtonInterface> = ({ onClick, text }) => {
   return (
     <>
-      <button className={styles.ModalSaveButton} onClick={onClick}>Сохранить</button>
+      <button className={styles.ModalSaveButton} onClick={onClick}>{text}</button>
     </>
   );
 };
 
 SaveButton.defaultProps = {
-  onClick: () => {}
+  onClick: () => {},
+  text: "Сохранить"
 };

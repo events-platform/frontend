@@ -20,7 +20,7 @@ export const PostCreation = () => {
   const [file, setFile] = useState<File | null>();
   const [email, setEmail] = useState("");
   const [eventType, setEventType] = useState("");
-  const [eventLink, setEventLink] = useState("");
+  const [externalLink, setEventLink] = useState("");
   const eventsFormats = getEventFormats();
   const closeModal = () => {
     setmodalHidden(true);
@@ -41,11 +41,13 @@ export const PostCreation = () => {
     if (!file) {
       return;
     }
-    createPost({ name, format: eventFormat, city: "Екатиеринбург", registrationLimit: Number(registrationLimit), beginDate, endDate, location, description, file })
+    createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description, file })
       .then((res) => {
         navigate(-1);
       })
-      .catch(() => {
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err.response.data);
       });
   };
   const onCancelButtonClick = () => {
@@ -126,7 +128,7 @@ export const PostCreation = () => {
             name="Сайт или соц.сети"
             placeholder="Сайт или соц.сети"
             require={false}
-            state={eventLink}
+            state={externalLink}
             setState={setEventLink}
           />
         </div>
