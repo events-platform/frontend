@@ -76,6 +76,10 @@ export const getPostById = (id: number) => {
   return axios.get<Ipost>(`/post/${id}`);
 };
 
+export const getAllPosts = () => {
+  return axios.get<Ipost[]>("/post/all");
+};
+
 export const getEventFormats = (): string[] => {
   return [
     "Акселератор",
