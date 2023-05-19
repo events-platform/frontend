@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./EventCard.module.sass";
 import { Link } from "react-router-dom";
 import { SaveButton } from "../Profile";
+import { SecondaryButton } from "../SecondaryButton";
+import { Star } from "../Post";
 
 interface EventCardProps {
   preview?: string;
@@ -33,6 +35,7 @@ export const EventCard: React.FC<EventCardProps> = ({ preview, author, name, typ
         </div>
         <div className={styles.buttons}>
           <SaveButton text="По записи" />
+          <SecondaryButton text="Избранное" width={128}>{<Star />}</SecondaryButton>
         </div>
       </div>
     </Link>

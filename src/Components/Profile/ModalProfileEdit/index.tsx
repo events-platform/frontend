@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CloseButton } from "../../../Components/Profile/CloseButton";
-import { SaveButton } from "../../../Components/Profile/SaveButton";
+import { SaveButton } from "../../SaveButton";
 import styles from "./ModalEditProfile.module.sass";
 import { EditSVG } from "../SVGs";
 

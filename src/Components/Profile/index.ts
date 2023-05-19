@@ -7,6 +7,6 @@ export { ModalEditAvatar } from "./ModalEditAvatar";
 export { ModalProfileEdit } from "./ModalProfileEdit";
 export { NavBarButton } from "./NavBarButton";
 export { ProfileImage } from "./ProfileImage";
-export { SaveButton } from "./SaveButton";
+export { SaveButton } from "../SaveButton";
 export { ToolButton } from "./ToolButton";
 export { AboutSVG, AddSVG, CloseSVG, CloseSVG2, EditSVG } from "./SVGs";
