@@ -5,18 +5,10 @@ import styles from "./Menu.module.sass";
 import { Ipost, getAllPosts } from "../../API/post";
 
 export const Menu = () => {
-  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const categoriesRef = React.useRef<HTMLDivElement>(null);
   const popularRef = React.useRef<HTMLDivElement>(null);
   const aboutRef = React.useRef<HTMLDivElement>(null);
   const [posts, setPosts] = useState<Ipost[]>([]);
-  const handleScroll = (event: React.WheelEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    const scrollDirection = event.deltaY > 0 ? 1 : -1;
-    if (scrollContainerRef.current !== null) {
-      scrollContainerRef.current.scrollLeft += scrollDirection * 40;
-    }
-  };
 
   const handleClick = (event: React.SyntheticEvent, targetRef: React.RefObject<HTMLDivElement>) => {
     event.preventDefault();
@@ -63,7 +55,7 @@ export const Menu = () => {
         </div>
         <Button text="Посмотреть все категории" link="/404" />
         <Heading text="Популярное" />
-        <div className={styles.events} onWheel={handleScroll} ref={popularRef}>
+        <div className={styles.events} ref={popularRef}>
           {posts.map((el, index) => (
             <EventCard key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
           ))}
