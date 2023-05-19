@@ -17,7 +17,7 @@ import styles from "./Profile.module.sass";
 import { editUser, getUserData } from "../../API/profile";
 import { store, useAppDispatch } from "../../store/store";
 import { setUserName } from "../../store/reducers/userReducer";
-import { Ipost, getUserPosts } from "../../API/post";
+import { Ipost, getUserFavoritePosts, getUserPosts } from "../../API/post";
 
 export enum SelectedTab {
   // eslint-disable-next-line no-unused-vars
@@ -45,6 +45,8 @@ export const Profile = () => {
   const [modalHidden, setModalHidden] = useState(true);
   const [inputMode, setinputMode] = useState(true);
   const [profileEvents, setprofileEvents] = useState<Ipost[]>([]);
+  const [profileFavoriteEvents, setProfileFavoriteEvents] = useState<Ipost[]>([]);
+
   const openModal = () => {
     setinputMode(false);
     setModalHidden(false);
@@ -89,6 +91,9 @@ export const Profile = () => {
       .then((res) => {
         setprofileEvents(res.data);
       });
+    getUserFavoritePosts(username).then((res) => {
+      setProfileFavoriteEvents(res.data);
+    });
   }, []);
   return (
     <>
@@ -126,10 +131,10 @@ export const Profile = () => {
               </div>
               : null }
           </div>
-          <EventsNavbar selected={selectedTab} setSelected={setselectedTab} />
+          <EventsNavbar profileEvents={profileEvents.length} profileFavoriteEvents={profileFavoriteEvents.length} profileActiveEvents={profileEvents.length} selected={selectedTab} setSelected={setselectedTab} />
         </div>
       </div>
-      <Events selected={selectedTab} profileOwnEvents={profileEvents} profileFavoriteEvents={[]} />
+      <Events selected={selectedTab} profileOwnEvents={profileEvents} profileFavoriteEvents={profileFavoriteEvents} />
       <Modal isHidden={modalHidden} closeModal={() => setModalHidden(true)}>
         <ModalProfileEdit
           myOwnProfile={isOwnProfile}

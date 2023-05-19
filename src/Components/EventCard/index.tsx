@@ -32,7 +32,7 @@ export const EventCard: React.FC<EventCardProps> = ({ preview, author, name, typ
           </p>
         </div>
         <div className={styles.buttons}>
-          <SaveButton text="Открыть" />
+          <SaveButton text="По записи" />
         </div>
       </div>
     </Link>

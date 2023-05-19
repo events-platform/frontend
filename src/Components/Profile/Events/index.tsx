@@ -28,8 +28,8 @@ export const Events: React.FC<EventsInterface> = ({ selected, profileOwnEvents, 
       <div className={styles.eventsContent}>
         {
           selected === SelectedTab.MyFavoriteEvents
-            ? Array.from(Array(10).keys()).map((el) => (
-              <EventCard key={el} />
+            ? profileFavoriteEvents.map((el, index) => (
+              <EventCard key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
             ))
             : profileOwnEvents.length !== 0
               ? profileOwnEvents.map((el, index) => (
