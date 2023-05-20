@@ -21,7 +21,17 @@ export const Posts = () => {
         </h1>
         <div className={styles.events}>
           {posts.map((el, index) => (
-            <EventCard onFavoriteClick={onFavoriteClick} key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
+            <EventCard
+              onFavoriteClick={onFavoriteClick}
+              key={index}
+              preview={el.image}
+              author={el.ownerName}
+              name={el.name}
+              type={el.type}
+              beginDate={el.beginDate}
+              endDate={el.endDate}
+              id={el.id}
+            />
           ))}
         </div>
       </div>

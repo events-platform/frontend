@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { EventCard } from "../../EventCard";
 import { SelectedTab } from "../../../Pages/Profile";
 import styles from "./Events.module.sass";
@@ -23,7 +23,7 @@ const EventsEmpty = () => {
   );
 };
 
-export const Events: React.FC<EventsInterface> = ({ selected, profileOwnEvents, profileFavoriteEvents, addPostToFavorite }) => {
+export const Events: FC<EventsInterface> = ({ selected, profileOwnEvents, profileFavoriteEvents, addPostToFavorite }) => {
   return (
     <div className={styles.profileEvents}>
       <div className={styles.eventsContent}>
@@ -31,12 +31,32 @@ export const Events: React.FC<EventsInterface> = ({ selected, profileOwnEvents, 
           selected === SelectedTab.MyFavoriteEvents
             ? profileFavoriteEvents.length !== 0
               ? profileFavoriteEvents.map((el, index) => (
-                <EventCard key={index} onFavoriteClick={addPostToFavorite} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
+                <EventCard
+                  key={index}
+                  onFavoriteClick={addPostToFavorite}
+                  preview={el.image}
+                  author={el.ownerName}
+                  name={el.name}
+                  type={el.type}
+                  beginDate={el.beginDate}
+                  endDate={el.endDate}
+                  id={el.id}
+                />
               ))
               : <EventsEmpty />
             : profileOwnEvents.length !== 0
               ? profileOwnEvents.map((el, index) => (
-                <EventCard key={index} onFavoriteClick={addPostToFavorite} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
+                <EventCard
+                  key={index}
+                  onFavoriteClick={addPostToFavorite}
+                  preview={el.image}
+                  author={el.ownerName}
+                  name={el.name}
+                  type={el.type}
+                  beginDate={el.beginDate}
+                  endDate={el.endDate}
+                  id={el.id}
+                />
               ))
               : <EventsEmpty />
         }

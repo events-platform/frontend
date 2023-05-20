@@ -4,13 +4,28 @@
   box-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25)
   border-radius: 30px
   margin-bottom: 10px
-  width: 390px
-  height: 480px
+  width: 420px
 .wrapper
   display: flex
   flex-direction: column
   max-width: 420px
   flex-shrink: 0
+  position: relative
+  .starBackground
+    position: absolute
+    top: 20px
+    right: 20px
+    background: rgba(0, 0, 0, 0.4)
+    border-radius: 500px
+    width: 36px
+    height: 36px
+    display: flex
+    justify-content: center
+    align-items: center
+    cursor: pointer
+    border: none
+    padding: 0
+    margin: 0
   .preview
     height: 180px
     width: 100%
@@ -22,13 +37,21 @@
   .content
     display: flex
     flex-direction: column
-    padding: 13px 30px 24px 30px
+    padding: 13px 30px 42px 30px
     gap: 8px
-    .author
-      font-family: 'Roboto'
-      font-size: 16px
-      line-height: 30px
-      color: #919191
+    .avatarauthor
+      display: flex
+      align-items: center
+      gap: 10px
+      img
+        width: 24px
+        height: 24px
+        border-radius: 24px
+      .author
+        font-family: 'Roboto'
+        font-size: 16px
+        line-height: 30px
+        color: #919191
     .name
       font-family: 'Roboto'
       font-size: 20px
@@ -36,9 +59,9 @@
       color: rgba(0, 0, 0, 0.85)
     .type
       font-family: 'Roboto'
-      font-size: 20px
+      font-size: 16px
       line-height: 30px
-      color: #919191
+      color: rgba(0, 0, 0, 0.85)
     .date
       font-family: 'Roboto'
       font-size: 20px
@@ -75,3 +98,17 @@
 
 .Link
   text-decoration: none
+
+.lasted
+  position: absolute
+  top: 20px
+  left: 20px
+  padding: 1px 8px
+  background: #F36666
+  border-radius: 15px
+  font-family: 'Roboto'
+  font-style: normal
+  font-weight: 400
+  font-size: 12px
+  line-height: 20px
+  color: #000000
