@@ -40,7 +40,9 @@ export const Header: React.FC<HeaderProps> = ({ name, city, isSignedIn, avatarUr
               </span>
             </Link>
             <div className={styles.mapPoint}>
-              <MapPoint />
+              <Link to={`http://maps.google.com/?q=${city}`} >
+                <MapPoint />
+              </Link>
               <span>
                 {city}
               </span>

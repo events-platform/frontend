@@ -149,6 +149,11 @@ export const convertFormat = (eventFormat: string): string => {
   return eventsFormatsEng[id];
 };
 
+export const reConvertFormat = (eventFormat: string): string => {
+  const id = eventsFormatsEng.findIndex((el) => el === eventFormat);
+  return getEventFormats()[id];
+};
+
 export const formatDate = (date: Date): string => {
   const d = new Date(date);
   let month = "" + (d.getMonth() + 1);

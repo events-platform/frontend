@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Arrow, Button, Optional, Star, Description } from "../../Components/Post";
+import { Arrow, Optional, Star, Description } from "../../Components/Post";
 import { getPostById } from "../../API/post";
 import styles from "./Post.module.sass";
 import { LinkButton } from "../../Components/LinkButton";
+import { SaveButton } from "../../Components/SaveButton";
 
 export const Post = () => {
   const navigate = useNavigate();
@@ -78,12 +79,12 @@ export const Post = () => {
                 {data.ownerName}
               </h2>
               <div className={styles.buttons}>
-                <Button>
-                Буду участвовать
-                </Button>
-                <Button borderRadius="6px">
-                  <Star />
-                </Button>
+                <SaveButton text="Буду участвовать" width={164} height={38}/>
+                <SaveButton text="" width={38} height={38}>
+                  <div style={{ width: "100%", marginTop: "5px" }}>
+                    <Star />
+                  </div>
+                </SaveButton >
               </div>
             </div>
           </div>
@@ -121,9 +122,7 @@ export const Post = () => {
             ))}
           </p>
           <div className={styles.submit}>
-            <Button>
-            Буду участвовать
-            </Button>
+            <SaveButton text="Буду участвовать" width={164} height={38}/>
           </div>
         </div>
       </div>

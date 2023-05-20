@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Star } from "./Star";
 import styles from "./EventCard.module.sass";
+import { reConvertFormat } from "../../API/post";
 
 interface EventCardProps {
   preview: string;
@@ -68,7 +69,7 @@ export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beg
                 {name}
               </p>
               <p className={styles.type}>
-                {type} | {date}
+                {reConvertFormat(type)} | {date}
               </p>
             </div>
           </Link>
