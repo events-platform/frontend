@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Star } from "./Star";
+import { ActivatedStar, Star } from "./SVGs";
 import styles from "./EventCard.module.sass";
 
 interface EventCardProps {
@@ -48,7 +48,7 @@ export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beg
             onFavoriteClick(id);
           }
           }>
-            <Star />
+            {favorite ? <ActivatedStar /> : <Star />}
           </button>
           {lasted
             ? <div className={styles.lasted}>

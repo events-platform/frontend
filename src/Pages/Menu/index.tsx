@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { EventCard } from "../../Components/EventCard";
-import { Header, Popular, Gradient, Button, Heading } from "../../Components/Menu";
-import styles from "./Menu.module.sass";
+import { Header, Popular, Heading, PopularArrow, Green } from "../../Components/Menu";
+import { SaveButton } from "../../Components/SaveButton";
 import { Ipost, addPostToFavorite, getAllPosts } from "../../API/post";
+import styles from "./Menu.module.sass";
 
 export const Menu = () => {
   const categoriesRef = React.useRef<HTMLDivElement>(null);
@@ -51,30 +52,49 @@ export const Menu = () => {
       <section className={styles.menuContent}>
         <Heading text="Популярные категории" />
         <div className={styles.popular} ref={categoriesRef}>
+          <button className={styles.popularArrow}>
+            <PopularArrow />
+          </button>
           <Popular link={"/events"} name="Вечеринки" backgroundImage={"url(https://sun9-78.userapi.com/impg/jCSv0NFk-7kmgEoDqUQA5TK0GIyyC7qSWkDWlw/fYn23QYvBxg.jpg?size=420x480&quality=96&sign=fbf315e1ac4d5df7f7ed222d07d9fabb&type=album)"} />
           <Popular link="/events" name="Настольные игры" backgroundImage={"url(https://sun9-80.userapi.com/impg/v7frH9a6JEkhEDd6mDmndvDsbsD8_5SVPV8bNg/73I8cefbHHA.jpg?size=420x480&quality=96&sign=b0d60c7234af29fe872f385891dbc05b&type=album)"} />
           <Popular link="/events" name="Выставки" backgroundImage={"url(https://sun9-76.userapi.com/impg/l7BLKfu0n-0lwgUBb9WUnHJu4SM4YWnOqYb6kw/wEhUFqT8AyU.jpg?size=420x480&quality=96&sign=91af51c3e275cace1e204de8d9f592d1&type=album)"} />
+          <button className={`${styles.popularArrow} ${styles.rightArrow}`}>
+            <PopularArrow />
+          </button>
         </div>
-        <Button text="Посмотреть все категории" link="/404" />
         <Heading text="Популярное" />
         <div className={styles.events} ref={popularRef}>
           {posts.map((el, index) => (
             <EventCard onFavoriteClick={onFavoriteClick} key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} beginDate={el.beginDate} endDate={el.endDate} id={el.id}/>
           ))}
         </div>
-        <Button text="Посмотреть все мероприятия" link="/events" />
-        <Heading text="О нас" />
-        <div ref={aboutRef}>
-          <Gradient>
-            <div className={styles.secondGradient}>
-              <h2>
-                Event Share
-              </h2>
-              <p>
-                Это площадка, которая помогает пользователям организовывать и находить мероприятия. С помощью EventShare организаторы могут быстро и просто создавать события, определять даты и место проведения, а также делиться информацией о мероприятии в социальных сетях. Для пользователей доступен удобный поиск по дате, месту, типу и различным меткам, которые позволяют найти мероприятие под ваши интересы.<br /><br />Сервис EventShare идеально подходит для всех, кто ищет новые мероприятия для посещения, а также для тех, кто хочет организовать свое собственное мероприятие - от конференций и выставок до спортивных и культурных событий.
-              </p>
-            </div>
-          </Gradient>
+        <SaveButton text="Посмотреть все мероприятия" />
+        <h1 className={styles.EventShare}>
+          Event Share
+        </h1>
+        <div className={styles.descHeader}>
+          <hr />
+          <h2>
+            организация мероприятий
+          </h2>
+          <hr />
+        </div>
+        <div className={styles.greens}>
+          <Green
+            id={1}
+            heading={"Удобная организация"}
+            text={"С помощью Event Share пользователи могут быстро и просто создавать события, определять даты, место проведения и делиться информацией в соц. сетях"}
+          />
+          <Green
+            id={2}
+            heading={"Гибкая фильтрация"}
+            text={"Для пользователей доступен удобный поиск по дате, месту, типу и различным меткам, которые позволят найти любое мероприятие под ваши интересы"}
+          />
+          <Green
+            id={3}
+            heading={"Создание своих мероприятий"}
+            text={"Наш сервис идеально подходит для всех для тех, кто хочет организовать свое  мероприятие - от конференций и выставок до спортивных и культурных событий."}
+          />
         </div>
       </section>
     </div>
