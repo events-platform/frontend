@@ -6,14 +6,30 @@ import { Filter } from "../../Components/Posts/Filter/Filter";
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Ipost[]>([]);
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
   useEffect(() => {
     getAllPosts().then((res) => {
       setPosts(res.data);
     });
   }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const onFavoriteClick = (id: number) => {
     addPostToFavorite(id).then();
   };
+
   return (
     <div className={styles.Posts}>
       <div className={styles.postContent}>
@@ -35,6 +51,9 @@ export const Posts = () => {
               id={el.id}
             />
           ))}
+          {posts.length % 3 !== 0 && viewportWidth >= 1290 ? <div className="empty" /> : null }
+          {posts.length % 2 === 0 && viewportWidth >= 1290 ? <div className="empty" /> : null }
+          {posts.length % 2 !== 0 && viewportWidth <= 1290 ? <div className="empty" /> : null }
         </div>
       </div>
     </div>
