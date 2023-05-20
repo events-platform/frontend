@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Heading, Input, Lock, Mail, Button, Arrow, Description } from "../../Components/Auth";
+import { Heading, Input, Lock, Mail, Arrow, Description } from "../../Components/Auth";
 import styles from "./Login.module.sass";
 import { getUserSelf, login } from "../../API/login";
 import { useAppDispatch } from "../../store/store";
 import { setAvatarUrl, setSignIn, setToken, setUserName } from "../../store/reducers/userReducer";
 import { useCookies } from "react-cookie";
+import { SaveButton } from "../../Components/SaveButton";
 
 export const Login = () => {
   const [emailState, setMailState] = useState("");
@@ -44,16 +45,22 @@ export const Login = () => {
     <div className={styles.Login}>
       <div className={styles.LoginContent}>
         <Heading text={"Вход"} />
-        <Input type={"email"} text={"Логин"} setState={setMailState} onEnter={onLoginClicked}>
-          <Mail />
-        </Input>
-        <Input type={"password"} text={"Пароль"} setState={setPasswordState} onEnter={onLoginClicked}>
-          <Lock />
-        </Input>
+        <div className={styles.field}>
+          <Input type={"email"} text={"Логин"} setState={setMailState} onEnter={onLoginClicked}>
+            <Mail />
+          </Input>
+        </div>
+        <div className={styles.field}>
+          <Input type={"password"} text={"Пароль"} setState={setPasswordState} onEnter={onLoginClicked}>
+            <Lock />
+          </Input>
+        </div>
         <div className={styles.error}>
           <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
         </div>
-        <Button text={"Вход"} onClick={onLoginClicked}/>
+        <div>
+          <SaveButton width={352} height={40} text="Вход" onClick={onLoginClicked}/>
+        </div>
         <Link className={styles.forgot} to="/reset">
           Забыли пароль?
         </Link>

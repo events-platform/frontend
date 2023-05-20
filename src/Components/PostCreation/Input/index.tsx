@@ -55,23 +55,27 @@ Input.defaultProps = {
 interface SelectProps {
   placeholder?: string;
   width?: string;
+  height?: string;
   state: string;
   setState: (val: string) => void;
   selectValues?: string[];
+  selectBackGroundColor?: string
 }
 export const Select: React.FC<SelectProps> = ({
   placeholder,
   width,
+  height,
   state,
   setState,
-  selectValues
+  selectValues,
+  selectBackGroundColor
 }) => {
   const [showSelect, setShowSelect] = useState(false);
   const onShowClicked = () => {
     setShowSelect(!showSelect);
   };
   return (
-    <div className={styles.inputContainer} style={{ width }} onClick={() => setShowSelect(!showSelect)}>
+    <div className={styles.inputContainer} style={{ width, height }} onClick={() => setShowSelect(!showSelect)}>
       {showSelect
         ? (
           <div className={styles.dropdownMenu} style={{ width }}>
@@ -93,7 +97,7 @@ export const Select: React.FC<SelectProps> = ({
         )
         : null}
       <input readOnly value={state} placeholder={placeholder} />
-      <div className={styles.select} onClick={onShowClicked}>
+      <div className={styles.select} style={{ backgroundColor: selectBackGroundColor }} onClick={onShowClicked}>
         <div
           className={`${styles.centered} ${
             showSelect ? styles.selectOpened : ""

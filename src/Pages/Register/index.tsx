@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Heading, Input, User, Lock, Mail, Button, Arrow } from "../../Components/Auth";
+import { Heading, Input, User, Lock, Mail, Arrow } from "../../Components/Auth";
 import { Description } from "../../Components/Auth/Description";
 import styles from "./Register.module.sass";
 import { useState } from "react";
@@ -7,6 +7,7 @@ import { create } from "../../API/login";
 import { useAppDispatch } from "../../store/store";
 import { setToken, setUserName, setSignIn } from "../../store/reducers/userReducer";
 import { useCookies } from "react-cookie";
+import { SaveButton } from "../../Components/SaveButton";
 
 export const Register = () => {
   const [nameState, setNameState] = useState("");
@@ -76,21 +77,30 @@ export const Register = () => {
     <div className={styles.Register}>
       <div className={styles.RegisterContent}>
         <Heading text={"Регистрация"} />
-        <Input type={"text"} text={"Введите имя или никнейм"} setState={setNameState} color={nameColor} onEnter={onCreateAccountClicked}>
-          <User />
-        </Input>
-        <Input type={"email"} text={"Введите почту"} setState={setEmailState} color={emailColor} onEnter={onCreateAccountClicked}>
-          <Mail />
-        </Input>
-        <Input type={"password"} text={"Введите пароль"} setState={setPasswordState} color={passwordColor} onEnter={onCreateAccountClicked}>
-          <Lock />
-        </Input>
+        <div className={styles.field}>
+          <Input type={"text"} text={"Введите имя или никнейм"} setState={setNameState} color={nameColor} onEnter={onCreateAccountClicked}>
+            <User />
+          </Input>
+        </div>
+        <div className={styles.field}>
+          <Input type={"email"} text={"Введите почту"} setState={setEmailState} color={emailColor} onEnter={onCreateAccountClicked}>
+            <Mail />
+          </Input>
+        </div>
+        <div className={styles.field}>
+          <Input type={"password"} text={"Введите пароль"} setState={setPasswordState} color={passwordColor} onEnter={onCreateAccountClicked}>
+            <Lock />
+          </Input>
+        </div>
         <Input type={"password"} text={"Повторите пароль"} setState={setConfirmPassowrdState} color={confirmPasswordColor} onEnter={onCreateAccountClicked}>
           <Lock />
         </Input>
         <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
-        <Description text={"Пароль должен содержать не менее 8 знаков, включая буквы и цифры."} color={"rgba(0, 0, 0, 0.5)"} />
-        <Button text={"Зарегистрироваться"} onClick={onCreateAccountClicked}/>
+        <div className={styles.field}>
+          <Description text={"Пароль должен содержать не менее 8 знаков, включая буквы и цифры."} color={"rgba(0, 0, 0, 0.5)"} />
+        </div>
+
+        <SaveButton text="Зарегистрироваться" onClick={onCreateAccountClicked} width={352} height={40} />
       </div>
       <div className={styles.login}>
         <Link to="/login">
