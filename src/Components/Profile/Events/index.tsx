@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { EventCard } from "../../EventCard";
 import { SelectedTab } from "../../../Pages/Profile";
@@ -28,13 +28,27 @@ const EventsEmpty = () => {
 };
 
 export const Events: FC<EventsInterface> = ({ selected, profileOwnEvents, profileFavoriteEvents, addPostToFavorite }) => {
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className={styles.profileEvents}>
       <div className={styles.eventsContent}>
         {
           selected === SelectedTab.MyFavoriteEvents
             ? profileFavoriteEvents.length !== 0
-              ? profileFavoriteEvents.map((el, index) => (
+              ? <>{profileFavoriteEvents.map((el, index) => (
                 <EventCard
                   key={index}
                   onFavoriteClick={addPostToFavorite}
@@ -46,22 +60,31 @@ export const Events: FC<EventsInterface> = ({ selected, profileOwnEvents, profil
                   endDate={el.endDate}
                   id={el.id}
                 />
-              ))
+              ))}
+              {profileFavoriteEvents.length % 3 !== 0 && viewportWidth >= 1290 ? <div className="empty" /> : null }
+              {profileFavoriteEvents.length % 2 === 0 && viewportWidth >= 1290 ? <div className="empty" /> : null }
+              {profileFavoriteEvents.length % 2 !== 0 && viewportWidth <= 1290 ? <div className="empty" /> : null }
+              </>
               : <EventsEmpty />
             : profileOwnEvents.length !== 0
-              ? profileOwnEvents.map((el, index) => (
-                <EventCard
-                  key={index}
-                  onFavoriteClick={addPostToFavorite}
-                  preview={el.image}
-                  author={el.ownerName}
-                  name={el.name}
-                  type={el.type}
-                  beginDate={el.beginDate}
-                  endDate={el.endDate}
-                  id={el.id}
-                />
-              ))
+              ? <>
+                {profileOwnEvents.map((el, index) => (
+                  <EventCard
+                    key={index}
+                    onFavoriteClick={addPostToFavorite}
+                    preview={el.image}
+                    author={el.ownerName}
+                    name={el.name}
+                    type={el.type}
+                    beginDate={el.beginDate}
+                    endDate={el.endDate}
+                    id={el.id}
+                  />
+                ))}
+                {profileOwnEvents.length % 3 !== 0 && viewportWidth >= 1290 ? <div className="empty" /> : null }
+                {profileOwnEvents.length % 2 === 0 && viewportWidth >= 1290 ? <div className="empty" /> : null }
+                {profileOwnEvents.length % 2 !== 0 && viewportWidth <= 1290 ? <div className="empty" /> : null }
+              </>
               : <EventsEmpty />
         }
       </div>
