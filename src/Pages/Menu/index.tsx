@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, SyntheticEvent, RefObject, useRef } from "react";
+import { Link } from "react-router-dom";
 import { EventCard } from "../../Components/EventCard";
 import { Header, Popular, Heading, PopularArrow, Green } from "../../Components/Menu";
 import { SaveButton } from "../../Components/SaveButton";
@@ -6,12 +7,12 @@ import { Ipost, addPostToFavorite, getAllPosts } from "../../API/post";
 import styles from "./Menu.module.sass";
 
 export const Menu = () => {
-  const categoriesRef = React.useRef<HTMLDivElement>(null);
-  const popularRef = React.useRef<HTMLDivElement>(null);
-  const aboutRef = React.useRef<HTMLDivElement>(null);
+  const categoriesRef = useRef<HTMLDivElement>(null);
+  const popularRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLHeadingElement>(null);
   const [posts, setPosts] = useState<Ipost[]>([]);
 
-  const handleClick = (event: React.SyntheticEvent, targetRef: React.RefObject<HTMLDivElement>) => {
+  const handleClick = (event: SyntheticEvent, targetRef: RefObject<HTMLDivElement>) => {
     event.preventDefault();
     const targetPosition = targetRef.current?.offsetTop;
 
@@ -49,9 +50,9 @@ export const Menu = () => {
   return (
     <div className={styles.Menu}>
       <Header link={handleClick} categoriesRef={categoriesRef} popularRef={popularRef} aboutRef={aboutRef} />
-      <section className={styles.menuContent}>
+      <section className={styles.menuContent} ref={categoriesRef}>
         <Heading text="Популярные категории" />
-        <div className={styles.popular} ref={categoriesRef}>
+        <div className={styles.popular}>
           <button className={styles.popularArrow}>
             <PopularArrow />
           </button>
@@ -62,14 +63,17 @@ export const Menu = () => {
             <PopularArrow />
           </button>
         </div>
+        <div ref={popularRef} />
         <Heading text="Популярное" />
-        <div className={styles.events} ref={popularRef}>
+        <div className={styles.events}>
           {posts.map((el, index) => (
             <EventCard onFavoriteClick={onFavoriteClick} key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} beginDate={el.beginDate} endDate={el.endDate} id={el.id}/>
           ))}
         </div>
-        <SaveButton text="Посмотреть все мероприятия" />
-        <h1 className={styles.EventShare}>
+        <Link to="/events" className={styles.linkToEvents}>
+          <SaveButton text="Посмотреть все мероприятия" width={258} height={38.8} />
+        </Link>
+        <h1 className={styles.EventShare} ref={aboutRef}>
           Event Share
         </h1>
         <div className={styles.descHeader}>
