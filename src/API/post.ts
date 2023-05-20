@@ -72,12 +72,30 @@ export const getUserPosts = (username: string) => {
   );
 };
 
+export const getUserFavoritePosts = (username: string) => {
+  return axios.get<Ipost[]>("user/post/favorite", {
+    params: { username }
+  });
+};
+
 export const getPostById = (id: number) => {
   return axios.get<Ipost>(`/post/${id}`);
 };
 
 export const getAllPosts = () => {
   return axios.get<Ipost[]>("/post/all");
+};
+
+export const addPostToFavorite = (postId: number) => {
+  const JWT = getJWT();
+  return axios.post("user/post/favorite", {
+    postId
+  },
+  {
+    headers: {
+      Authorization: JWT
+    }
+  });
 };
 
 export const getEventFormats = (): string[] => {

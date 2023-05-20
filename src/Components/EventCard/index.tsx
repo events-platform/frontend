@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./EventCard.module.sass";
 import { Link } from "react-router-dom";
 import { SaveButton } from "../Profile";
+import { SecondaryButton } from "../SecondaryButton";
+import { Star } from "../Post";
 
 interface EventCardProps {
   preview?: string;
@@ -9,34 +11,39 @@ interface EventCardProps {
   name?: string;
   type?: string;
   date?: string;
-  id?: number;
+  id: number;
+  onFavoriteClick: (id: number) => void
 }
 
-export const EventCard: React.FC<EventCardProps> = ({ preview, author, name, type, date, id }) => {
+export const EventCard: React.FC<EventCardProps> = ({ preview, author, name, type, date, id, onFavoriteClick }) => {
   return (
-    <Link to={`/events/${id}`} className={styles.EventCard}>
-      <div className={styles.wrapper}>
-        <div className={styles.preview} style={{ backgroundImage: `url(${preview})` }} />
-        <div className={styles.content}>
-          <p className={styles.author}>
-            {author}
-          </p>
-          <p className={styles.name}>
-            {name}
-          </p>
-          <p className={styles.type}>
-            {type}
-          </p>
-          <p className={styles.date}>
-            {date}
-          </p>
-        </div>
-        <div className={styles.buttons}>
-          <SaveButton text="Открыть" />
+    <>
+      <div className={styles.EventCard}>
+        <div className={styles.wrapper}>
+          <Link className={styles.Link} to={`/events/${id}`}>
+            <div className={styles.preview} style={{ backgroundImage: `url(${preview})` }} />
+            <div className={styles.content}>
+              <p className={styles.author}>
+                {author}
+              </p>
+              <p className={styles.name}>
+                {name}
+              </p>
+              <p className={styles.type}>
+                {type}
+              </p>
+              <p className={styles.date}>
+                {date}
+              </p>
+            </div>
+          </Link>
+          <div className={styles.buttons}>
+            <SaveButton text="По записи" />
+            <SecondaryButton text="Избранное" width={128} onClick={() => onFavoriteClick(id)} >{<Star fill="black" />}</SecondaryButton>
+          </div>
         </div>
       </div>
-    </Link>
-
+    </>
   );
 };
 
