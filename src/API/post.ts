@@ -86,6 +86,18 @@ export const getAllPosts = () => {
   return axios.get<Ipost[]>("/post/all");
 };
 
+export const addPostToFavorite = (postId: number) => {
+  const JWT = getJWT();
+  return axios.post("user/post/favorite", {
+    postId
+  },
+  {
+    headers: {
+      Authorization: JWT
+    }
+  });
+};
+
 export const getEventFormats = (): string[] => {
   return [
     "Акселератор",

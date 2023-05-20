@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { EventCard } from "../../Components/EventCard";
 import { Header, Popular, Gradient, Button, Heading } from "../../Components/Menu";
 import styles from "./Menu.module.sass";
-import { Ipost, getAllPosts } from "../../API/post";
+import { Ipost, addPostToFavorite, getAllPosts } from "../../API/post";
 
 export const Menu = () => {
   const categoriesRef = React.useRef<HTMLDivElement>(null);
@@ -42,7 +42,9 @@ export const Menu = () => {
       setPosts(res.data);
     });
   }, []);
-
+  const onFavoriteClick = (id: number) => {
+    addPostToFavorite(id).then();
+  };
   return (
     <div className={styles.Menu}>
       <Header link={handleClick} categoriesRef={categoriesRef} popularRef={popularRef} aboutRef={aboutRef} />
@@ -57,7 +59,7 @@ export const Menu = () => {
         <Heading text="Популярное" />
         <div className={styles.events} ref={popularRef}>
           {posts.map((el, index) => (
-            <EventCard key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
+            <EventCard onFavoriteClick={onFavoriteClick} key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
           ))}
         </div>
         <Button text="Посмотреть все мероприятия" link="/events" />

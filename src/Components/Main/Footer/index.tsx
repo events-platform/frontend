@@ -8,7 +8,7 @@ export const Footer = () => {
         <p>
           © 2023, EventMasters
         </p>
-        <Link to="/404">
+        <Link to="mailto:event.masters@yandex.ru">
           Оставить обратную связь
         </Link>
       </div>

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Arrow, Button, Optional, Star, Description } from "../../Components/Post";
 import { getPostById } from "../../API/post";
 import styles from "./Post.module.sass";
+import { LinkButton } from "../../Components/LinkButton";
 
 export const Post = () => {
   const navigate = useNavigate();
@@ -98,10 +99,14 @@ export const Post = () => {
               </div>
             </button>
             <div className={styles.hidden} ref={hiddenRef}>
-              <Description name={"Почта:"} text={`${data.email}`} />
+              <LinkButton to={`mailto:${data.email}`}>
+                <Description name={"Почта:"} text={`${data.email}`} />
+              </LinkButton>
               <Description name={"Кол-во мест:"} text={`${data.registrationLimit}`} />
               <Description name={"Место проведения:"} text={`${data.location}`} color={"rgba(90, 174, 129, 1)"} />
-              <Description name={"Сайт:"} text={`${data.externalLink}`} color={"rgba(90, 174, 129, 1)"} />
+              <LinkButton to={data.externalLink}>
+                <Description name={"Сайт:"} text={`${data.externalLink}`} />
+              </LinkButton>
             </div>
           </div>
           <h2 className={styles.about}>
