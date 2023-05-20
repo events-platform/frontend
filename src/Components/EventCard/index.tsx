@@ -1,57 +1,79 @@
-import React from "react";
-import styles from "./EventCard.module.sass";
+import { FC, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { SaveButton } from "../Profile";
-import { SecondaryButton } from "../SecondaryButton";
-import { Star } from "../Post";
+import { Star } from "./Star";
+import styles from "./EventCard.module.sass";
 
 interface EventCardProps {
-  preview?: string;
-  author?: string;
-  name?: string;
-  type?: string;
-  date?: string;
+  preview: string;
+  author: string;
+  name: string;
+  type: string;
+  beginDate: string;
+  endDate: string;
   id: number;
   onFavoriteClick: (id: number) => void
 }
 
-export const EventCard: React.FC<EventCardProps> = ({ preview, author, name, type, date, id, onFavoriteClick }) => {
+export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beginDate, endDate, id, onFavoriteClick }) => {
+  const [favorite, setFavorite] = useState(false);
+  const [lasted, setLasted] = useState(false);
+  const [date, setDate] = useState("");
+  const mouths = [
+    "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня",
+    "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"
+  ];
+
+  useEffect(() => {
+    const temp = new Date(Date.now());
+    const unformatedDate = temp.toISOString();
+    const dateNow = `${unformatedDate.substring(0, 10)} ${unformatedDate.substring(11, 19)}`;
+    setLasted(dateNow > endDate);
+    if (beginDate && endDate) {
+      if (beginDate.substring(0, 10) === endDate.substring(0, 10)) {
+        setDate(`${beginDate.substring(8, 10)} ${mouths[+beginDate.substring(5, 7) - 1]} ${beginDate.substring(11, 16)} - ${endDate.substring(11, 16)}`);
+      } else {
+        setDate(`${beginDate.substring(8, 10)} ${mouths[+beginDate.substring(5, 7) - 1]} ${beginDate.substring(11, 16)} - ${endDate.substring(8, 10)} ${mouths[+endDate.substring(5, 7) - 1]} ${endDate.substring(11, 16)}`);
+      }
+    } else {
+      beginDate ? setDate(`${beginDate.substring(8, 10)} ${mouths[+beginDate.substring(5, 7) - 1]} ${beginDate.substring(11, 16)}`) : setDate(`${endDate.substring(8, 10)} ${mouths[+endDate.substring(5, 7) - 1]} ${endDate.substring(11, 16)}`);
+    }
+  }, []);
+
   return (
     <>
       <div className={styles.EventCard}>
         <div className={styles.wrapper}>
+          <button className={styles.starBackground} onClick={() => {
+            setFavorite(!favorite);
+            onFavoriteClick(id);
+          }
+          }>
+            <Star />
+          </button>
+          {lasted
+            ? <div className={styles.lasted}>
+              Завершено
+            </div>
+            : null}
           <Link className={styles.Link} to={`/events/${id}`}>
             <div className={styles.preview} style={{ backgroundImage: `url(${preview})` }} />
             <div className={styles.content}>
-              <p className={styles.author}>
-                {author}
-              </p>
+              <div className={styles.avatarauthor}>
+                <img src={preview} alt="avatar" />
+                <p className={styles.author}>
+                  {author}
+                </p>
+              </div>
               <p className={styles.name}>
                 {name}
               </p>
               <p className={styles.type}>
-                {type}
-              </p>
-              <p className={styles.date}>
-                {date}
+                {type} | {date}
               </p>
             </div>
           </Link>
-          <div className={styles.buttons}>
-            <SaveButton text="По записи" />
-            <SecondaryButton text="Избранное" width={128} onClick={() => onFavoriteClick(id)} >{<Star fill="black" />}</SecondaryButton>
-          </div>
         </div>
       </div>
     </>
   );
-};
-
-EventCard.defaultProps = {
-  preview: "https://sun9-72.userapi.com/impg/cqipQoblziuR736VK5Yv-PsxdFihxgrEjwCZ6g/59-XuRVIzGs.jpg?size=2560x1707&quality=95&sign=28215f3c6c27a5b3e19023e024fd4476&type=album",
-  author: "Уральский федеральный университет",
-  name: "Пик IT: Мероприятие для программистов",
-  type: "Выставка",
-  date: "17 марта 13:00 - 21:00",
-  id: Math.floor(Math.random() * 1000)
 };
