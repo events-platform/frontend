@@ -17,7 +17,10 @@ export const NavBarButton: React.FC<navbarProps> = ({ active, text, count, onCli
         style={{ color, borderBottom: active ? "2px solid green" : "" }}
         onClick={onClick}
       >
-        {text} {count}
+        {text}&nbsp;
+        <div className={styles.count} style={{ background: active ? "#E7FFE6" : "" }}>
+          {count}
+        </div>
       </div>
     </>
   );
