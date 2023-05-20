@@ -18,19 +18,17 @@ export const Login = () => {
   const [, setCookie] = useCookies(["access_token", "refresh_token"]);
   const onLoginClicked = () => {
     login(emailState, passwordState)
-      .then((res) => {
-        if (res.status === 200) {
-          dispatch(setToken(res.data.accessToken));
-          dispatch(setSignIn(true));
-          setCookie("access_token", res.data.accessToken);
-          setCookie("refresh_token", res.data.refreshToken);
-          getUserSelf()
-            .then((res) => {
-              dispatch(setUserName(res.data.username));
-              dispatch(setAvatarUrl(res.data.avatar));
-            });
-          navigate("/");
-        }
+      .then((resp) => {
+        getUserSelf()
+          .then((res) => {
+            setCookie("access_token", resp.data.accessToken);
+            setCookie("refresh_token", resp.data.refreshToken);
+            dispatch(setToken(resp.data.accessToken));
+            dispatch(setSignIn(true));
+            dispatch(setUserName(res.data.username));
+            dispatch(setAvatarUrl(res.data.avatar));
+            navigate("/");
+          });
       })
       .catch((err) => {
         if ("response" in err) {
