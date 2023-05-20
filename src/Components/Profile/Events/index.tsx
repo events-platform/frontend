@@ -8,6 +8,7 @@ interface EventsInterface {
   selected: SelectedTab,
   profileOwnEvents: Ipost[],
   profileFavoriteEvents: Ipost[],
+  addPostToFavorite: (id: number) => void
 }
 
 const EventsEmpty = () => {
@@ -22,18 +23,20 @@ const EventsEmpty = () => {
   );
 };
 
-export const Events: React.FC<EventsInterface> = ({ selected, profileOwnEvents, profileFavoriteEvents }) => {
+export const Events: React.FC<EventsInterface> = ({ selected, profileOwnEvents, profileFavoriteEvents, addPostToFavorite }) => {
   return (
     <div className={styles.profileEvents}>
       <div className={styles.eventsContent}>
         {
           selected === SelectedTab.MyFavoriteEvents
-            ? profileFavoriteEvents.map((el, index) => (
-              <EventCard key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
-            ))
+            ? profileFavoriteEvents.length !== 0
+              ? profileFavoriteEvents.map((el, index) => (
+                <EventCard key={index} onFavoriteClick={addPostToFavorite} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
+              ))
+              : <EventsEmpty />
             : profileOwnEvents.length !== 0
               ? profileOwnEvents.map((el, index) => (
-                <EventCard key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
+                <EventCard key={index} onFavoriteClick={addPostToFavorite} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
               ))
               : <EventsEmpty />
         }
