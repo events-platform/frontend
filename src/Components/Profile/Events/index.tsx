@@ -28,19 +28,34 @@ const EventsEmpty = () => {
 };
 
 export const Events: FC<EventsInterface> = ({ selected, profileOwnEvents, profileFavoriteEvents, addPostToFavorite }) => {
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const [OwnEventsReminder, setOwnEventsReminder] = useState(0);
+  const [FavoritesEventsReminder, setFavoritesReminder] = useState(0);
 
+  const handleResize = () => {
+    const innerWidth = window.innerWidth;
+    if (innerWidth >= 1290 && profileFavoriteEvents.length % 3 !== 0) {
+      setFavoritesReminder(3 - profileFavoriteEvents.length % 3);
+    } else if (innerWidth >= 870) {
+      setFavoritesReminder(profileFavoriteEvents.length % 2);
+    } else {
+      setFavoritesReminder(0);
+    }
+    if (innerWidth >= 1290 && profileOwnEvents.length % 3 !== 0) {
+      setOwnEventsReminder(3 - profileOwnEvents.length % 3);
+    } else if (innerWidth >= 870) {
+      setOwnEventsReminder(profileOwnEvents.length % 2);
+    } else {
+      setOwnEventsReminder(0);
+    }
+  };
   useEffect(() => {
-    const handleResize = () => {
-      setViewportWidth(window.innerWidth);
-    };
-
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [OwnEventsReminder, FavoritesEventsReminder]);
 
   return (
     <div className={styles.profileEvents}>
@@ -61,9 +76,9 @@ export const Events: FC<EventsInterface> = ({ selected, profileOwnEvents, profil
                   id={el.id}
                 />
               ))}
-              {profileFavoriteEvents.length % 3 !== 0 && viewportWidth >= 1290 ? <div className="empty" /> : null }
-              {profileFavoriteEvents.length % 2 === 0 && viewportWidth >= 1290 ? <div className="empty" /> : null }
-              {profileFavoriteEvents.length % 2 !== 0 && viewportWidth <= 1290 ? <div className="empty" /> : null }
+              {Array.from({ length: FavoritesEventsReminder }, (_, index) => (
+                <div key={index} className="empty" />
+              ))}
               </>
               : <EventsEmpty />
             : profileOwnEvents.length !== 0
@@ -81,9 +96,9 @@ export const Events: FC<EventsInterface> = ({ selected, profileOwnEvents, profil
                     id={el.id}
                   />
                 ))}
-                {profileOwnEvents.length % 3 !== 0 && viewportWidth >= 1290 ? <div className="empty" /> : null }
-                {profileOwnEvents.length % 2 === 0 && viewportWidth >= 1290 ? <div className="empty" /> : null }
-                {profileOwnEvents.length % 2 !== 0 && viewportWidth <= 1290 ? <div className="empty" /> : null }
+                {Array.from({ length: OwnEventsReminder }, (_, index) => (
+                  <div key={index} className="empty" />
+                ))}
               </>
               : <EventsEmpty />
         }
