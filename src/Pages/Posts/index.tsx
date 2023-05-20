@@ -6,19 +6,29 @@ import { Filter } from "../../Components/Posts/Filter/Filter";
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Ipost[]>([]);
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const [reminder, setReminder] = useState(0);
+
+  const handleResize = () => {
+    const innerWidth = window.innerWidth;
+    if (innerWidth >= 1290 && posts.length % 3 !== 0) {
+      setReminder(3 - posts.length % 3);
+    } else if (innerWidth >= 870) {
+      setReminder(posts.length % 2);
+    } else {
+      setReminder(0);
+    }
+  };
 
   useEffect(() => {
-    getAllPosts().then((res) => {
-      setPosts(res.data);
-    });
+    getAllPosts()
+      .then((res) => {
+        setPosts(res.data);
+      })
+      .then(() => handleResize());
   }, []);
 
   useEffect(() => {
-    const handleResize = () => {
-      setViewportWidth(window.innerWidth);
-    };
-
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -51,9 +61,9 @@ export const Posts = () => {
               id={el.id}
             />
           ))}
-          {posts.length % 3 !== 0 && viewportWidth >= 1290 ? <div className="empty" /> : null }
-          {posts.length % 2 === 0 && viewportWidth >= 1290 ? <div className="empty" /> : null }
-          {posts.length % 2 !== 0 && viewportWidth <= 1290 ? <div className="empty" /> : null }
+          {Array.from({ length: reminder }, (_, index) => (
+            <div key={index} className="empty" />
+          ))}
         </div>
       </div>
     </div>
