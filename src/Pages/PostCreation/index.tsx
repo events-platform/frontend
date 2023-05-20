@@ -176,7 +176,7 @@ export const PostCreation = () => {
         <SaveButton onClick={onSaveButtonClick} />
       </div>
       <Modal isHidden={modalHidden} closeModal={closeModal}>
-        <ModalEditAvatar closeModal={closeModal} loadAvatar={loadImage} />
+        <ModalEditAvatar closeModal={closeModal} loadAvatar={loadImage} type="post" />
       </Modal>
     </>
   );

@@ -9,9 +9,16 @@
   border: 2px dashed black
   border-radius: 5px
   min-height: 300px
+  display: flex
+  flex-direction: column
+  align-items: center
+  height: 1px
   &:hover
     background-color: #e9e8e8
     cursor: pointer
+  canvas
+    transform-origin: top left
+    transform: scale(0.379)
 .UploadBoxDrop
   background-color: #e9e8e8
 .Header
@@ -31,10 +38,7 @@
   background: rgba(0, 0, 0, 0.85)
   transform: matrix(1, 0, 0, 1, 0, 0)
   object-fit: cover
-  width: 250px
-  height: 250px
-  border-radius: 50%
-  margin: 15px auto
+  margin: auto
 .Footer
   padding: 0 15px
 .UploadBoxText

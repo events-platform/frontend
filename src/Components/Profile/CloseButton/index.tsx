@@ -2,12 +2,17 @@ import React from "react";
 import styles from "./CloseButton.module.sass";
 
 interface CloseButtonInterface {
-  onClick: () => void
+  onClick: () => void,
+  text?: string
 }
-export const CloseButton: React.FC<CloseButtonInterface> = ({ onClick }) => {
+export const CloseButton: React.FC<CloseButtonInterface> = ({ onClick, text }) => {
   return (
     <>
-      <button className={styles.ModalCloseButton} onClick={onClick}>Закрыть</button>
+      <button className={styles.ModalCloseButton} onClick={onClick}>{text}</button>
     </>
   );
+};
+
+CloseButton.defaultProps = {
+  text: "Закрыть"
 };
