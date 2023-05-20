@@ -38,7 +38,7 @@ export const ProfileImage: React.FC<profileProps> = ({ username, avtarUrl, setAv
     <div className={styles.ImageContainer}>
       <img onClick={openModal} src={avtarUrl} className={styles.ProfileImg} />
       <Modal isHidden={isHidden} closeModal={closeModal}>
-        <ModalEditAvatar closeModal={closeModal} loadAvatar={LoadAvatar}/>
+        <ModalEditAvatar closeModal={closeModal} loadAvatar={LoadAvatar} type="avatar" />
       </Modal>
     </div>
   );
