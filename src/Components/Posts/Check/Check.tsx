@@ -1,0 +1,7 @@
+export const Check = () => {
+  return (
+    <svg width="12" height="8" viewBox="0 0 12 8" fill="white" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5.10533 7.60407L5.08771 7.62169L0.687866 3.22185L2.12054 1.78917L5.10539 4.77402L9.87941 0L11.3121 1.43268L5.12301 7.62175L5.10533 7.60407Z" fill="white"/>
+    </svg>
+  );
+};

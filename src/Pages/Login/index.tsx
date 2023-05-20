@@ -19,11 +19,11 @@ export const Login = () => {
   const onLoginClicked = () => {
     login(emailState, passwordState)
       .then((resp) => {
+        dispatch(setToken(resp.data.accessToken));
         getUserSelf()
           .then((res) => {
             setCookie("access_token", resp.data.accessToken);
             setCookie("refresh_token", resp.data.refreshToken);
-            dispatch(setToken(resp.data.accessToken));
             dispatch(setSignIn(true));
             dispatch(setUserName(res.data.username));
             dispatch(setAvatarUrl(res.data.avatar));
