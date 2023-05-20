@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { CloseButton } from "../../../Components/Profile/CloseButton";
 import { SaveButton } from "../../SaveButton";
 import styles from "./ModalEditProfile.module.sass";
 import { EditSVG } from "../SVGs";
+import { SecondaryButton } from "../../SecondaryButton";
 
 interface modalFieldInterface {
   titleText: string,
@@ -88,9 +88,9 @@ export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden
       <p className={styles.ModalBlockTitle}>Описание</p>
       <textarea readOnly={!inputMode} className={styles.ModalHug} value={profileAbout || ""} onChange={handleChange} name="" id="" cols={30} rows={10}></textarea>
       <div className={styles.underline}></div>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", gap: "15px" }}>
         {inputMode ? <SaveButton onClick={() => { sendProfileInfo(profileName, profileAbout, profileNumber, profileMail); }} /> : null }
-        <CloseButton onClick={closeModal} />
+        <SecondaryButton onClick={closeModal} width={102} height={32} text="Закрыть" />
       </div>
     </div>
   );

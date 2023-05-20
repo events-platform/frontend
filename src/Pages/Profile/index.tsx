@@ -3,14 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import {
   About,
-  AddSVG,
-  ToolButton,
   EditSVG,
   EventsNavbar,
   Events,
   ProfileImage,
   Modal,
-  ModalProfileEdit
+  ModalProfileEdit,
+  SaveButton,
+  AddSVG
 } from "../../Components/Profile";
 
 import styles from "./Profile.module.sass";
@@ -18,6 +18,7 @@ import { editUser, getUserData } from "../../API/profile";
 import { store, useAppDispatch } from "../../store/store";
 import { setUserName } from "../../store/reducers/userReducer";
 import { Ipost, addPostToFavorite, getUserFavoritePosts, getUserPosts } from "../../API/post";
+import { SecondaryButton } from "../../Components/SecondaryButton";
 
 export enum SelectedTab {
   // eslint-disable-next-line no-unused-vars
@@ -120,26 +121,8 @@ export const Profile = () => {
             </div>
             {isOwnProfile
               ? <div className={styles.ProfileTools}>
-                <ToolButton
-                  text={"Создать мероприятие"}
-                  onClick={() => {
-                    navigate("/events/create");
-                  }}
-                  bgColor={"#5AAE81"}
-                  color={"white"}
-                  border={"1px solid"}
-                >
-                  <AddSVG />
-                </ToolButton>
-                <ToolButton
-                  text={"Редактировать профиль"}
-                  onClick={openModalChangeMode}
-                  bgColor={"white"}
-                  color={"black"}
-                  border={"1px solid #D9D9D9"}
-                >
-                  <EditSVG />
-                </ToolButton>
+                <SaveButton onClick={() => navigate("/events/create")} text="Создать мероприятие" width={232} height={38} ><AddSVG /></SaveButton>
+                <SecondaryButton onClick={openModalChangeMode} text="Редактировать профиль" width={241} height={38} ><EditSVG /></SecondaryButton>
               </div>
               : null }
           </div>

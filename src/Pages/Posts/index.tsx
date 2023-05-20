@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { EventCard } from "../../Components/EventCard";
 import styles from "./Posts.module.sass";
 import { Ipost, addPostToFavorite, getAllPosts } from "../../API/post";
+import { Filter } from "../../Components/Posts/Filter/Filter";
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Ipost[]>([]);
@@ -16,12 +17,23 @@ export const Posts = () => {
   return (
     <div className={styles.Posts}>
       <div className={styles.postContent}>
+        <Filter />
         <h1>
-          Все мероприятия
+           Мероприятия
         </h1>
         <div className={styles.events}>
           {posts.map((el, index) => (
-            <EventCard onFavoriteClick={onFavoriteClick} key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
+            <EventCard
+              onFavoriteClick={onFavoriteClick}
+              key={index}
+              preview={el.image}
+              author={el.ownerName}
+              name={el.name}
+              type={el.type}
+              beginDate={el.beginDate}
+              endDate={el.endDate}
+              id={el.id}
+            />
           ))}
         </div>
       </div>

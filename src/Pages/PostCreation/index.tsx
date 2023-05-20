@@ -67,7 +67,7 @@ export const PostCreation = () => {
         <div className={styles.imageContainer}>
           { file
             ? <img src={URL.createObjectURL(file)} className={styles.image} onClick={openModal} />
-            : <img src={require("../../../src/Components/PostCreation/Assets/placeholderPost.jpg")} className={styles.image} alt="" onClick={openModal} />
+            : <img src={require("../../../src/Components/PostCreation/Assets/placeholderPost.png")} className={styles.image} alt="" onClick={openModal} />
           }
           <div>
             <button onClick={onCancelButtonClick} >

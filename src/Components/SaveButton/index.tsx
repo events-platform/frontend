@@ -4,18 +4,22 @@ import styles from "./SaveButton.module.sass";
 interface SaveButtonInterface {
   onClick?: () => void,
   text?: string,
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  width?: number,
+  height?: number
 }
 
-export const SaveButton: React.FC<SaveButtonInterface> = ({ onClick, text, children }) => {
+export const SaveButton: React.FC<SaveButtonInterface> = ({ onClick, text, children, width, height }) => {
   return (
     <>
-      <button className={styles.ModalSaveButton} onClick={onClick}>{children} {text}</button>
+      <button className={styles.ModalSaveButton} onClick={onClick} style={{ width, height }} >{children} <div className={styles.text}>{text}</div></button>
     </>
   );
 };
 
 SaveButton.defaultProps = {
   onClick: () => {},
-  text: "Сохранить"
+  text: "Сохранить",
+  width: 102,
+  height: 32
 };
