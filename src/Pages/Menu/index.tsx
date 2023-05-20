@@ -59,7 +59,7 @@ export const Menu = () => {
         <Heading text="Популярное" />
         <div className={styles.events} ref={popularRef}>
           {posts.map((el, index) => (
-            <EventCard onFavoriteClick={onFavoriteClick} key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} date={el.endDate} id={el.id}/>
+            <EventCard onFavoriteClick={onFavoriteClick} key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} beginDate={el.beginDate} endDate={el.endDate} id={el.id}/>
           ))}
         </div>
         <Button text="Посмотреть все мероприятия" link="/events" />
