@@ -106,7 +106,9 @@ export const Post = () => {
                 <Description name={"Почта:"} text={`${data.email}`} />
               </LinkButton>
               <Description name={"Кол-во мест:"} text={`${data.registrationLimit}`} />
-              <Description name={"Место проведения:"} text={`${data.location}`} color={"rgba(90, 174, 129, 1)"} />
+              <LinkButton to={`http://maps.google.com/?q=${data.location}`} >
+                <Description name={"Место проведения:"} text={`${data.location}`} color={"rgba(90, 174, 129, 1)"} />
+              </LinkButton>
               <LinkButton to={data.externalLink}>
                 <Description name={"Сайт:"} text={`${data.externalLink}`} />
               </LinkButton>
