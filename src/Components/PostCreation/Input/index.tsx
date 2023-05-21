@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Input.module.sass";
 import { SelectArrow } from "../SelectArrow";
 import { OutsideAlerter } from "../../OutsideAlerter/OutsideAlerter";
@@ -12,6 +12,8 @@ interface InputProps {
   setState: (val: string) => void;
   selectMode?: boolean;
   selectValues?: string[];
+  focus?: boolean;
+  border?: string ;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -22,11 +24,18 @@ export const Input: React.FC<InputProps> = ({
   state,
   setState,
   selectMode,
-  selectValues
+  selectValues,
+  focus,
+  border
 }) => {
+  const [focused, setfocused] = useState(focus);
   const onInputChange = (e: any) => {
+    if (e.target.value !== "") {
+      setfocused(false);
+    }
     setState(e.target.value);
   };
+  useEffect(() => setfocused(focus), [focus]);
   return (
     <div className={styles.Input}>
       <p>
@@ -40,9 +49,10 @@ export const Input: React.FC<InputProps> = ({
           state={state}
           setState={setState}
           selectValues={selectValues}
+          border={require && focused && state === "" ? "1px solid red" : border}
         />
-        : <div className={styles.inputContainer} style={{ width }}>
-          <input value={state} onChange={onInputChange} placeholder={placeholder} />
+        : <div className={styles.inputContainer} style={{ width, border: require && focused && state === "" ? "1px solid red" : border }}>
+          <input onBlur={() => setfocused(require ? state === "" : false)} value={state} onChange={onInputChange} placeholder={placeholder} />
         </div>
       }
     </div>
@@ -50,7 +60,9 @@ export const Input: React.FC<InputProps> = ({
 };
 Input.defaultProps = {
   selectMode: false,
-  selectValues: []
+  selectValues: [],
+  focus: false,
+  border: "1px solid #D9D9D9"
 };
 
 interface SelectProps {
@@ -60,7 +72,8 @@ interface SelectProps {
   state: string;
   setState: (val: string) => void;
   selectValues?: string[];
-  selectBackGroundColor?: string
+  selectBackGroundColor?: string;
+  border?: string
 }
 export const Select: React.FC<SelectProps> = ({
   placeholder,
@@ -69,14 +82,15 @@ export const Select: React.FC<SelectProps> = ({
   state,
   setState,
   selectValues,
-  selectBackGroundColor
+  selectBackGroundColor,
+  border
 }) => {
   const [showSelect, setShowSelect] = useState(false);
   const onShowClicked = () => {
     setShowSelect(!showSelect);
   };
   return (
-    <div className={styles.inputContainer} style={{ width, height }} onClick={() => setShowSelect(!showSelect)}>
+    <div className={styles.inputContainer} style={{ width, height, border }} onClick={() => setShowSelect(!showSelect)}>
       {showSelect
         ? (
           <OutsideAlerter onBlur={() => setShowSelect(false)}>
@@ -111,4 +125,8 @@ export const Select: React.FC<SelectProps> = ({
       </div>
     </div>
   );
+};
+
+Select.defaultProps = {
+  border: "1px solid #D9D9D9"
 };

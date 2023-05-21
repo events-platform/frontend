@@ -5,6 +5,15 @@ import styles from "./PostCreation.module.sass";
 import { Modal, ModalEditAvatar, SaveButton } from "../../Components/Profile";
 import { createPost, formatDate, getEventFormats } from "../../API/post";
 import { CalendarContainer } from "../../Components/PostCreation/Calendar";
+import { Description } from "../../Components/Auth/Description";
+
+// eslint-disable-next-line no-unused-vars
+enum PostErrors {
+  // eslint-disable-next-line no-unused-vars
+  file = "Загрузите изображение",
+  // eslint-disable-next-line no-unused-vars
+  fields = "Не заполненны все обязательные поля"
+}
 
 export const PostCreation = () => {
   const navigate = useNavigate();
@@ -21,6 +30,11 @@ export const PostCreation = () => {
   const [eventType, setEventType] = useState("");
   const [externalLink, setEventLink] = useState("");
   const eventsFormats = getEventFormats();
+  const [errorState, setErrorState] = useState("");
+  const [nameFocus, setnameFocus] = useState(false);
+  const [limitFocus, setlimitFocus] = useState(false);
+  const [formatFocus, setformatFocus] = useState(false);
+  const [typeFocus, settypeFocus] = useState(false);
   const closeModal = () => {
     setmodalHidden(true);
   };
@@ -37,7 +51,16 @@ export const PostCreation = () => {
     event.target.style.height = `${event.target.scrollHeight}px`;
   };
   const onSaveButtonClick = () => {
+    setnameFocus(true);
+    setformatFocus(true);
+    settypeFocus(true);
+    setlimitFocus(true);
     if (!file) {
+      setErrorState("Загрузите изображение");
+      return;
+    }
+    if (name === "" || eventFormat === "" || registrationLimit === "" || eventType === "") {
+      setErrorState(PostErrors.fields);
       return;
     }
     createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description, file })
@@ -47,6 +70,7 @@ export const PostCreation = () => {
       .catch((err) => {
         // eslint-disable-next-line no-console
         console.log(err.response.data);
+        setErrorState(err.response.data);
       });
   };
   const onCancelButtonClick = () => {
@@ -83,6 +107,7 @@ export const PostCreation = () => {
             require={true}
             state={name}
             setState={setName}
+            focus={nameFocus}
           />
           <Input
             width="377px"
@@ -93,6 +118,7 @@ export const PostCreation = () => {
             setState={setFormat}
             selectMode={true}
             selectValues={["Онлайн", "Оффлайн"]}
+            focus={formatFocus}
           />
           <Input
             width="377px"
@@ -121,6 +147,7 @@ export const PostCreation = () => {
             setState={setEventType}
             selectMode={true}
             selectValues={eventsFormats}
+            focus={typeFocus}
           />
           <Input
             width="377px"
@@ -164,6 +191,7 @@ export const PostCreation = () => {
             require={true}
             state={registrationLimit}
             setState={setRegistrationLimit}
+            focus={limitFocus}
           />
         </div>
         <h2>Описание</h2>
@@ -172,6 +200,9 @@ export const PostCreation = () => {
           value={description}
           onChange={handleChange}
         ></textarea>
+        <div>
+          <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
+        </div>
         <div className={styles.SaveButton}>
           <SaveButton width={178} height={50} onClick={onSaveButtonClick} />
         </div>
