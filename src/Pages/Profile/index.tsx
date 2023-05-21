@@ -126,8 +126,10 @@ export const Profile = () => {
             </div>
             {isOwnProfile
               ? <div className={styles.ProfileTools}>
-                <SaveButton onClick={() => navigate("/events/create")} text="Создать мероприятие" width={232} height={38}>
-                  <AddSVG />
+                <SaveButton onClick={() => navigate("/events/create")} text="Создать мероприятие" width={223} height={38}>
+                  <div className={styles.addsvg}>
+                    <AddSVG />
+                  </div>
                 </SaveButton>
                 <SecondaryButton onClick={openModalChangeMode} text="Редактировать профиль" width={241} height={38} >
                   <EditSVG />
@@ -135,23 +137,25 @@ export const Profile = () => {
               </div>
               : null }
           </div>
-          <EventsNavbar
-            profileEvents={profileEvents.length}
-            profileFavoriteEvents={profileFavoriteEvents.length}
-            profileActiveEvents={profileEvents.length}
-            selected={selectedTab}
-            setSelected={setselectedTab}
-          />
         </div>
       </div>
-      <Events
-        addPostToFavorite={onFavoriteClick}
-        selected={selectedTab}
-        profileOwnEvents={profileEvents}
-        profileFavoriteEvents={profileFavoriteEvents}
-        isProfileEventsLoaded={isProfileEventsLoaded}
-        isProfileFavoriteEventsLoaded={isProfileFavoriteEventsLoaded}
-      />
+      <div>
+        <EventsNavbar
+          profileEvents={profileEvents.length}
+          profileFavoriteEvents={profileFavoriteEvents.length}
+          profileActiveEvents={profileEvents.length}
+          selected={selectedTab}
+          setSelected={setselectedTab}
+        />
+        <Events
+          addPostToFavorite={onFavoriteClick}
+          selected={selectedTab}
+          profileOwnEvents={profileEvents}
+          profileFavoriteEvents={profileFavoriteEvents}
+          isProfileEventsLoaded={isProfileEventsLoaded}
+          isProfileFavoriteEventsLoaded={isProfileFavoriteEventsLoaded}
+        />
+      </div>
       <Modal isHidden={modalHidden} closeModal={() => setModalHidden(true)}>
         <ModalProfileEdit
           myOwnProfile={isOwnProfile}

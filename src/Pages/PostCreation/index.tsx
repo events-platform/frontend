@@ -172,7 +172,9 @@ export const PostCreation = () => {
           value={description}
           onChange={handleChange}
         ></textarea>
-        <SaveButton onClick={onSaveButtonClick} />
+        <div className={styles.SaveButton}>
+          <SaveButton width={178} height={50} onClick={onSaveButtonClick} />
+        </div>
       </div>
       <Modal isHidden={modalHidden} closeModal={closeModal}>
         <ModalEditAvatar closeModal={closeModal} loadAvatar={loadImage} type="post" />

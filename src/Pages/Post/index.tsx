@@ -83,7 +83,9 @@ export const Post = () => {
               </h1>
               <h2 className={styles.avatarauthor}>
                 <img src={data.image} alt="avatar" />
-                {data.ownerName}
+                <LinkButton to={`/profile/${data.ownerName}`}>
+                  {data.ownerName}
+                </LinkButton>
               </h2>
               <div className={styles.buttons}>
                 <SaveButton text="Буду участвовать" width={164} height={38}/>
