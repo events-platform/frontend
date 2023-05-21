@@ -62,7 +62,8 @@ export const Post = () => {
   return (
     <div className={styles.Post}>
       <div className={styles.postContent}>
-        <div className={styles.preview} style={{ backgroundImage: `url(${data.image})` }}>
+        <div className={styles.preview}>
+          <img className={styles.image} src={data.image} alt="preview" />
           <div className={styles.black}>
             <button className={styles.arrow} onClick={() => navigate(-1)}>
               <Arrow />

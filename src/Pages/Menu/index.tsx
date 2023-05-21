@@ -5,6 +5,7 @@ import { Header, Popular, Heading, PopularArrow, Green } from "../../Components/
 import { SaveButton } from "../../Components/SaveButton";
 import { Ipost, addPostToFavorite, getAllPosts } from "../../API/post";
 import styles from "./Menu.module.sass";
+import { HiddenEventCard } from "../../Components/HiddenEventCard";
 
 export const Menu = () => {
   const categoriesRef = useRef<HTMLDivElement>(null);
@@ -66,9 +67,13 @@ export const Menu = () => {
         <div ref={popularRef} />
         <Heading text="Популярное" />
         <div className={styles.events}>
-          {posts.map((el, index) => (
-            <EventCard onFavoriteClick={onFavoriteClick} key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} beginDate={el.beginDate} endDate={el.endDate} id={el.id}/>
-          ))}
+          {posts.length !== 0
+            ? posts.map((el, index) => (
+              <EventCard onFavoriteClick={onFavoriteClick} key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} beginDate={el.beginDate} endDate={el.endDate} id={el.id}/>
+            ))
+            : Array.from({ length: 6 }, (_, index) => (
+              <HiddenEventCard />
+            ))}
         </div>
         <Link to="/events" className={styles.linkToEvents}>
           <SaveButton text="Посмотреть все мероприятия" width={258} height={38.8} />

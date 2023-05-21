@@ -57,7 +57,7 @@ export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beg
             </div>
             : null}
           <Link className={styles.Link} to={`/events/${id}`}>
-            <div className={styles.preview} style={{ backgroundImage: `url(${preview})` }} />
+            <img className={styles.preview} src={preview} alt="preview" />
             <div className={styles.content}>
               <div className={styles.avatarauthor}>
                 <img src={preview} alt="avatar" />
