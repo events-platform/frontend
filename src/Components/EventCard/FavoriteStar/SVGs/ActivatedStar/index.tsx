@@ -1,9 +1,14 @@
-export const ActivatedStar = () => {
+import { FC } from "react";
+interface IActivatedStar {
+  width?: string,
+  height?: string
+}
+export const ActivatedStar: FC<IActivatedStar> = ({ width, height }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="28"
-      height="28"
+      width={width}
+      height={height}
       fill="none"
       viewBox="0 0 22 20"
     >
@@ -13,4 +18,9 @@ export const ActivatedStar = () => {
       ></path>
     </svg>
   );
+};
+
+ActivatedStar.defaultProps = {
+  width: "26",
+  height: "26"
 };

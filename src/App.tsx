@@ -4,6 +4,7 @@ import { Main, Auth } from "./Screens";
 import { Login, Register, Posts, Post, PostCreation, Menu, Profile } from "./Pages";
 import "./style/clear.sass";
 import "./style/fonts.sass";
+import "./style/other.sass";
 import { useCookies } from "react-cookie";
 import { getUserSelf } from "./API/login";
 import { useAppDispatch } from "./store/store";

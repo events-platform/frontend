@@ -12,7 +12,7 @@ interface SecondaryButtonInterface {
 export const SecondaryButton: React.FC<SecondaryButtonInterface> = ({ onClick, text, children, width, height }) => {
   return (
     <>
-      <button className={styles.SecondaryButton} onClick={onClick} style={{ minWidth: width, height }} >{children} <div className={styles.text}>{text}</div></button>
+      <button className={styles.SecondaryButton} onClick={onClick} style={{ minWidth: width, minHeight: height }} >{children} <div className={styles.text}>{text}</div></button>
     </>
   );
 };

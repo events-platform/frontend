@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./CheckBox.module.sass";
+import { Check } from "../Posts/Check/Check";
 interface ICheckbox {
   label?: string,
   checked: boolean,
@@ -15,6 +16,9 @@ export const Checkbox: React.FC<ICheckbox> = ({ label, checked, onChange }) => {
           onChange={() => onChange(!checked)}
           className={checked ? `${styles.checked}` : ""}
         />
+        <div className={styles.check}>
+          <Check />
+        </div>
         <span className={styles.label}>{label}</span>
       </label>
     </div>

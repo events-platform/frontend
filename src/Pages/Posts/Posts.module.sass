@@ -1,5 +1,5 @@
 .Posts
-  padding: 75px 40px
+  padding: 75px 15px
   .postContent
     max-width: 1440px
     margin: 0 auto
@@ -14,5 +14,15 @@
       margin-top: 25px
     .events
       display: flex
-      gap: 50px
       flex-wrap: wrap
+      justify-content: space-around
+    .mobileEvents
+      justify-content: center
+
+@media (max-width: 455px)
+  .Posts
+    padding: 75px 0
+    h1
+      padding-right: 15px
+      padding-left: 15px
+      

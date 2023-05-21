@@ -37,7 +37,7 @@ const ModalHeader: React.FC<ModalHeaderInterface> = ({ setInputMode, inputMode, 
     <div className={styles.ModalHeader}>
       {inputMode ? "Редактирование информации" : "Сведения о пользователе"}
       <div style={{ marginLeft: "auto" }} onClick={() => { setInputMode(!inputMode); }}>
-        { myOwnProfile ? <EditSVG /> : null }
+        { myOwnProfile ? (<EditSVG fill={inputMode ? "#D9D9D9" : "#5AAE81"} />) : null }
       </div>
     </div>
   );

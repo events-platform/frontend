@@ -95,7 +95,9 @@ export const Register = () => {
         <Input type={"password"} text={"Повторите пароль"} setState={setConfirmPassowrdState} color={confirmPasswordColor} onEnter={onCreateAccountClicked}>
           <Lock />
         </Input>
-        <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
+        <div className={styles.error}>
+          <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
+        </div>
         <div className={styles.field}>
           <Description text={"Пароль должен содержать не менее 8 знаков, включая буквы и цифры."} color={"rgba(0, 0, 0, 0.5)"} />
         </div>

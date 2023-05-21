@@ -35,10 +35,12 @@ export const Filter = () => {
             height="32px"
             state={timeFilter}
             setState={settimeFilter}
-            selectValues={["от новых к старым", "от старых к новым"]}
+            selectValues={["От новых к старым", "От старых к новым"]}
             selectBackGroundColor="white"
           />
-          <Checkbox label="Показывать прошедшие мероприятия" onChange={(val) => setcheckBox(val)} checked={checkBox} />
+          <div className={styles.CheckBox}>
+            <Checkbox label="Показывать прошедшие мероприятия" onChange={(val) => setcheckBox(val)} checked={checkBox} />
+          </div>
         </div>
       </div>
     </>

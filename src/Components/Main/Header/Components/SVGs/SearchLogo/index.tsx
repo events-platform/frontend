@@ -1,4 +1,10 @@
-export const SearchLogo = () => {
+import { FC } from "react";
+
+interface SearchLogoProps {
+  scale?: string
+}
+
+export const SearchLogo: FC<SearchLogoProps> = ({ scale }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,6 +12,7 @@ export const SearchLogo = () => {
       height="16"
       fill="none"
       viewBox="0 0 16 16"
+      className={scale}
     >
       <path
         fill="#fff"

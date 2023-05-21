@@ -6,10 +6,18 @@
     margin-top: 134px
     padding-bottom: 134px
   .popular
-    display: flex
-    margin-top: 25px
-    gap: 70px
     position: relative
+    .hidden
+      max-width: 1440px
+      overflow: hidden
+      height: 430px
+      .sliderContainer
+        margin-top: 25px
+        gap: 70px
+        display: flex
+        transition: transform 0.3s
+        a
+          transition: transform 0.3s
 
 .firstGradient
   p
@@ -44,10 +52,15 @@
   overflow-x: scroll
   transform: rotateX(180deg)
   margin-top: 15px
-  padding-bottom: 20px
 .events > div
   transform: rotateX(180deg)
   margin-top: 10px
+  margin-bottom: 25px
+.events > svg
+  transform: rotateX(180deg)
+  margin-top: 10px
+  margin-bottom: 25px
+  flex-shrink: 0
 .events::-webkit-scrollbar
   background-color: rgba(0, 0, 0, 0.1)
   height: 10px
@@ -121,3 +134,6 @@
   button
     margin-top: 30px
     margin-left: 20px
+
+.transitioning
+  transition: transform 0.3s ease-in-out

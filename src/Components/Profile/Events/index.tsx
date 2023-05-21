@@ -1,15 +1,18 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { EventCard } from "../../EventCard";
 import { SelectedTab } from "../../../Pages/Profile";
 import { Ipost } from "../../../API/post";
 import styles from "./Events.module.sass";
+import { HiddenEventCard } from "../../HiddenEventCard";
 
 interface EventsInterface {
   selected: SelectedTab,
   profileOwnEvents: Ipost[],
   profileFavoriteEvents: Ipost[],
-  addPostToFavorite: (id: number) => void
+  addPostToFavorite: (id: number) => void,
+  isProfileEventsLoaded: boolean,
+  isProfileFavoriteEventsLoaded: boolean
 }
 
 const EventsEmpty = () => {
@@ -27,42 +30,99 @@ const EventsEmpty = () => {
   );
 };
 
-export const Events: FC<EventsInterface> = ({ selected, profileOwnEvents, profileFavoriteEvents, addPostToFavorite }) => {
+export const Events: FC<EventsInterface> = ({
+  selected,
+  profileOwnEvents,
+  profileFavoriteEvents,
+  addPostToFavorite,
+  isProfileEventsLoaded,
+  isProfileFavoriteEventsLoaded
+}) => {
+  const [OwnEventsReminder, setOwnEventsReminder] = useState(0);
+  const [FavoritesEventsReminder, setFavoritesReminder] = useState(0);
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
+  const handleResize = () => {
+    if (viewportWidth >= 1290 && profileFavoriteEvents.length % 3 !== 0) {
+      setFavoritesReminder(3 - profileFavoriteEvents.length % 3);
+    } else if (viewportWidth >= 870) {
+      setFavoritesReminder(profileFavoriteEvents.length % 2);
+    } else {
+      setFavoritesReminder(0);
+    }
+    if (viewportWidth >= 1290 && profileOwnEvents.length % 3 !== 0) {
+      setOwnEventsReminder(3 - profileOwnEvents.length % 3);
+    } else if (viewportWidth >= 870) {
+      setOwnEventsReminder(profileOwnEvents.length % 2);
+    } else {
+      setOwnEventsReminder(0);
+    }
+  };
+
+  useEffect(() => {
+    handleResize();
+  }, [profileOwnEvents, profileFavoriteEvents, viewportWidth]);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => setViewportWidth(window.innerWidth));
+
+    return () => {
+      window.removeEventListener("resize", () => setViewportWidth(window.innerWidth));
+    };
+  }, []);
+
   return (
     <div className={styles.profileEvents}>
       <div className={styles.eventsContent}>
         {
           selected === SelectedTab.MyFavoriteEvents
-            ? profileFavoriteEvents.length !== 0
-              ? profileFavoriteEvents.map((el, index) => (
-                <EventCard
-                  key={index}
-                  onFavoriteClick={addPostToFavorite}
-                  preview={el.image}
-                  author={el.ownerName}
-                  name={el.name}
-                  type={el.type}
-                  beginDate={el.beginDate}
-                  endDate={el.endDate}
-                  id={el.id}
-                />
+            ? isProfileFavoriteEventsLoaded
+              ? profileFavoriteEvents.length !== 0
+                ? <>{profileFavoriteEvents.map((el, index) => (
+                  <EventCard
+                    key={index}
+                    onFavoriteClick={addPostToFavorite}
+                    preview={el.image}
+                    author={el.ownerName}
+                    name={el.name}
+                    type={el.type}
+                    beginDate={el.beginDate}
+                    endDate={el.endDate}
+                    id={el.id}
+                  />
+                ))}
+                {Array.from({ length: FavoritesEventsReminder }, (_, index) => (
+                  <div key={index} className="empty" />
+                ))}
+                </>
+                : <EventsEmpty />
+              : Array.from({ length: 15 }, (_, index) => (
+                <HiddenEventCard />
               ))
-              : <EventsEmpty />
-            : profileOwnEvents.length !== 0
-              ? profileOwnEvents.map((el, index) => (
-                <EventCard
-                  key={index}
-                  onFavoriteClick={addPostToFavorite}
-                  preview={el.image}
-                  author={el.ownerName}
-                  name={el.name}
-                  type={el.type}
-                  beginDate={el.beginDate}
-                  endDate={el.endDate}
-                  id={el.id}
-                />
+            : isProfileEventsLoaded
+              ? profileOwnEvents.length !== 0
+                ? <>
+                  {profileOwnEvents.map((el, index) => (
+                    <EventCard
+                      key={index}
+                      onFavoriteClick={addPostToFavorite}
+                      preview={el.image}
+                      author={el.ownerName}
+                      name={el.name}
+                      type={el.type}
+                      beginDate={el.beginDate}
+                      endDate={el.endDate}
+                      id={el.id}
+                    />
+                  ))}
+                  {Array.from({ length: OwnEventsReminder }, (_, index) => (
+                    <div key={index} className="empty" />
+                  ))}
+                </>
+                : <EventsEmpty />
+              : Array.from({ length: 15 }, (_, index) => (
+                <HiddenEventCard />
               ))
-              : <EventsEmpty />
         }
       </div>
     </div>
