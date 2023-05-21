@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { EventCard } from "../../EventCard";
@@ -30,32 +31,36 @@ const EventsEmpty = () => {
 export const Events: FC<EventsInterface> = ({ selected, profileOwnEvents, profileFavoriteEvents, addPostToFavorite }) => {
   const [OwnEventsReminder, setOwnEventsReminder] = useState(0);
   const [FavoritesEventsReminder, setFavoritesReminder] = useState(0);
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
 
   const handleResize = () => {
-    const innerWidth = window.innerWidth;
-    if (innerWidth >= 1290 && profileFavoriteEvents.length % 3 !== 0) {
+    if (viewportWidth >= 1290 && profileFavoriteEvents.length % 3 !== 0) {
       setFavoritesReminder(3 - profileFavoriteEvents.length % 3);
-    } else if (innerWidth >= 870) {
+    } else if (viewportWidth >= 870) {
       setFavoritesReminder(profileFavoriteEvents.length % 2);
     } else {
       setFavoritesReminder(0);
     }
-    if (innerWidth >= 1290 && profileOwnEvents.length % 3 !== 0) {
+    if (viewportWidth >= 1290 && profileOwnEvents.length % 3 !== 0) {
       setOwnEventsReminder(3 - profileOwnEvents.length % 3);
-    } else if (innerWidth >= 870) {
+    } else if (viewportWidth >= 870) {
       setOwnEventsReminder(profileOwnEvents.length % 2);
     } else {
       setOwnEventsReminder(0);
     }
   };
+
   useEffect(() => {
     handleResize();
-    window.addEventListener("resize", handleResize);
+  }, [profileOwnEvents, profileFavoriteEvents, viewportWidth]);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => setViewportWidth(window.innerWidth));
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", () => setViewportWidth(window.innerWidth));
     };
-  }, [OwnEventsReminder, FavoritesEventsReminder]);
+  }, []);
 
   return (
     <div className={styles.profileEvents}>

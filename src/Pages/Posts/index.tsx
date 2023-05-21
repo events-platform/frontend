@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from "react";
 import { EventCard } from "../../Components/EventCard";
 import styles from "./Posts.module.sass";
@@ -6,13 +7,13 @@ import { Filter } from "../../Components/Posts/Filter/Filter";
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Ipost[]>([]);
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const [reminder, setReminder] = useState(0);
 
   const handleResize = () => {
-    const innerWidth = window.innerWidth;
-    if (innerWidth >= 1290 && posts.length % 3 !== 0) {
+    if (viewportWidth >= 1290 && posts.length % 3 !== 0) {
       setReminder(3 - posts.length % 3);
-    } else if (innerWidth >= 870) {
+    } else if (viewportWidth >= 870) {
       setReminder(posts.length % 2);
     } else {
       setReminder(0);
@@ -23,16 +24,18 @@ export const Posts = () => {
     getAllPosts()
       .then((res) => {
         setPosts(res.data);
-      })
-      .then(() => handleResize());
+      });
   }, []);
 
   useEffect(() => {
     handleResize();
-    window.addEventListener("resize", handleResize);
+  }, [posts, viewportWidth]);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => setViewportWidth(window.innerWidth));
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", () => setViewportWidth(window.innerWidth));
     };
   }, []);
 
