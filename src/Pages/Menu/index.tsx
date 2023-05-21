@@ -8,10 +8,13 @@ import styles from "./Menu.module.sass";
 import { HiddenEventCard } from "../../Components/HiddenEventCard";
 
 export const Menu = () => {
+  const [posts, setPosts] = useState<Ipost[]>([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
   const categoriesRef = useRef<HTMLDivElement>(null);
   const popularRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLHeadingElement>(null);
-  const [posts, setPosts] = useState<Ipost[]>([]);
 
   const handleClick = (event: SyntheticEvent, targetRef: RefObject<HTMLDivElement>) => {
     event.preventDefault();
@@ -45,22 +48,78 @@ export const Menu = () => {
       setPosts(res.data);
     });
   }, []);
+
   const onFavoriteClick = (id: number) => {
     addPostToFavorite(id).then();
   };
+
+  const handlePrevButtonClick = () => {
+    if (!isTransitioning) {
+      setIsTransitioning(true);
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === 0 ? populars.length - 3 : prevIndex - 1
+      );
+    }
+  };
+
+  const handleNextButtonClick = () => {
+    if (!isTransitioning) {
+      setIsTransitioning(true);
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === populars.length - 3 ? 0 : prevIndex + 1
+      );
+    }
+  };
+
+  const handleImageTransitionEnd = () => {
+    setIsTransitioning(false);
+  };
+
+  const getTranslateXValue = () => {
+    const imageWidth = 400;
+    return `translateX(${-currentImageIndex * imageWidth}px)`;
+  };
+
+  const populars = [{
+    name: "Вечеринки",
+    url: "https://sun9-78.userapi.com/impg/jCSv0NFk-7kmgEoDqUQA5TK0GIyyC7qSWkDWlw/fYn23QYvBxg.jpg?size=420x480&quality=96&sign=fbf315e1ac4d5df7f7ed222d07d9fabb&type=album"
+  },
+  {
+    name: "Настольные игры",
+    url: "https://sun9-80.userapi.com/impg/v7frH9a6JEkhEDd6mDmndvDsbsD8_5SVPV8bNg/73I8cefbHHA.jpg?size=420x480&quality=96&sign=b0d60c7234af29fe872f385891dbc05b&type=album"
+  },
+  {
+    name: "Выставки",
+    url: "https://sun9-76.userapi.com/impg/l7BLKfu0n-0lwgUBb9WUnHJu4SM4YWnOqYb6kw/wEhUFqT8AyU.jpg?size=420x480&quality=96&sign=91af51c3e275cace1e204de8d9f592d1&type=album"
+  },
+  {
+    name: "Вечеринки",
+    url: "https://sun9-78.userapi.com/impg/jCSv0NFk-7kmgEoDqUQA5TK0GIyyC7qSWkDWlw/fYn23QYvBxg.jpg?size=420x480&quality=96&sign=fbf315e1ac4d5df7f7ed222d07d9fabb&type=album"
+  },
+  {
+    name: "Настольные игры",
+    url: "https://sun9-80.userapi.com/impg/v7frH9a6JEkhEDd6mDmndvDsbsD8_5SVPV8bNg/73I8cefbHHA.jpg?size=420x480&quality=96&sign=b0d60c7234af29fe872f385891dbc05b&type=album"
+  },
+  {
+    name: "Выставки",
+    url: "https://sun9-76.userapi.com/impg/l7BLKfu0n-0lwgUBb9WUnHJu4SM4YWnOqYb6kw/wEhUFqT8AyU.jpg?size=420x480&quality=96&sign=91af51c3e275cace1e204de8d9f592d1&type=album"
+  }];
+
   return (
     <div className={styles.Menu}>
       <Header link={handleClick} categoriesRef={categoriesRef} popularRef={popularRef} aboutRef={aboutRef} />
       <section className={styles.menuContent} ref={categoriesRef}>
         <Heading text="Популярные категории" />
         <div className={styles.popular}>
-          <button className={styles.popularArrow}>
+          <button className={styles.popularArrow} onClick={handlePrevButtonClick}>
             <PopularArrow />
           </button>
-          <Popular link={"/events"} name="Вечеринки" backgroundImage={"url(https://sun9-78.userapi.com/impg/jCSv0NFk-7kmgEoDqUQA5TK0GIyyC7qSWkDWlw/fYn23QYvBxg.jpg?size=420x480&quality=96&sign=fbf315e1ac4d5df7f7ed222d07d9fabb&type=album)"} />
-          <Popular link="/events" name="Настольные игры" backgroundImage={"url(https://sun9-80.userapi.com/impg/v7frH9a6JEkhEDd6mDmndvDsbsD8_5SVPV8bNg/73I8cefbHHA.jpg?size=420x480&quality=96&sign=b0d60c7234af29fe872f385891dbc05b&type=album)"} />
-          <Popular link="/events" name="Выставки" backgroundImage={"url(https://sun9-76.userapi.com/impg/l7BLKfu0n-0lwgUBb9WUnHJu4SM4YWnOqYb6kw/wEhUFqT8AyU.jpg?size=420x480&quality=96&sign=91af51c3e275cace1e204de8d9f592d1&type=album)"} />
-          <button className={`${styles.popularArrow} ${styles.rightArrow}`}>
+          <div className={styles.sliderContainer} style={{ transform: getTranslateXValue() }} onTransitionEnd={handleImageTransitionEnd}>
+            {populars.slice(currentImageIndex, currentImageIndex + 3).map((el, index) => (
+              <Popular link={"/events"} key={index} name={`${el.name}`} backgroundImage={`url(${el.url})`} />
+            ))}
+          </div>
+          <button className={`${styles.popularArrow} ${styles.rightArrow}`} onClick={handleNextButtonClick}>
             <PopularArrow />
           </button>
         </div>
