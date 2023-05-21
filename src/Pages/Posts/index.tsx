@@ -4,6 +4,7 @@ import { EventCard } from "../../Components/EventCard";
 import styles from "./Posts.module.sass";
 import { Ipost, addPostToFavorite, getAllPosts } from "../../API/post";
 import { Filter } from "../../Components/Posts/Filter/Filter";
+import { HiddenEventCard } from "../../Components/HiddenEventCard";
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Ipost[]>([]);
@@ -51,22 +52,28 @@ export const Posts = () => {
            Мероприятия
         </h1>
         <div className={styles.events}>
-          {posts.map((el, index) => (
-            <EventCard
-              onFavoriteClick={onFavoriteClick}
-              key={index}
-              preview={el.image}
-              author={el.ownerName}
-              name={el.name}
-              type={el.type}
-              beginDate={el.beginDate}
-              endDate={el.endDate}
-              id={el.id}
-            />
-          ))}
-          {Array.from({ length: reminder }, (_, index) => (
-            <div key={index} className="empty" />
-          ))}
+          {posts.length !== 0
+            ? <>
+              {posts.map((el, index) => (
+                <EventCard
+                  onFavoriteClick={onFavoriteClick}
+                  key={index}
+                  preview={el.image}
+                  author={el.ownerName}
+                  name={el.name}
+                  type={el.type}
+                  beginDate={el.beginDate}
+                  endDate={el.endDate}
+                  id={el.id}
+                />
+              ))}
+              {Array.from({ length: reminder }, (_, index) => (
+                <div key={index} className="empty" />
+              ))}
+            </>
+            : Array.from({ length: 15 }, (_, index) => (
+              <HiddenEventCard />
+            ))}
         </div>
       </div>
     </div>
