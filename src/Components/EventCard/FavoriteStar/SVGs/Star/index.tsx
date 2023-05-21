@@ -1,9 +1,14 @@
-export const Star = () => {
+import { FC } from "react";
+interface IStar {
+  width?: string,
+  height?: string
+}
+export const Star: FC<IStar> = ({ width, height }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="28"
-      height="26"
+      width={width}
+      height={height}
       fill="none"
       viewBox="0 0 28 26"
     >
@@ -14,4 +19,9 @@ export const Star = () => {
       ></path>
     </svg>
   );
+};
+
+Star.defaultProps = {
+  width: "28px",
+  height: "26px"
 };

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Input, Arrow, Cross } from "../../Components/PostCreation";
 import styles from "./PostCreation.module.sass";
 import { Modal, ModalEditAvatar, SaveButton } from "../../Components/Profile";
-import { createPost, getEventFormats } from "../../API/post";
+import { createPost, formatDate, getEventFormats } from "../../API/post";
 import { CalendarContainer } from "../../Components/PostCreation/Calendar";
 
 export const PostCreation = () => {
@@ -12,9 +12,8 @@ export const PostCreation = () => {
   const [name, setName] = useState("");
   const [eventFormat, setFormat] = useState("");
   const [registrationLimit, setRegistrationLimit] = useState("");
-  // eslint-disable-next-line no-unused-vars
-  const [beginDate, setBeginDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [beginDate, setBeginDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date());
   const [location, setLocation] = useState("");
   const [modalHidden, setmodalHidden] = useState<boolean>(true);
   const [file, setFile] = useState<File | null>();
@@ -140,10 +139,10 @@ export const PostCreation = () => {
                 placeholder="YYYY-MM-DD"
                 require={true}
                 width="168.5px"
-                state={beginDate}
+                state={formatDate(beginDate)}
                 setState={() => {}}
               />
-              {showBeginCalendar ? <CalendarContainer setBeginDate={(val) => { setshowBeginCalendar(false); setBeginDate(val); }} setShowCalendar={setshowBeginCalendar} /> : null}
+              {showBeginCalendar ? <CalendarContainer defaultValue={beginDate} setBeginDate={(val) => { setBeginDate(val); }} setShowCalendar={setshowBeginCalendar} /> : null}
             </div>
             <div onFocus={() => setshowEndCalendar(true)}>
               <Input
@@ -151,10 +150,10 @@ export const PostCreation = () => {
                 placeholder="YYYY-MM-DD"
                 require={true}
                 width="168.5px"
-                state={endDate}
+                state={formatDate(endDate)}
                 setState={() => {}}
               />
-              {showEndCalendar ? <CalendarContainer setBeginDate={(val) => { setshowEndCalendar(false); setEndDate(val); }} setShowCalendar={setshowEndCalendar} /> : null}
+              {showEndCalendar ? <CalendarContainer defaultValue={endDate} setBeginDate={(val) => { setEndDate(val); }} setShowCalendar={setshowEndCalendar} /> : null}
             </div>
 
           </div>

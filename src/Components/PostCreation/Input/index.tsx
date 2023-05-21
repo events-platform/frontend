@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Input.module.sass";
 import { SelectArrow } from "../SelectArrow";
+import { OutsideAlerter } from "../../OutsideAlerter/OutsideAlerter";
 
 interface InputProps {
   name?: string;
@@ -78,22 +79,24 @@ export const Select: React.FC<SelectProps> = ({
     <div className={styles.inputContainer} style={{ width, height }} onClick={() => setShowSelect(!showSelect)}>
       {showSelect
         ? (
-          <div className={styles.dropdownMenu} style={{ width }}>
-            {selectValues?.map((el, index) => {
-              return (
-                <div
-                  key={index}
-                  onClick={() => {
-                    setState(el);
-                    setShowSelect(false);
-                  }}
-                  className={styles.dropDownElement}
-                >
-                  {el}
-                </div>
-              );
-            })}
-          </div>
+          <OutsideAlerter onBlur={() => setShowSelect(false)}>
+            <div className={styles.dropdownMenu} style={{ width }}>
+              {selectValues?.map((el, index) => {
+                return (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      setState(el);
+                      setShowSelect(false);
+                    }}
+                    className={styles.dropDownElement}
+                  >
+                    {el}
+                  </div>
+                );
+              })}
+            </div>
+          </OutsideAlerter>
         )
         : null}
       <input readOnly value={state} placeholder={placeholder} />

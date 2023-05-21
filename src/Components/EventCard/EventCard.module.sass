@@ -11,21 +11,6 @@
   max-width: 420px
   flex-shrink: 0
   position: relative
-  .starBackground
-    position: absolute
-    top: 20px
-    right: 20px
-    background: rgba(0, 0, 0, 0.4)
-    border-radius: 500px
-    width: 36px
-    height: 36px
-    display: flex
-    justify-content: center
-    align-items: center
-    cursor: pointer
-    border: none
-    padding: 0
-    margin: 0
   .starBackground:focus
     outline: none
   .preview
@@ -59,16 +44,13 @@
       font-size: 20px
       line-height: 30px
       color: rgba(0, 0, 0, 0.85)
-    .type
+    
+    .date
       font-family: 'Roboto'
       font-size: 16px
       line-height: 30px
       color: rgba(0, 0, 0, 0.85)
-    .date
-      font-family: 'Roboto'
-      font-size: 20px
-      line-height: 30px
-      color: rgba(0, 0, 0, 0.85)
+      display: inline-block
   .buttons
     padding: 13px 30px  30px
     display: flex
@@ -114,3 +96,14 @@
   font-size: 12px
   line-height: 20px
   color: #000000
+
+.type
+  font-family: 'Roboto'
+  font-size: 16px
+  line-height: 30px
+  color: rgba(0, 0, 0, 0.85)
+
+.star
+  position: absolute
+  top: 20px
+  right: 20px

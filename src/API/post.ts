@@ -4,8 +4,8 @@ import { getJWT } from "./cookies";
 export interface postObject {
   name: string;
   location: string;
-  beginDate: string;
-  endDate: string;
+  beginDate: Date;
+  endDate: Date;
   format: string;
   type: string;
   registrationLimit: number;
@@ -34,13 +34,12 @@ export interface Ipost {
 export const createPost = (obj: postObject) => {
   const JWT = getJWT();
   const formData:any = new FormData();
-
-  const beginDate = new Date(obj.beginDate);
-  const endDate = new Date(obj.endDate);
+  // eslint-disable-next-line no-console
+  console.log(obj.beginDate.toISOString(), obj.endDate.toISOString());
   formData.append("name", obj.name);
   formData.append("location", obj.location);
-  formData.append("beginDate", parseDate(beginDate));
-  formData.append("endDate", parseDate(endDate));
+  formData.append("beginDate", parseDate(obj.beginDate));
+  formData.append("endDate", parseDate(obj.endDate));
   formData.append("format", obj.format === "Онлайн" ? "ONLINE" : "OFFLINE");
   formData.append("type", convertFormat(obj.type));
   formData.append("registrationLimit", obj.registrationLimit);
@@ -88,6 +87,8 @@ export const getAllPosts = () => {
 
 export const addPostToFavorite = (postId: number) => {
   const JWT = getJWT();
+  // eslint-disable-next-line no-console
+  console.log(postId);
   return axios.post("user/post/favorite", {
     postId
   },
@@ -153,6 +154,25 @@ export const reConvertFormat = (eventFormat: string): string => {
   const id = eventsFormatsEng.findIndex((el) => el === eventFormat);
   return getEventFormats()[id];
 };
+const convertTimeToFormat = (time: number): string => {
+  return ("00" + time).substring(time.toString().length);
+};
+
+const mouths = [
+  "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня",
+  "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"
+];
+export const convertDateToString = (beginDate: string, endDate: string) => {
+  if (beginDate && endDate) {
+    if (beginDate.substring(0, 10) === endDate.substring(0, 10)) {
+      return (`${+beginDate.substring(8, 10)} ${mouths[+beginDate.substring(5, 7) - 1]} ${beginDate.substring(11, 16)} - ${endDate.substring(11, 16)}`);
+    } else {
+      return (`${+beginDate.substring(8, 10)} ${mouths[+beginDate.substring(5, 7) - 1]} ${beginDate.substring(11, 16)} - ${+endDate.substring(8, 10)} ${mouths[+endDate.substring(5, 7) - 1]} ${endDate.substring(11, 16)}`);
+    }
+  } else {
+    return beginDate ? (`${beginDate.substring(8, 10)} ${mouths[+beginDate.substring(5, 7) - 1]} ${beginDate.substring(11, 16)}`) : (`${endDate.substring(8, 10)} ${mouths[+endDate.substring(5, 7) - 1]} ${endDate.substring(11, 16)}`);
+  }
+};
 
 export const formatDate = (date: Date): string => {
   const d = new Date(date);
@@ -162,5 +182,5 @@ export const formatDate = (date: Date): string => {
   if (month.length < 2) month = "0" + month;
   if (day.length < 2) day = "0" + day;
 
-  return [year, month, day].join("-");
+  return [year, month, day].join("-") + ` ${convertTimeToFormat(date.getHours())}:${convertTimeToFormat(date.getMinutes())}`;
 };
