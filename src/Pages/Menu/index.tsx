@@ -9,12 +9,12 @@ import { HiddenEventCard } from "../../Components/HiddenEventCard";
 
 export const Menu = () => {
   const [posts, setPosts] = useState<Ipost[]>([]);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [sliderPosition, setSliderPosition] = useState(0);
 
   const categoriesRef = useRef<HTMLDivElement>(null);
   const popularRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLHeadingElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (event: SyntheticEvent, targetRef: RefObject<HTMLDivElement>) => {
     event.preventDefault();
@@ -54,54 +54,53 @@ export const Menu = () => {
   };
 
   const handlePrevButtonClick = () => {
-    if (!isTransitioning) {
-      setIsTransitioning(true);
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === 0 ? populars.length - 3 : prevIndex - 1
-      );
+    if (sliderRef.current) {
+      if (sliderPosition !== 0) {
+        setSliderPosition(sliderPosition + 470);
+      } else {
+        setSliderPosition((-populars.length + 3) * 470);
+      }
     }
   };
 
   const handleNextButtonClick = () => {
-    if (!isTransitioning) {
-      setIsTransitioning(true);
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === populars.length - 3 ? 0 : prevIndex + 1
-      );
+    if (sliderRef.current) {
+      if (-sliderRef.current.offsetWidth < sliderPosition) {
+        setSliderPosition(sliderPosition - 470);
+      } else {
+        setSliderPosition(0);
+      }
     }
   };
 
-  const handleImageTransitionEnd = () => {
-    setIsTransitioning(false);
-  };
-
-  const getTranslateXValue = () => {
-    const imageWidth = 400;
-    return `translateX(${-currentImageIndex * imageWidth}px)`;
-  };
-
   const populars = [{
+    id: 0,
     name: "Вечеринки",
     url: "https://sun9-78.userapi.com/impg/jCSv0NFk-7kmgEoDqUQA5TK0GIyyC7qSWkDWlw/fYn23QYvBxg.jpg?size=420x480&quality=96&sign=fbf315e1ac4d5df7f7ed222d07d9fabb&type=album"
   },
   {
+    id: 1,
     name: "Настольные игры",
     url: "https://sun9-80.userapi.com/impg/v7frH9a6JEkhEDd6mDmndvDsbsD8_5SVPV8bNg/73I8cefbHHA.jpg?size=420x480&quality=96&sign=b0d60c7234af29fe872f385891dbc05b&type=album"
   },
   {
+    id: 2,
     name: "Выставки",
     url: "https://sun9-76.userapi.com/impg/l7BLKfu0n-0lwgUBb9WUnHJu4SM4YWnOqYb6kw/wEhUFqT8AyU.jpg?size=420x480&quality=96&sign=91af51c3e275cace1e204de8d9f592d1&type=album"
   },
   {
-    name: "Вечеринки",
+    id: 3,
+    name: "Вечеринки 2",
     url: "https://sun9-78.userapi.com/impg/jCSv0NFk-7kmgEoDqUQA5TK0GIyyC7qSWkDWlw/fYn23QYvBxg.jpg?size=420x480&quality=96&sign=fbf315e1ac4d5df7f7ed222d07d9fabb&type=album"
   },
   {
-    name: "Настольные игры",
+    id: 4,
+    name: "Настольные игры 2",
     url: "https://sun9-80.userapi.com/impg/v7frH9a6JEkhEDd6mDmndvDsbsD8_5SVPV8bNg/73I8cefbHHA.jpg?size=420x480&quality=96&sign=b0d60c7234af29fe872f385891dbc05b&type=album"
   },
   {
-    name: "Выставки",
+    id: 5,
+    name: "Выставки 2",
     url: "https://sun9-76.userapi.com/impg/l7BLKfu0n-0lwgUBb9WUnHJu4SM4YWnOqYb6kw/wEhUFqT8AyU.jpg?size=420x480&quality=96&sign=91af51c3e275cace1e204de8d9f592d1&type=album"
   }];
 
@@ -114,10 +113,12 @@ export const Menu = () => {
           <button className={styles.popularArrow} onClick={handlePrevButtonClick}>
             <PopularArrow />
           </button>
-          <div className={styles.sliderContainer} style={{ transform: getTranslateXValue() }} onTransitionEnd={handleImageTransitionEnd}>
-            {populars.slice(currentImageIndex, currentImageIndex + 3).map((el, index) => (
-              <Popular link={"/events"} key={index} name={`${el.name}`} backgroundImage={`url(${el.url})`} />
-            ))}
+          <div className={styles.hidden}>
+            <div className={styles.sliderContainer} style={{ transform: `translateX(${sliderPosition}px)` }} ref={sliderRef}>
+              {populars.map((el) => (
+                <Popular link={"/events"} key={el.id} name={`${el.name}`} backgroundImage={`url(${el.url})`} />
+              ))}
+            </div>
           </div>
           <button className={`${styles.popularArrow} ${styles.rightArrow}`} onClick={handleNextButtonClick}>
             <PopularArrow />
