@@ -1,4 +1,4 @@
-import { SearchLogo } from "../SVGs";
+import { SearchLogo } from "../SVGs/";
 import styles from "./SearchInput.module.sass";
 
 export const SearchInput = () => {
