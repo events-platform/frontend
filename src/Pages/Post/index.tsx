@@ -111,7 +111,7 @@ export const Post = () => {
               <LinkButton to={`http://maps.google.com/?q=${data.location}`} >
                 <Description name={"Место проведения:"} text={`${data.location}`} color={"rgba(90, 174, 129, 1)"} />
               </LinkButton>
-              <LinkButton to={data.externalLink}>
+              <LinkButton to={`${data.externalLink}`}>
                 <Description name={"Сайт:"} text={`${data.externalLink}`} />
               </LinkButton>
             </div>
