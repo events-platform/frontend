@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Arrow, Optional, Description } from "../../Components/Post";
-import { addPostToFavorite, convertDateToString, getPostById, reConvertFormat } from "../../API/post";
+import { addPostToFavorite, convertDateToString, getPostById } from "../../API/post";
 import styles from "./Post.module.sass";
 import { LinkButton } from "../../Components/LinkButton";
 import { SaveButton } from "../../Components/SaveButton";
@@ -25,7 +25,8 @@ export const Post = () => {
     name: "",
     ownerName: "",
     registrationLimit: 0,
-    type: ""
+    type: "",
+    ownerAvatar: ""
   });
   const [optionalColor, setOptionalColor] = useState("#5AAE81");
   const [isOptionalHide, setOptionalHide] = useState(true);
@@ -76,13 +77,13 @@ export const Post = () => {
             </div>
             <div className={styles.description}>
               <h2 className={styles.typedate}>
-                {reConvertFormat(data.type)} | {convertDateToString(data.beginDate, data.endDate)}
+                {data.type} | {convertDateToString(data.beginDate, data.endDate)}
               </h2>
               <h1 className={styles.name}>
                 {data.name}
               </h1>
               <h2 className={styles.avatarauthor}>
-                <img src={data.image} alt="avatar" />
+                <img src={data.ownerAvatar} alt="avatar" />
                 <LinkButton to={`/profile/${data.ownerName}`}>
                   {data.ownerName}
                 </LinkButton>

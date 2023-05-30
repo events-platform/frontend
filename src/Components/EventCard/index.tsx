@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./EventCard.module.sass";
-import { convertDateToString, reConvertFormat } from "../../API/post";
+import { convertDateToString } from "../../API/post";
 import { FavoriteStar } from "./FavoriteStar";
 
 interface EventCardProps {
@@ -46,7 +46,7 @@ export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beg
                 {name}
               </p>
               <p className={styles.type}>
-                {reConvertFormat(type)} | <div className={styles.date}>{convertDateToString(beginDate, endDate)}</div>
+                {type} | <div className={styles.date}>{convertDateToString(beginDate, endDate)}</div>
               </p>
             </div>
           </Link>

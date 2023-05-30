@@ -82,8 +82,6 @@ export const getAllPosts = () => {
 
 export const addPostToFavorite = (postId: number) => {
   const JWT = getJWT();
-  // eslint-disable-next-line no-console
-  console.log(postId);
   return axios.post("user/post/favorite", {
     postId
   },
