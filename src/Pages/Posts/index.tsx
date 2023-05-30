@@ -65,6 +65,7 @@ export const Posts = () => {
                   beginDate={el.beginDate}
                   endDate={el.endDate}
                   id={el.id}
+                  ownerAvatar={el.ownerAvatar}
                 />
               ))}
               {Array.from({ length: reminder }, (_, index) => (

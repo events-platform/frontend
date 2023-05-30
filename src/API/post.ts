@@ -4,15 +4,14 @@ import { getJWT } from "./cookies";
 export interface postObject {
   name: string;
   location: string;
-  beginDate: Date;
-  endDate: Date;
+  beginDate: Date | string;
+  endDate: Date | string;
   format: string;
   type: string;
   registrationLimit: number;
   email: string;
   externalLink: string;
   description: string;
-  file: File
 }
 
 export interface Ipost {
@@ -29,25 +28,21 @@ export interface Ipost {
   externalLink: string;
   image: string;
   ownerName: string;
+  ownerAvatar: string;
 }
 
-export const createPost = (obj: postObject) => {
+export const createPost = (obj: postObject, file: File) => {
   const JWT = getJWT();
   const formData:any = new FormData();
-  // eslint-disable-next-line no-console
-  console.log(obj.beginDate.toISOString(), obj.endDate.toISOString());
-  formData.append("name", obj.name);
-  formData.append("location", obj.location);
-  formData.append("beginDate", parseDate(obj.beginDate));
-  formData.append("endDate", parseDate(obj.endDate));
-  formData.append("format", obj.format === "Онлайн" ? "ONLINE" : "OFFLINE");
-  formData.append("type", convertFormat(obj.type));
-  formData.append("registrationLimit", obj.registrationLimit);
-  formData.append("email", obj.email);
-  formData.append("externalLink", obj.externalLink);
-  formData.append("description", obj.description);
-  formData.append("file", obj.file, obj.file?.name);
 
+  obj.beginDate = parseDate(obj.beginDate as Date);
+  obj.endDate = parseDate(obj.endDate as Date);
+
+  obj.format = obj.format.toUpperCase();
+  obj.type = obj.type.toUpperCase();
+
+  formData.append("file", file, file?.name);
+  formData.append("data", new Blob([JSON.stringify(obj)], { type: "application/json" }));
   return axios.post<string>(
     "/post",
     formData,

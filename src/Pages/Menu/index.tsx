@@ -106,21 +106,41 @@ export const Menu = () => {
 
   return (
     <div className={styles.Menu}>
-      <Header link={handleClick} categoriesRef={categoriesRef} popularRef={popularRef} aboutRef={aboutRef} />
+      <Header
+        link={handleClick}
+        categoriesRef={categoriesRef}
+        popularRef={popularRef}
+        aboutRef={aboutRef}
+      />
       <section className={styles.menuContent} ref={categoriesRef}>
         <Heading text="Популярные категории" />
         <div className={styles.popular}>
-          <button className={styles.popularArrow} onClick={handlePrevButtonClick}>
+          <button
+            className={styles.popularArrow}
+            onClick={handlePrevButtonClick}
+          >
             <PopularArrow />
           </button>
           <div className={styles.hidden}>
-            <div className={styles.sliderContainer} style={{ transform: `translateX(${sliderPosition}px)` }} ref={sliderRef}>
+            <div
+              className={styles.sliderContainer}
+              style={{ transform: `translateX(${sliderPosition}px)` }}
+              ref={sliderRef}
+            >
               {populars.map((el) => (
-                <Popular link={"/events"} key={el.id} name={`${el.name}`} backgroundImage={`url(${el.url})`} />
+                <Popular
+                  link={"/events"}
+                  key={el.id}
+                  name={`${el.name}`}
+                  backgroundImage={`url(${el.url})`}
+                />
               ))}
             </div>
           </div>
-          <button className={`${styles.popularArrow} ${styles.rightArrow}`} onClick={handleNextButtonClick}>
+          <button
+            className={`${styles.popularArrow} ${styles.rightArrow}`}
+            onClick={handleNextButtonClick}
+          >
             <PopularArrow />
           </button>
         </div>
@@ -129,40 +149,57 @@ export const Menu = () => {
         <div className={styles.events}>
           {posts.length !== 0
             ? posts.map((el, index) => (
-              <EventCard onFavoriteClick={onFavoriteClick} key={index} preview={el.image} author={el.ownerName} name={el.name} type={el.type} beginDate={el.beginDate} endDate={el.endDate} id={el.id}/>
+              <EventCard
+                onFavoriteClick={onFavoriteClick}
+                key={index}
+                preview={el.image}
+                author={el.ownerName}
+                name={el.name}
+                type={el.type}
+                beginDate={el.beginDate}
+                endDate={el.endDate}
+                id={el.id}
+                ownerAvatar={el.ownerAvatar}
+              />
             ))
-            : Array.from({ length: 6 }, (_, index) => (
-              <HiddenEventCard />
-            ))}
+            : Array.from({ length: 6 }, (_, index) => <HiddenEventCard />)}
         </div>
         <Link to="/events" className={styles.linkToEvents}>
-          <SaveButton text="Посмотреть все мероприятия" width={258} height={38.8} />
+          <SaveButton
+            text="Посмотреть все мероприятия"
+            width={258}
+            height={38.8}
+          />
         </Link>
         <h1 className={styles.EventShare} ref={aboutRef}>
           Event Share
         </h1>
         <div className={styles.descHeader}>
           <hr />
-          <h2>
-            организация мероприятий
-          </h2>
+          <h2>организация мероприятий</h2>
           <hr />
         </div>
         <div className={styles.greens}>
           <Green
             id={1}
             heading={"Удобная организация"}
-            text={"С помощью Event Share пользователи могут быстро и просто создавать события, определять даты, место проведения и делиться информацией в соц. сетях"}
+            text={
+              "С помощью Event Share пользователи могут быстро и просто создавать события, определять даты, место проведения и делиться информацией в соц. сетях"
+            }
           />
           <Green
             id={2}
             heading={"Гибкая фильтрация"}
-            text={"Для пользователей доступен удобный поиск по дате, месту, типу и различным меткам, которые позволят найти любое мероприятие под ваши интересы"}
+            text={
+              "Для пользователей доступен удобный поиск по дате, месту, типу и различным меткам, которые позволят найти любое мероприятие под ваши интересы"
+            }
           />
           <Green
             id={3}
             heading={"Создание своих мероприятий"}
-            text={"Наш сервис идеально подходит для всех для тех, кто хочет организовать свое  мероприятие - от конференций и выставок до спортивных и культурных событий."}
+            text={
+              "Наш сервис идеально подходит для всех для тех, кто хочет организовать свое  мероприятие - от конференций и выставок до спортивных и культурных событий."
+            }
           />
         </div>
       </section>

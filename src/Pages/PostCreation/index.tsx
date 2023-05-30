@@ -63,14 +63,13 @@ export const PostCreation = () => {
       setErrorState(PostErrors.fields);
       return;
     }
-    createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description, file })
+    createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description }, file)
       .then((res) => {
         navigate(-1);
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
         console.log(err.response.data);
-        setErrorState(err.response.data);
       });
   };
   const onCancelButtonClick = () => {
@@ -117,7 +116,7 @@ export const PostCreation = () => {
             state={eventFormat}
             setState={setFormat}
             selectMode={true}
-            selectValues={["Онлайн", "Оффлайн"]}
+            selectValues={["Онлайн", "Офлайн", "Смешанное"]}
             focus={formatFocus}
           />
           <Input
