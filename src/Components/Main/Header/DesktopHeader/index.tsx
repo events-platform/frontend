@@ -31,7 +31,12 @@ export const DesktopHeader: FC<DesktopHeaderProps> = ({ name, city, isSignedIn, 
     // eslint-disable-next-line no-console
     console.log(location.search);
     if (location.pathname.replaceAll("/", "") !== paths.events.replaceAll("/", "")) {
-      navigate(paths.events, { state: { search: value } });
+      navigate({
+        pathname: paths.events,
+        search: createSearchParams({
+          search: value
+        }).toString()
+      });
     } else {
       // eslint-disable-next-line no-console
       console.log("params");
