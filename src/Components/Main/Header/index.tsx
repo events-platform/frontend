@@ -1,6 +1,8 @@
-import { FC, useState, useEffect } from "react";
+import { FC } from "react";
 import { DesktopHeader } from "./DesktopHeader";
 import { MobileHeader } from "./MobileHeader";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 interface HeaderProps {
   name?: string,
@@ -10,19 +12,7 @@ interface HeaderProps {
 }
 
 export const Header: FC<HeaderProps> = ({ name, city, isSignedIn, avatarUrl }) => {
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setViewportWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
 
   return viewportWidth >= 700 ? <DesktopHeader name={name} city={city} isSignedIn={isSignedIn} avatarUrl={avatarUrl} /> : <MobileHeader />;
 };
