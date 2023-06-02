@@ -162,7 +162,7 @@ export const Menu = () => {
                 ownerAvatar={el.ownerAvatar}
               />
             ))
-            : Array.from({ length: 6 }, (_, index) => <HiddenEventCard />)}
+            : Array.from({ length: 6 }, (_, index) => <HiddenEventCard key={index} />)}
         </div>
         <Link to="/events" className={styles.linkToEvents}>
           <SaveButton

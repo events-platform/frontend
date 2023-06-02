@@ -17,7 +17,7 @@ import styles from "./Profile.module.sass";
 import { editUser, getUserData } from "../../API/profile";
 import { store, useAppDispatch } from "../../store/store";
 import { setUserName } from "../../store/reducers/userReducer";
-import { Ipost, addPostToFavorite, getUserFavoritePosts, getUserPosts } from "../../API/post";
+import { Ipost, addPostToFavorite, getUserFavoritePosts, getUserPosts, getUserSubscribePosts } from "../../API/post";
 import { SecondaryButton } from "../../Components/SecondaryButton";
 
 export enum SelectedTab {
@@ -48,6 +48,7 @@ export const Profile = () => {
   const [profileEvents, setprofileEvents] = useState<Ipost[]>([]);
   const [isProfileEventsLoaded, setProfileEventsLoaded] = useState(false);
   const [profileFavoriteEvents, setProfileFavoriteEvents] = useState<Ipost[]>([]);
+  const [profileSubscribeEvents, setprofileSubscribeEvents] = useState<Ipost[]>([]);
   const [isProfileFavoriteEventsLoaded, setProfileFavoriteEventsLoaded] = useState(false);
 
   const openModal = () => {
@@ -100,6 +101,10 @@ export const Profile = () => {
         setProfileFavoriteEvents(res.data);
       })
       .then(() => setProfileFavoriteEventsLoaded(true));
+    getUserSubscribePosts(username)
+      .then((res) => {
+        setprofileSubscribeEvents(res.data);
+      });
   }, []);
   const onFavoriteClick = (id: number) => {
     addPostToFavorite(id).then((res) =>
@@ -145,7 +150,7 @@ export const Profile = () => {
         <EventsNavbar
           profileEvents={profileEvents.length}
           profileFavoriteEvents={profileFavoriteEvents.length}
-          profileActiveEvents={profileEvents.length}
+          profileActiveEvents={profileSubscribeEvents.length}
           selected={selectedTab}
           setSelected={setselectedTab}
         />
@@ -154,6 +159,7 @@ export const Profile = () => {
           selected={selectedTab}
           profileOwnEvents={profileEvents}
           profileFavoriteEvents={profileFavoriteEvents}
+          profileSubscribeEvents={profileSubscribeEvents}
           isProfileEventsLoaded={isProfileEventsLoaded}
           isProfileFavoriteEventsLoaded={isProfileFavoriteEventsLoaded}
         />

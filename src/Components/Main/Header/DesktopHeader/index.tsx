@@ -1,11 +1,13 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { SearchInput } from "../Components/SearchInput";
 import { Logo, LogoutSVG, MapPoint } from "../Components/SVGs";
 import styles from "./DesktopHeader.module.sass";
-import { Link } from "react-router-dom";
+import { Link, createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useAppDispatch } from "../../../../store/store";
 import { logoutUser } from "../../../../store/reducers/userReducer";
+import { logout } from "../../../../API/cookies";
+import { paths } from "../../../../API/paths";
 
 interface DesktopHeaderProps {
   name?: string,
@@ -18,10 +20,34 @@ export const DesktopHeader: FC<DesktopHeaderProps> = ({ name, city, isSignedIn, 
   const profileUrl = "/profile/" + name;
   const [, setCookie] = useCookies(["access_token", "refresh_token"]);
   const dispatch = useAppDispatch();
+  const [search, setsearch] = useState<string>("");
+  const location = useLocation();
+  const navigate = useNavigate();
   const logOutClicked = () => {
-    setCookie("access_token", undefined);
-    setCookie("refresh_token", undefined);
+    logout(setCookie);
     dispatch(logoutUser());
+  };
+  const onInputChange = (value: string) => {
+    // eslint-disable-next-line no-console
+    console.log(location.search);
+    if (location.pathname.replaceAll("/", "") !== paths.events.replaceAll("/", "")) {
+      navigate({
+        pathname: paths.events,
+        search: createSearchParams({
+          search: value
+        }).toString()
+      });
+    } else {
+      // eslint-disable-next-line no-console
+      console.log("params");
+      navigate({
+        pathname: "/events",
+        search: createSearchParams({
+          search: value
+        }).toString()
+      });
+    }
+    setsearch(value);
   };
   return (
     <header className={styles.Header}>
@@ -30,7 +56,7 @@ export const DesktopHeader: FC<DesktopHeaderProps> = ({ name, city, isSignedIn, 
           <Link to={"/"}>
             <Logo />
           </Link>
-          <SearchInput />
+          <SearchInput state={search} setState={onInputChange}/>
         </div>
         {isSignedIn
           ? <div className={styles.rigthSide}>

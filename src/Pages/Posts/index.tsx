@@ -67,7 +67,7 @@ export const Posts = () => {
               ))}
             </>
             : Array.from({ length: 15 }, (_, index) => (
-              <HiddenEventCard />
+              <HiddenEventCard key={index} />
             ))}
         </div>
       </div>

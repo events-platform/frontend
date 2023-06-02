@@ -72,6 +72,12 @@ export const getUserFavoritePosts = (username: string) => {
   });
 };
 
+export const getUserSubscribePosts = (username: string) => {
+  return axios.get<Ipost[]>("user/post/subscriptions", {
+    params: { username }
+  });
+};
+
 export const getPostById = (id: number) => {
   return axios.get<Ipost>(`/post/${id}`);
 };
@@ -176,4 +182,8 @@ export const formatDate = (date: Date): string => {
   if (day.length < 2) day = "0" + day;
 
   return [year, month, day].join("-") + ` ${convertTimeToFormat(date.getHours())}:${convertTimeToFormat(date.getMinutes())}`;
+};
+
+export const subscribeToEvent = (postId: number) => {
+  return axios.post("/user/post/subscriptions", { postId });
 };
