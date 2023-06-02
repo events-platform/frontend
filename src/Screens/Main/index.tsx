@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { connect } from "react-redux";
 import { Footer, Header } from "../../Components/Main";
 import { RootState, store } from "../../store/store";
@@ -21,7 +21,7 @@ const HeaderConn = () => {
 
 const HeaderConnectedComponent = connect((state: RootState) => state.user)(HeaderConn);
 
-export const Main: React.FC<ButtonProps> = ({ children }) => {
+export const Main: FC<ButtonProps> = ({ children }) => {
   return (
     <div className={styles.Main}>
       <HeaderConnectedComponent />

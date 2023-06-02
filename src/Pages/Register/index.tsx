@@ -1,15 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Heading, Input, User, Lock, Mail, Arrow } from "../../Components/Auth";
 import { Description } from "../../Components/Auth/Description";
-import styles from "./Register.module.sass";
 import { useState } from "react";
 import { create } from "../../API/login";
-import { useAppDispatch } from "../../store/store";
+import { RootState, useAppDispatch } from "../../store/store";
 import { setToken, setUserName, setSignIn } from "../../store/reducers/userReducer";
 import { useCookies } from "react-cookie";
 import { SaveButton } from "../../Components/SaveButton";
+import { useSelector } from "react-redux";
+import styles from "./Register.module.sass";
 
 export const Register = () => {
+  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
+
   const [nameState, setNameState] = useState("");
   const [emailState, setEmailState] = useState("");
   const [passwordState, setPasswordState] = useState("");
@@ -78,38 +81,70 @@ export const Register = () => {
       <div className={styles.RegisterContent}>
         <Heading text={"Регистрация"} />
         <div className={styles.field}>
-          <Input type={"text"} text={"Введите имя или никнейм"} setState={setNameState} color={nameColor} onEnter={onCreateAccountClicked}>
+          <Input
+            type={"text"}
+            text={"Введите имя или никнейм"}
+            setState={setNameState}
+            color={nameColor}
+            onEnter={onCreateAccountClicked}
+            width={viewportWidth > 400 ? 352 : 280}
+          >
             <User />
           </Input>
         </div>
         <div className={styles.field}>
-          <Input type={"email"} text={"Введите почту"} setState={setEmailState} color={emailColor} onEnter={onCreateAccountClicked}>
+          <Input
+            type={"email"}
+            text={"Введите почту"}
+            setState={setEmailState}
+            color={emailColor}
+            onEnter={onCreateAccountClicked}
+            width={viewportWidth > 400 ? 352 : 280}
+          >
             <Mail />
           </Input>
         </div>
         <div className={styles.field}>
-          <Input type={"password"} text={"Введите пароль"} setState={setPasswordState} color={passwordColor} onEnter={onCreateAccountClicked}>
+          <Input
+            type={"password"}
+            text={"Введите пароль"}
+            setState={setPasswordState}
+            color={passwordColor}
+            onEnter={onCreateAccountClicked}
+            width={viewportWidth > 400 ? 352 : 280}
+          >
             <Lock />
           </Input>
         </div>
-        <Input type={"password"} text={"Повторите пароль"} setState={setConfirmPassowrdState} color={confirmPasswordColor} onEnter={onCreateAccountClicked}>
-          <Lock />
-        </Input>
+        <div className={styles.field}>
+          <Input
+            type={"password"}
+            text={"Повторите пароль"}
+            setState={setConfirmPassowrdState}
+            color={confirmPasswordColor}
+            onEnter={onCreateAccountClicked}
+            width={viewportWidth > 400 ? 352 : 280}
+          >
+            <Lock />
+          </Input>
+        </div>
+        <div className={styles.text}>
+          <Description text={"Пароль должен содержать не менее 8 знаков, включая буквы и цифры."} color={"rgba(0, 0, 0, 0.5)"} />
+        </div>
         <div className={styles.error}>
           <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
         </div>
-        <div className={styles.field}>
-          <Description text={"Пароль должен содержать не менее 8 знаков, включая буквы и цифры."} color={"rgba(0, 0, 0, 0.5)"} />
-        </div>
-
-        <SaveButton text="Зарегистрироваться" onClick={onCreateAccountClicked} width={352} height={40} />
+        <SaveButton
+          text="Зарегистрироваться"
+          onClick={onCreateAccountClicked}
+          width={viewportWidth > 400 ? 352 : 280}
+          height={40}
+        />
       </div>
-      <div className={styles.login}>
-        <Link to="/login">
+      <Link to="/login" className={styles.login}>
           Войти в аккаунт
-        </Link>
         <Arrow />
-      </div>
+      </Link>
     </div>
   );
 };

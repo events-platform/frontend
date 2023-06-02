@@ -5,10 +5,12 @@ import styles from "./Posts.module.sass";
 import { Ipost, addPostToFavorite, getAllPosts } from "../../API/post";
 import { Filter } from "../../Components/Posts/Filter/Filter";
 import { HiddenEventCard } from "../../Components/HiddenEventCard";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Ipost[]>([]);
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
   const [reminder, setReminder] = useState(0);
 
   const handleResize = () => {
@@ -31,14 +33,6 @@ export const Posts = () => {
   useEffect(() => {
     handleResize();
   }, [posts, viewportWidth]);
-
-  useEffect(() => {
-    window.addEventListener("resize", () => setViewportWidth(window.innerWidth));
-
-    return () => {
-      window.removeEventListener("resize", () => setViewportWidth(window.innerWidth));
-    };
-  }, []);
 
   const onFavoriteClick = (id: number) => {
     addPostToFavorite(id).then();

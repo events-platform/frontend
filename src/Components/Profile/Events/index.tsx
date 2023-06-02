@@ -5,6 +5,8 @@ import { SelectedTab } from "../../../Pages/Profile";
 import { Ipost } from "../../../API/post";
 import styles from "./Events.module.sass";
 import { HiddenEventCard } from "../../HiddenEventCard";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 interface EventsInterface {
   selected: SelectedTab,
@@ -41,11 +43,11 @@ export const Events: FC<EventsInterface> = ({
   profileSubscribeEvents
 }) => {
   const [reminder, setReminder] = useState(0);
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
   const [content, setcontent] = useState<Ipost[]>([]);
   const [loaded, setloaded] = useState<boolean>(false);
 
-  const handleResize = () => {
+  useEffect(() => {
     if (viewportWidth >= 1290 && content.length % 3 !== 0) {
       setReminder(3 - content.length % 3);
     } else if (viewportWidth >= 870) {
@@ -53,19 +55,7 @@ export const Events: FC<EventsInterface> = ({
     } else {
       setReminder(0);
     }
-  };
-
-  useEffect(() => {
-    handleResize();
-  }, [content, loaded, viewportWidth]);
-
-  useEffect(() => {
-    window.addEventListener("resize", () => setViewportWidth(window.innerWidth));
-
-    return () => {
-      window.removeEventListener("resize", () => setViewportWidth(window.innerWidth));
-    };
-  }, []);
+  }, [viewportWidth, content, loaded, profileOwnEvents]);
 
   useEffect(() => {
     if (selected === SelectedTab.MyEvents) {
