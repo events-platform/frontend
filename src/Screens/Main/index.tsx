@@ -14,7 +14,7 @@ const HeaderConn = () => {
   const isSignedIn = store.getState().user.isSignedIn;
   return (
     <>
-      <Header name={name} isSignedIn={isSignedIn} avatarUrl={avatarUrl} />
+      <Header name={name} city={"Екатеринбург"} isSignedIn={isSignedIn} avatarUrl={avatarUrl} />
     </>
   );
 };

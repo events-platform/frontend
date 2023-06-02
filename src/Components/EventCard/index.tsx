@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./EventCard.module.sass";
-import { convertDateToString, reConvertFormat } from "../../API/post";
+import { convertDateToString } from "../../API/post";
 import { FavoriteStar } from "./FavoriteStar";
 
 interface EventCardProps {
@@ -12,10 +12,11 @@ interface EventCardProps {
   beginDate: string;
   endDate: string;
   id: number;
-  onFavoriteClick: (id: number) => void
+  onFavoriteClick: (id: number) => void;
+  ownerAvatar: string
 }
 
-export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beginDate, endDate, id, onFavoriteClick }) => {
+export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beginDate, endDate, id, onFavoriteClick, ownerAvatar }) => {
   const [favorite, setFavorite] = useState(false);
   const [lasted] = useState(new Date() > new Date(endDate));
 
@@ -36,7 +37,7 @@ export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beg
             <img className={styles.preview} src={preview} alt="preview" />
             <div className={styles.content}>
               <div className={styles.avatarauthor}>
-                <img src={preview} alt="avatar" />
+                <img src={ownerAvatar} alt="avatar" />
                 <p className={styles.author}>
                   {author}
                 </p>
@@ -45,7 +46,7 @@ export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beg
                 {name}
               </p>
               <p className={styles.type}>
-                {reConvertFormat(type)} | <div className={styles.date}>{convertDateToString(beginDate, endDate)}</div>
+                {type} | <div className={styles.date}>{convertDateToString(beginDate, endDate)}</div>
               </p>
             </div>
           </Link>

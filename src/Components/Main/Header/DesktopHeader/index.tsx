@@ -58,8 +58,12 @@ export const DesktopHeader: FC<DesktopHeaderProps> = ({ name, city, isSignedIn, 
             </div>
           </div>
           : <div className={styles.rigthSide}>
+            <Link to={"/events"}>
+              <span>
+              Все мероприятия
+              </span>
+            </Link>
             <div className={styles.mapPoint}>
-              <MapPoint />
             </div>
             <Link to={"/login/"}>
               <span>

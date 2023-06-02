@@ -131,9 +131,11 @@ export const Profile = () => {
                     <AddSVG />
                   </div>
                 </SaveButton>
-                <SecondaryButton onClick={openModalChangeMode} text="Редактировать профиль" width={241} height={38} >
-                  <EditSVG />
-                </SecondaryButton>
+                <div>
+                  <SecondaryButton onClick={openModalChangeMode} text="Редактировать профиль" width={241} height={38} >
+                    <EditSVG />
+                  </SecondaryButton>
+                </div>
               </div>
               : null }
           </div>

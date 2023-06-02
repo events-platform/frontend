@@ -89,6 +89,7 @@ export const Events: FC<EventsInterface> = ({
                     beginDate={el.beginDate}
                     endDate={el.endDate}
                     id={el.id}
+                    ownerAvatar={el.ownerAvatar}
                   />
                 ))}
                 {Array.from({ length: FavoritesEventsReminder }, (_, index) => (
@@ -113,6 +114,7 @@ export const Events: FC<EventsInterface> = ({
                       beginDate={el.beginDate}
                       endDate={el.endDate}
                       id={el.id}
+                      ownerAvatar={el.ownerAvatar}
                     />
                   ))}
                   {Array.from({ length: OwnEventsReminder }, (_, index) => (
