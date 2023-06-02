@@ -5,8 +5,6 @@ import { SelectedTab } from "../../../Pages/Profile";
 import { Ipost } from "../../../API/post";
 import styles from "./Events.module.sass";
 import { HiddenEventCard } from "../../HiddenEventCard";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
 
 interface EventsInterface {
   selected: SelectedTab,
@@ -42,20 +40,8 @@ export const Events: FC<EventsInterface> = ({
   isProfileFavoriteEventsLoaded,
   profileSubscribeEvents
 }) => {
-  const [reminder, setReminder] = useState(0);
-  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
   const [content, setcontent] = useState<Ipost[]>([]);
   const [loaded, setloaded] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (viewportWidth >= 1290 && content.length % 3 !== 0) {
-      setReminder(3 - content.length % 3);
-    } else if (viewportWidth >= 870) {
-      setReminder(content.length % 2);
-    } else {
-      setReminder(0);
-    }
-  }, [viewportWidth, content, loaded, profileOwnEvents]);
 
   useEffect(() => {
     if (selected === SelectedTab.MyEvents) {
@@ -75,7 +61,7 @@ export const Events: FC<EventsInterface> = ({
         {
           loaded
             ? content.length !== 0
-              ? <>{content.map((el, index) => (
+              ? content.map((el, index) => (
                 <EventCard
                   key={index}
                   onFavoriteClick={addPostToFavorite}
@@ -88,11 +74,7 @@ export const Events: FC<EventsInterface> = ({
                   id={el.id}
                   ownerAvatar={el.ownerAvatar}
                 />
-              ))}
-              {Array.from({ length: reminder }, (_, index) => (
-                <div key={index} className="empty" />
-              ))}
-              </>
+              ))
               : <EventsEmpty />
             : Array.from({ length: 15 }, (_, index) => (
               <HiddenEventCard key={index}/>

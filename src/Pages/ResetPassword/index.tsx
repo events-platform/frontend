@@ -34,7 +34,7 @@ export const ResetPassword = () => {
             text={"Введите почту"}
             setState={setEmailState}
             color={emailColor}
-            width={viewportWidth > 400 ? 352 : 280}
+            width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220}
             onEnter={onCreateAccountClicked}
           >
             <Mail />
@@ -46,7 +46,7 @@ export const ResetPassword = () => {
         <div className={styles.error}>
           <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
         </div>
-        <SaveButton text="Отправить" onClick={onCreateAccountClicked} width={viewportWidth > 400 ? 352 : 280} height={40} />
+        <SaveButton text="Отправить" onClick={onCreateAccountClicked} width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220} height={40} />
       </div>
       <Link to="/login" className={styles.login}>
           Войти в аккаунт

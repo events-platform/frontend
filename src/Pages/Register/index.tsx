@@ -87,7 +87,7 @@ export const Register = () => {
             setState={setNameState}
             color={nameColor}
             onEnter={onCreateAccountClicked}
-            width={viewportWidth > 400 ? 352 : 280}
+            width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220}
           >
             <User />
           </Input>
@@ -99,7 +99,7 @@ export const Register = () => {
             setState={setEmailState}
             color={emailColor}
             onEnter={onCreateAccountClicked}
-            width={viewportWidth > 400 ? 352 : 280}
+            width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220}
           >
             <Mail />
           </Input>
@@ -111,7 +111,7 @@ export const Register = () => {
             setState={setPasswordState}
             color={passwordColor}
             onEnter={onCreateAccountClicked}
-            width={viewportWidth > 400 ? 352 : 280}
+            width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220}
           >
             <Lock />
           </Input>
@@ -123,7 +123,7 @@ export const Register = () => {
             setState={setConfirmPassowrdState}
             color={confirmPasswordColor}
             onEnter={onCreateAccountClicked}
-            width={viewportWidth > 400 ? 352 : 280}
+            width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220}
           >
             <Lock />
           </Input>
@@ -137,7 +137,7 @@ export const Register = () => {
         <SaveButton
           text="Зарегистрироваться"
           onClick={onCreateAccountClicked}
-          width={viewportWidth > 400 ? 352 : 280}
+          width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220}
           height={40}
         />
       </div>

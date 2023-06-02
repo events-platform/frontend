@@ -11,8 +11,11 @@ import styles from "./Post.module.sass";
 import { LinkButton } from "../../Components/LinkButton";
 import { SaveButton } from "../../Components/SaveButton";
 import { FavoriteStar } from "../../Components/EventCard/FavoriteStar";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export const Post = () => {
+  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
   const navigate = useNavigate();
   const { eventId } = useParams();
   const optionalSVGRef = useRef<HTMLDivElement>(null);
@@ -85,10 +88,10 @@ export const Post = () => {
                 <Arrow />
               </button>
               <FavoriteStar
-                width="78px"
-                height="78px"
-                starWidth="60px"
-                starHeight="60px"
+                width={viewportWidth > 900 ? "78px" : "46px"}
+                height={viewportWidth > 900 ? "78px" : "46px"}
+                starWidth={viewportWidth > 900 ? "60px" : "32px"}
+                starHeight={viewportWidth > 900 ? "60px" : "32px"}
                 favorite={favorite}
                 style={styles.star}
                 onClick={() => {
@@ -98,25 +101,30 @@ export const Post = () => {
               />
             </div>
             <div className={styles.description}>
-              <h2 className={styles.typedate}>
-                {data.type} |{" "}
-                {convertDateToString(data.beginDate, data.endDate)}
-              </h2>
+              {viewportWidth > 700
+                ? <h2 className={styles.typedate}>
+                  {data.type} |{" "}
+                  {convertDateToString(data.beginDate, data.endDate)}
+                </h2>
+                : null}
               <h1 className={styles.name}>{data.name}</h1>
-              <h2 className={styles.avatarauthor}>
-                <img src={data.ownerAvatar} alt="avatar" />
-                <LinkButton to={`/profile/${data.ownerName}`}>
-                  {data.ownerName}
-                </LinkButton>
-              </h2>
-              <div className={styles.buttons}>
-                <SaveButton
-                  text="Буду участвовать"
-                  onClick={subscribe}
-                  width={164}
-                  height={38}
-                />
-              </div>
+              {viewportWidth > 700
+                ? <><h2 className={styles.avatarauthor}>
+                  <img src={data.ownerAvatar} alt="avatar" />
+                  <LinkButton to={`/profile/${data.ownerName}`}>
+                    {data.ownerName}
+                  </LinkButton>
+                </h2>
+                <div className={styles.buttons}>
+                  <SaveButton
+                    text="Буду участвовать"
+                    onClick={subscribe}
+                    width={164}
+                    height={38}
+                  />
+                </div>
+                </>
+                : null}
             </div>
           </div>
         </div>
