@@ -9,9 +9,10 @@ interface InputProps {
   setState: Function;
   ref?: RefObject<HTMLInputElement>;
   onEnter: Function;
+  width?: number;
 }
 
-export const Input: React.FC<InputProps> = ({ text, children, type, color, setState, ref, onEnter }) => {
+export const Input: React.FC<InputProps> = ({ text, children, type, color, setState, ref, onEnter, width }) => {
   const handleChange = (event: { target: { value: any; }}) => {
     setState(event.target.value);
   };
@@ -29,7 +30,7 @@ export const Input: React.FC<InputProps> = ({ text, children, type, color, setSt
         className={`${styles.Input} media`}
         required
         placeholder={text}
-        style={{ borderColor: color }}
+        style={{ borderColor: color, width }}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         ref={ref}
