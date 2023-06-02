@@ -21,9 +21,9 @@ export const App = () => {
     <div className="App">
       <Routes>
         <Route path='/' element={<Main><Menu /></Main>} />
-        <Route path='/events' element={<Main><Posts /></Main>} />
         <Route path="/events/:eventId" element={<Main><Post /></Main>} />
         <Route path="/events/create" element={<Main><PostCreation /></Main>} />
+        <Route path='/events/*' element={<Main><Posts /></Main>} />
         <Route path="/profile/:profileId" element={<Main><Profile /></Main> } />
         <Route path='/login' element={<Auth><Login /></Auth>} />
         <Route path='/reg' element={<Auth><Register /></Auth>} />
@@ -36,7 +36,7 @@ export const App = () => {
 export const CookiesApp = () => {
   // eslint-disable-next-line no-unused-vars
   const [cookies, setCookie] = useCookies(["access_token", "refresh_token"]);
-  if (cookies.access_token) {
+  if (cookies.access_token && cookies.access_token !== "") {
     const dispatch = useAppDispatch();
     dispatch(setToken(cookies.access_token));
 

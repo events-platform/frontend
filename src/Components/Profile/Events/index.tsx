@@ -12,7 +12,8 @@ interface EventsInterface {
   profileFavoriteEvents: Ipost[],
   addPostToFavorite: (id: number) => void,
   isProfileEventsLoaded: boolean,
-  isProfileFavoriteEventsLoaded: boolean
+  isProfileFavoriteEventsLoaded: boolean,
+  profileSubscribeEvents: Ipost[]
 }
 
 const EventsEmpty = () => {
@@ -36,32 +37,27 @@ export const Events: FC<EventsInterface> = ({
   profileFavoriteEvents,
   addPostToFavorite,
   isProfileEventsLoaded,
-  isProfileFavoriteEventsLoaded
+  isProfileFavoriteEventsLoaded,
+  profileSubscribeEvents
 }) => {
-  const [OwnEventsReminder, setOwnEventsReminder] = useState(0);
-  const [FavoritesEventsReminder, setFavoritesReminder] = useState(0);
+  const [reminder, setReminder] = useState(0);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const [content, setcontent] = useState<Ipost[]>([]);
+  const [loaded, setloaded] = useState<boolean>(false);
 
   const handleResize = () => {
-    if (viewportWidth >= 1290 && profileFavoriteEvents.length % 3 !== 0) {
-      setFavoritesReminder(3 - profileFavoriteEvents.length % 3);
+    if (viewportWidth >= 1290 && content.length % 3 !== 0) {
+      setReminder(3 - content.length % 3);
     } else if (viewportWidth >= 870) {
-      setFavoritesReminder(profileFavoriteEvents.length % 2);
+      setReminder(content.length % 2);
     } else {
-      setFavoritesReminder(0);
-    }
-    if (viewportWidth >= 1290 && profileOwnEvents.length % 3 !== 0) {
-      setOwnEventsReminder(3 - profileOwnEvents.length % 3);
-    } else if (viewportWidth >= 870) {
-      setOwnEventsReminder(profileOwnEvents.length % 2);
-    } else {
-      setOwnEventsReminder(0);
+      setReminder(0);
     }
   };
 
   useEffect(() => {
     handleResize();
-  }, [profileOwnEvents, profileFavoriteEvents, viewportWidth]);
+  }, [content, loaded, viewportWidth]);
 
   useEffect(() => {
     window.addEventListener("resize", () => setViewportWidth(window.innerWidth));
@@ -71,60 +67,46 @@ export const Events: FC<EventsInterface> = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (selected === SelectedTab.MyEvents) {
+      setcontent(profileOwnEvents);
+      setloaded(isProfileEventsLoaded);
+    } else if (selected === SelectedTab.MyFavoriteEvents) {
+      setcontent(profileFavoriteEvents);
+      setloaded(isProfileFavoriteEventsLoaded);
+    } else if (selected === SelectedTab.MyParticipation) {
+      setcontent(profileSubscribeEvents);
+      setloaded(isProfileFavoriteEventsLoaded);
+    }
+  }, [profileOwnEvents, isProfileEventsLoaded, selected, profileFavoriteEvents, isProfileFavoriteEventsLoaded, profileSubscribeEvents]);
   return (
     <div className={styles.profileEvents}>
       <div className={styles.eventsContent}>
         {
-          selected === SelectedTab.MyFavoriteEvents
-            ? isProfileFavoriteEventsLoaded
-              ? profileFavoriteEvents.length !== 0
-                ? <>{profileFavoriteEvents.map((el, index) => (
-                  <EventCard
-                    key={index}
-                    onFavoriteClick={addPostToFavorite}
-                    preview={el.image}
-                    author={el.ownerName}
-                    name={el.name}
-                    type={el.type}
-                    beginDate={el.beginDate}
-                    endDate={el.endDate}
-                    id={el.id}
-                    ownerAvatar={el.ownerAvatar}
-                  />
-                ))}
-                {Array.from({ length: FavoritesEventsReminder }, (_, index) => (
-                  <div key={index} className="empty" />
-                ))}
-                </>
-                : <EventsEmpty />
-              : Array.from({ length: 15 }, (_, index) => (
-                <HiddenEventCard />
-              ))
-            : isProfileEventsLoaded
-              ? profileOwnEvents.length !== 0
-                ? <>
-                  {profileOwnEvents.map((el, index) => (
-                    <EventCard
-                      key={index}
-                      onFavoriteClick={addPostToFavorite}
-                      preview={el.image}
-                      author={el.ownerName}
-                      name={el.name}
-                      type={el.type}
-                      beginDate={el.beginDate}
-                      endDate={el.endDate}
-                      id={el.id}
-                      ownerAvatar={el.ownerAvatar}
-                    />
-                  ))}
-                  {Array.from({ length: OwnEventsReminder }, (_, index) => (
-                    <div key={index} className="empty" />
-                  ))}
-                </>
-                : <EventsEmpty />
-              : Array.from({ length: 15 }, (_, index) => (
-                <HiddenEventCard />
-              ))
+          loaded
+            ? content.length !== 0
+              ? <>{content.map((el, index) => (
+                <EventCard
+                  key={index}
+                  onFavoriteClick={addPostToFavorite}
+                  preview={el.image}
+                  author={el.ownerName}
+                  name={el.name}
+                  type={el.type}
+                  beginDate={el.beginDate}
+                  endDate={el.endDate}
+                  id={el.id}
+                  ownerAvatar={el.ownerAvatar}
+                />
+              ))}
+              {Array.from({ length: reminder }, (_, index) => (
+                <div key={index} className="empty" />
+              ))}
+              </>
+              : <EventsEmpty />
+            : Array.from({ length: 15 }, (_, index) => (
+              <HiddenEventCard key={index}/>
+            ))
         }
       </div>
     </div>

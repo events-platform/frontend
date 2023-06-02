@@ -13,7 +13,7 @@ interface EventCardProps {
   endDate: string;
   id: number;
   onFavoriteClick: (id: number) => void;
-  ownerAvatar: string
+  ownerAvatar: string;
 }
 
 export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beginDate, endDate, id, onFavoriteClick, ownerAvatar }) => {
@@ -45,9 +45,9 @@ export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beg
               <p className={styles.name}>
                 {name}
               </p>
-              <p className={styles.type}>
+              <div className={styles.type}>
                 {type} | <div className={styles.date}>{convertDateToString(beginDate, endDate)}</div>
-              </p>
+              </div>
             </div>
           </Link>
         </div>

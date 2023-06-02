@@ -1,7 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Arrow, Optional, Description } from "../../Components/Post";
-import { addPostToFavorite, convertDateToString, getPostById } from "../../API/post";
+import {
+  addPostToFavorite,
+  convertDateToString,
+  getPostById,
+  subscribeToEvent
+} from "../../API/post";
 import styles from "./Post.module.sass";
 import { LinkButton } from "../../Components/LinkButton";
 import { SaveButton } from "../../Components/SaveButton";
@@ -33,12 +38,9 @@ export const Post = () => {
   const [favorite, setfavorite] = useState(false);
   useEffect(() => {
     if (eventId) {
-      getPostById(+eventId)
-        .then(res => {
-          setData(res.data);
-          // eslint-disable-next-line no-console
-          console.log(res.data);
-        });
+      getPostById(+eventId).then((res) => {
+        setData(res.data);
+      });
     }
   }, []);
 
@@ -62,7 +64,16 @@ export const Post = () => {
     }
     setOptionalHide(!isOptionalHide);
   };
-
+  const subscribe = () => {
+    const postId = +(eventId || 0);
+    subscribeToEvent(postId)
+      .then((res) => {
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
+  };
   return (
     <div className={styles.Post}>
       <div className={styles.postContent}>
@@ -73,15 +84,25 @@ export const Post = () => {
               <button className={styles.arrow} onClick={() => navigate(-1)}>
                 <Arrow />
               </button>
-              <FavoriteStar width="78px" height="78px" starWidth="60px" starHeight="60px" favorite={favorite} style={styles.star} onClick={() => { addPostToFavorite(+(eventId || 0)); setfavorite(true); }}/>
+              <FavoriteStar
+                width="78px"
+                height="78px"
+                starWidth="60px"
+                starHeight="60px"
+                favorite={favorite}
+                style={styles.star}
+                onClick={() => {
+                  addPostToFavorite(+(eventId || 0));
+                  setfavorite(true);
+                }}
+              />
             </div>
             <div className={styles.description}>
               <h2 className={styles.typedate}>
-                {data.type} | {convertDateToString(data.beginDate, data.endDate)}
+                {data.type} |{" "}
+                {convertDateToString(data.beginDate, data.endDate)}
               </h2>
-              <h1 className={styles.name}>
-                {data.name}
-              </h1>
+              <h1 className={styles.name}>{data.name}</h1>
               <h2 className={styles.avatarauthor}>
                 <img src={data.ownerAvatar} alt="avatar" />
                 <LinkButton to={`/profile/${data.ownerName}`}>
@@ -89,7 +110,12 @@ export const Post = () => {
                 </LinkButton>
               </h2>
               <div className={styles.buttons}>
-                <SaveButton text="Буду участвовать" width={164} height={38}/>
+                <SaveButton
+                  text="Буду участвовать"
+                  onClick={subscribe}
+                  width={164}
+                  height={38}
+                />
               </div>
             </div>
           </div>
@@ -97,10 +123,8 @@ export const Post = () => {
         <div className={styles.content}>
           <div className={styles.optional}>
             <button className={styles.show} onClick={() => handleOptional()}>
-              <h3>
-              Дополнительная информация
-              </h3>
-              <div className={styles.optionalWrapper} ref={optionalSVGRef} >
+              <h3>Дополнительная информация</h3>
+              <div className={styles.optionalWrapper} ref={optionalSVGRef}>
                 <Optional color={optionalColor} />
               </div>
             </button>
@@ -108,28 +132,38 @@ export const Post = () => {
               <LinkButton to={`mailto:${data.email}`}>
                 <Description name={"Почта:"} text={`${data.email}`} />
               </LinkButton>
-              <Description name={"Кол-во мест:"} text={`${data.registrationLimit}`} />
-              <LinkButton to={`http://maps.google.com/?q=${data.location}`} >
-                <Description name={"Место проведения:"} text={`${data.location}`} color={"rgba(90, 174, 129, 1)"} />
+              <Description
+                name={"Кол-во мест:"}
+                text={`${data.registrationLimit}`}
+              />
+              <LinkButton to={`http://maps.google.com/?q=${data.location}`}>
+                <Description
+                  name={"Место проведения:"}
+                  text={`${data.location}`}
+                  color={"rgba(90, 174, 129, 1)"}
+                />
               </LinkButton>
               <LinkButton to={`${data.externalLink}`}>
                 <Description name={"Сайт:"} text={`${data.externalLink}`} />
               </LinkButton>
             </div>
           </div>
-          <h2 className={styles.about}>
-          О мероприятии
-          </h2>
+          <h2 className={styles.about}>О мероприятии</h2>
           <p className={styles.text}>
             {data.description.split("\n").map((line, index) => (
               <React.Fragment key={index}>
                 {line}
-                <br/>
+                <br />
               </React.Fragment>
             ))}
           </p>
           <div className={styles.submit}>
-            <SaveButton text="Буду участвовать" width={164} height={38}/>
+            <SaveButton
+              onClick={subscribe}
+              text="Буду участвовать"
+              width={164}
+              height={38}
+            />
           </div>
         </div>
       </div>
