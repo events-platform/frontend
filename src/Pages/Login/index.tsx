@@ -47,12 +47,12 @@ export const Login = () => {
       <div className={styles.LoginContent}>
         <Heading text={"Вход"} />
         <div className={styles.field}>
-          <Input type={"email"} text={"Логин"} setState={setMailState} onEnter={onLoginClicked} width={viewportWidth > 400 ? 352 : 280}>
+          <Input type={"email"} text={"Логин"} setState={setMailState} onEnter={onLoginClicked} width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220}>
             <Mail />
           </Input>
         </div>
         <div className={styles.field}>
-          <Input type={"password"} text={"Пароль"} setState={setPasswordState} onEnter={onLoginClicked} width={viewportWidth > 400 ? 352 : 280}>
+          <Input type={"password"} text={"Пароль"} setState={setPasswordState} onEnter={onLoginClicked} width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220}>
             <Lock />
           </Input>
         </div>
@@ -60,7 +60,7 @@ export const Login = () => {
           <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
         </div>
         <div className={styles.button}>
-          <SaveButton width={viewportWidth > 400 ? 352 : 280} height={40} text="Вход" onClick={onLoginClicked}/>
+          <SaveButton width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220} height={40} text="Вход" onClick={onLoginClicked}/>
         </div>
         <Link className={styles.forgot} to="/login/reset">
           Забыли пароль?
