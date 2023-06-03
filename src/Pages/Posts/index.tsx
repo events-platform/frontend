@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from "react";
 import { EventCard } from "../../Components/EventCard";
 import styles from "./Posts.module.sass";
@@ -11,22 +12,10 @@ import { paths } from "../../API/paths";
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Ipost[]>([]);
-  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
-  const [reminder, setReminder] = useState(0);
   const [category, setcategory] = useState<string>("");
   const [timeFilter, settimeFilter] = useState("По Времени");
   const [checkBox, setcheckBox] = useState(false);
   const navigate = useNavigate();
-
-  const handleResize = () => {
-    if (viewportWidth >= 1290 && posts.length % 3 !== 0) {
-      setReminder(3 - posts.length % 3);
-    } else if (viewportWidth >= 870) {
-      setReminder(posts.length % 2);
-    } else {
-      setReminder(0);
-    }
-  };
 
   const getSortPosts = (options: { beginDate?: Date, endDate?: Date, organizer?: string[], type?: string[], page?: number, size?: number, sort?: string[] }) => {
     getPostsParams(options)
