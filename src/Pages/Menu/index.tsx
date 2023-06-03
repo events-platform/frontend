@@ -4,8 +4,8 @@ import { EventCard } from "../../Components/EventCard";
 import { Header, Popular, Heading, PopularArrow, Green } from "../../Components/Menu";
 import { SaveButton } from "../../Components/SaveButton";
 import { Ipost, addPostToFavorite, getAllPosts } from "../../API/post";
-import styles from "./Menu.module.sass";
 import { HiddenEventCard } from "../../Components/HiddenEventCard";
+import styles from "./Menu.module.sass";
 
 export const Menu = () => {
   const [posts, setPosts] = useState<Ipost[]>([]);
