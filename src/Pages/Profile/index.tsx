@@ -133,12 +133,12 @@ export const Profile = () => {
               ? <div className={styles.ProfileTools}>
                 <SaveButton onClick={() => navigate("/events/create")} text="Создать мероприятие" width={223} height={38}>
                   <div className={styles.addsvg}>
-                    <AddSVG />
+                    <AddSVG viewBox="2 2 10 10" />
                   </div>
                 </SaveButton>
                 <div>
                   <SecondaryButton onClick={openModalChangeMode} text="Редактировать профиль" width={241} height={38} >
-                    <EditSVG />
+                    <EditSVG fill="black" viewBox="0 -5 10 30"/>
                   </SecondaryButton>
                 </div>
               </div>

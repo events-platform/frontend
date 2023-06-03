@@ -6,14 +6,20 @@ interface ISearchInput {
   setState: (value: string) => void
 }
 export const SearchInput: FC<ISearchInput> = ({ state, setState }) => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState<string>(state);
+  const [init, setinit] = useState(false);
   useEffect(() => {
-    const timeOutId = setTimeout(() => setState(query), 1000);
+    const timeOutId = setTimeout(() => { if (init) setState(query); else setinit(true); }, 1000);
     return () => clearTimeout(timeOutId);
   }, [query]);
+  useEffect(() => {
+    setQuery(state);
+  }, [state]);
   return (
     <div className={styles.SearchInput}>
-      <input type="text" value={query} placeholder="Поиск" onChange={e => setQuery(e.target.value)} />
+      <input type="text" value={query} placeholder="Поиск" onChange={e => {
+        setQuery(e.target.value);
+      }} />
       <div>
         <SearchLogo />
       </div>

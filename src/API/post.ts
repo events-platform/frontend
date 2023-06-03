@@ -1,5 +1,6 @@
 import axios from "./api";
 import { getJWT } from "./cookies";
+import Qs from "qs";
 
 export interface postObject {
   name: string;
@@ -186,4 +187,52 @@ export const formatDate = (date: Date): string => {
 
 export const subscribeToEvent = (postId: number) => {
   return axios.post("/user/post/subscriptions", { postId });
+};
+
+interface IgetPostsParams {
+  totalPages: number,
+  totalElements: number,
+  size: number,
+  content: Ipost[],
+  number: number,
+  sort: {
+    empty: boolean,
+    sorted: boolean,
+    unsorted: boolean
+  },
+  pageable: {
+    offset: 0,
+    sort: {
+      empty: boolean,
+      sorted: boolean,
+      unsorted: boolean
+    },
+    pageNumber: number,
+    pageSize: number,
+    paged: boolean,
+    unpaged: boolean
+  },
+  first: boolean,
+  numberOfElements: number,
+  last: boolean,
+  empty: boolean
+}
+interface getPostsParamsOptions {
+  beginDate?: Date, endDate?: Date, organizer?: string[], type?: string[], page?: number, size?: number, sort?: string[]
+}
+export const getPostsParams = (options: getPostsParamsOptions) => {
+  // eslint-disable-next-line no-console
+  console.log(options);
+  return axios.get<IgetPostsParams>("/post/search", {
+    params: {
+      ...options
+    },
+    paramsSerializer: {
+      encode: params => {
+      // eslint-disable-next-line no-console
+        console.log("kek", params, Qs.stringify(params, { arrayFormat: "comma" }));
+        return Qs.stringify(params, { arrayFormat: "comma" });
+      }
+    }
+  });
 };

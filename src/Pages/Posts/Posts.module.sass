@@ -25,4 +25,32 @@
     h1
       padding-right: 15px
       padding-left: 15px
-      
+.postFilter
+  display: flex
+  justify-content: space-between
+  flex-wrap: wrap
+  gap: 15px
+  .filterTabs
+    display: flex
+    gap: 15px
+    font-family: 'Roboto'
+    font-style: normal
+    font-weight: 400
+    font-size: 16px
+    align-items: center
+  .filterTools
+    display: flex
+    gap: 15px
+    align-items: center
+    flex-wrap: wrap-reverse
+.CheckBox
+  margin-top: 5px
+  width: 285px
+
+@media (max-width: 1340px)
+  .postFilter
+    flex-direction: column-reverse
+@media (max-width: 455px)
+  .postFilter
+    padding-right: 15px
+    padding-left: 15px

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { SearchInput } from "../Components/SearchInput";
 import { Logo, LogoutSVG, MapPoint } from "../Components/SVGs";
 import styles from "./DesktopHeader.module.sass";
@@ -28,27 +28,33 @@ export const DesktopHeader: FC<DesktopHeaderProps> = ({ name, city, isSignedIn, 
     dispatch(logoutUser());
   };
   const onInputChange = (value: string) => {
-    // eslint-disable-next-line no-console
-    console.log(location.search);
+    const params = new URLSearchParams(location.search);
+    const type = params.get("type") || "";
     if (location.pathname.replaceAll("/", "") !== paths.events.replaceAll("/", "")) {
       navigate({
         pathname: paths.events,
         search: createSearchParams({
-          search: value
+          search: value,
+          type
         }).toString()
       });
     } else {
-      // eslint-disable-next-line no-console
-      console.log("params");
       navigate({
         pathname: "/events",
         search: createSearchParams({
-          search: value
+          search: value,
+          type
         }).toString()
       });
     }
     setsearch(value);
   };
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const search = params.get("search") || "";
+    setsearch(search);
+  }, []);
+
   return (
     <header className={styles.Header}>
       <div className={styles.headerContent}>
