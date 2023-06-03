@@ -1,4 +1,4 @@
-import { useState, useRef, DragEvent, FC, ChangeEvent } from "react";
+import { useState, useRef, DragEvent, FC, ChangeEvent, useEffect } from "react";
 import AvatarEditor from "react-avatar-editor";
 import { CloseButton, SaveButton } from "../";
 import styles from "./ModalEditAvatar.module.sass";
@@ -18,6 +18,25 @@ export const ModalEditAvatar: FC<ModalEditAvatarInterface> = ({ closeModal, load
     const newScale = parseFloat(event.target.value);
     setScale(newScale);
   };
+
+  const handleScroll = (event: WheelEvent) => {
+    event.preventDefault();
+    const scrollDelta = Math.sign(event.deltaY);
+    const scaleStep = 0.1;
+    const minScale = 0.5;
+    const maxScale = 10;
+    const newScale = scale + scrollDelta * scaleStep;
+    if (newScale >= minScale && newScale <= maxScale) {
+      setScale(newScale);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("wheel", handleScroll);
+    return () => {
+      document.removeEventListener("wheel", handleScroll);
+    };
+  }, []);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const editorRef = useRef<AvatarEditor | null>(null);
@@ -76,6 +95,7 @@ export const ModalEditAvatar: FC<ModalEditAvatarInterface> = ({ closeModal, load
           className={`${styles.UploadBox} ${dragActive ? styles.UploadBoxDrop : ""}`}
           onClick={() => avatarPreview ? null : fileInputRef?.current?.click()}
           onSubmit={(e) => e.preventDefault()}
+          style={{ border: avatarPreview ? "none" : "2px dashed black" }}
         >
           {avatarPreview
             ? (
@@ -126,6 +146,7 @@ export const ModalEditAvatar: FC<ModalEditAvatarInterface> = ({ closeModal, load
               step="0.1"
               value={scale}
               onChange={handleScaleChange}
+              onWheel={(e) => e.preventDefault()}
             />
           </>
           : null}

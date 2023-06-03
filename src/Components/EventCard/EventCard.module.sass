@@ -22,6 +22,7 @@
     background-position: center center
     border-top-left-radius: 30px
     border-top-right-radius: 30px
+    pointer-events: none
   .content
     display: flex
     flex-direction: column
@@ -112,8 +113,14 @@
 @media (max-width: 425px)
   .EventCard
     width: 100vw
-    height: calc(100vw * 0.423611 + 170px)
+    height: calc(100vw * 0.423611 + 190px)
     .wrapper
       max-width: 100vw
       .preview
         height: calc(100vw * 0.423611)
+@media (max-width: 290px)
+  .EventCard
+    height: calc(100vw * 0.423611 + 250px)
+@media (max-width: 260px)
+  .EventCard
+    height: calc(100vw * 0.423611 + 280px)

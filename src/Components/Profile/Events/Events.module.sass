@@ -4,10 +4,18 @@
   .eventsContent
     max-width: 1440px
     margin: 0 auto
-    display: flex
-    flex-wrap: wrap
-    justify-content: space-around
     padding: 0 15px
+    display: grid
+    grid-template-columns: repeat(auto-fit, 420px)
+    grid-auto-rows: 349px
+    grid-row-gap: 40px
+    row-gap: 40px
+    grid-column-gap: 50px
+    column-gap: 50px
+    justify-content: center
+    overflow: visible
+    width: 100%
+    margin-bottom: 40px
   
   /* Ой, тут пусто. Создайте мероприятие нажав на соответствующую кнопку в верхней части профиля. */
 .EmptyEventsText
@@ -28,3 +36,10 @@
 .link
   color: rgba(90, 174, 129, 1)
   text-decoration: none
+
+@media (max-width: 455px)
+  .profileEvents
+    .eventsContent
+      display: flex
+      flex-wrap: wrap
+      justify-content: space-around

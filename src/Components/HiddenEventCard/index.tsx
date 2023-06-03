@@ -11,7 +11,7 @@ export const HiddenEventCard = () => (
       backgroundColor="#f3f3f3"
       foregroundColor="#ecebeb"
     >
-      <rect x="0" y="0" rx="0" ry="0" width={`${window.innerWidth <= 425 ? window.innerWidth : 420}`} height={`${window.innerWidth <= 425 ? window.innerWidth * 0.423611 : 178}`} />
+      <rect x="0" y="0" rx="0" ry="0" width={`${window.innerWidth <= 425 ? 425 : 420}`} height={`${window.innerWidth <= 425 ? window.innerWidth * 0.423611 : 178}`} />
       <circle cx="45" cy="206" r="15" />
       <rect x="68" y="191" rx="0" ry="0" width="250" height="30" />
       <rect x="30" y="231" rx="0" ry="0" width="360" height="30" />

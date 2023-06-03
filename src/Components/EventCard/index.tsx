@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./EventCard.module.sass";
 import { convertDateToString } from "../../API/post";
@@ -19,6 +19,7 @@ interface EventCardProps {
 export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beginDate, endDate, id, onFavoriteClick, ownerAvatar }) => {
   const [favorite, setFavorite] = useState(false);
   const [lasted] = useState(new Date() > new Date(endDate));
+  const typeDateRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
@@ -45,8 +46,8 @@ export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beg
               <p className={styles.name}>
                 {name}
               </p>
-              <div className={styles.type}>
-                {type} | <div className={styles.date}>{convertDateToString(beginDate, endDate)}</div>
+              <div className={styles.type} ref={typeDateRef}>
+                {type} {typeDateRef.current && typeDateRef.current.clientHeight <= 30 ? "|" : null} <div className={styles.date}>{convertDateToString(beginDate, endDate)}</div>
               </div>
             </div>
           </Link>
