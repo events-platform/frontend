@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./EventCard.module.sass";
 import { convertDateToString } from "../../API/post";

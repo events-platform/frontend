@@ -107,7 +107,7 @@ export const Post = () => {
                   {convertDateToString(data.beginDate, data.endDate)}
                 </h2>
                 : null}
-              <h1 className={styles.name}>{data.name}</h1>
+              {viewportWidth > 425 ? <h1 className={styles.name}>{data.name}</h1> : null}
               {viewportWidth > 700
                 ? <><h2 className={styles.avatarauthor}>
                   <img src={data.ownerAvatar} alt="avatar" />
@@ -144,7 +144,7 @@ export const Post = () => {
                 name={"Кол-во мест:"}
                 text={`${data.registrationLimit}`}
               />
-              <LinkButton to={`http://maps.google.com/?q=${data.location}`}>
+              <LinkButton to={`http://maps.google.com/?q=г.+Екатеринбург,+${data.location}`}>
                 <Description
                   name={"Место проведения:"}
                   text={`${data.location}`}
