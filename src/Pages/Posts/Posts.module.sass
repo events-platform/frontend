@@ -20,12 +20,17 @@
       row-gap: 40px
       grid-column-gap: 50px
       column-gap: 50px
-      justify-content: center
       overflow: visible
       width: 100%
       margin-bottom: 40px
     .mobileEvents
       justify-content: center
+
+@media (max-width: 1250px)
+  .Posts
+    .postContent
+      .events
+        justify-content: center
 
 @media (max-width: 455px)
   .Posts
@@ -40,6 +45,7 @@
         justify-content: space-around
         div
           margin-bottom: 0
+
 @media (max-width: 300px)
   .Posts
     .postContent

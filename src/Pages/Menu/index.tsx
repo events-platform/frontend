@@ -102,6 +102,7 @@ export const Menu = () => {
                   link={"/events"}
                   key={el.id}
                   name={`${el.name}`}
+                  type={el.type}
                   backgroundImage={`url(${el.url})`}
                 />
               ))}
