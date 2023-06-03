@@ -1,6 +1,5 @@
 import axios from "./api";
 import { getJWT } from "./cookies";
-import Qs from "qs";
 
 export interface postObject {
   name: string;
@@ -228,11 +227,7 @@ export const getPostsParams = (options: getPostsParamsOptions) => {
       ...options
     },
     paramsSerializer: {
-      encode: params => {
-      // eslint-disable-next-line no-console
-        console.log("kek", params, Qs.stringify(params, { arrayFormat: "comma" }));
-        return Qs.stringify(params, { arrayFormat: "comma" });
-      }
+      indexes: null
     }
   });
 };
