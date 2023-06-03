@@ -35,6 +35,7 @@ export const PostCreation = () => {
   const [limitFocus, setlimitFocus] = useState(false);
   const [formatFocus, setformatFocus] = useState(false);
   const [typeFocus, settypeFocus] = useState(false);
+
   const closeModal = () => {
     setmodalHidden(true);
   };
@@ -199,7 +200,7 @@ export const PostCreation = () => {
           value={description}
           onChange={handleChange}
         ></textarea>
-        <div>
+        <div className={styles.error}>
           <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
         </div>
         <div className={styles.SaveButton}>

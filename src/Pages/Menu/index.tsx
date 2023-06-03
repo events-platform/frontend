@@ -6,6 +6,7 @@ import { SaveButton } from "../../Components/SaveButton";
 import { Ipost, addPostToFavorite, getAllPosts } from "../../API/post";
 import { HiddenEventCard } from "../../Components/HiddenEventCard";
 import styles from "./Menu.module.sass";
+import { populars } from "./populars";
 
 export const Menu = () => {
   const [posts, setPosts] = useState<Ipost[]>([]);
@@ -72,37 +73,6 @@ export const Menu = () => {
       }
     }
   };
-
-  const populars = [{
-    id: 0,
-    name: "Вечеринки",
-    url: "https://sun9-78.userapi.com/impg/jCSv0NFk-7kmgEoDqUQA5TK0GIyyC7qSWkDWlw/fYn23QYvBxg.jpg?size=420x480&quality=96&sign=fbf315e1ac4d5df7f7ed222d07d9fabb&type=album"
-  },
-  {
-    id: 1,
-    name: "Настольные игры",
-    url: "https://sun9-80.userapi.com/impg/v7frH9a6JEkhEDd6mDmndvDsbsD8_5SVPV8bNg/73I8cefbHHA.jpg?size=420x480&quality=96&sign=b0d60c7234af29fe872f385891dbc05b&type=album"
-  },
-  {
-    id: 2,
-    name: "Выставки",
-    url: "https://sun9-76.userapi.com/impg/l7BLKfu0n-0lwgUBb9WUnHJu4SM4YWnOqYb6kw/wEhUFqT8AyU.jpg?size=420x480&quality=96&sign=91af51c3e275cace1e204de8d9f592d1&type=album"
-  },
-  {
-    id: 3,
-    name: "Вечеринки 2",
-    url: "https://sun9-78.userapi.com/impg/jCSv0NFk-7kmgEoDqUQA5TK0GIyyC7qSWkDWlw/fYn23QYvBxg.jpg?size=420x480&quality=96&sign=fbf315e1ac4d5df7f7ed222d07d9fabb&type=album"
-  },
-  {
-    id: 4,
-    name: "Настольные игры 2",
-    url: "https://sun9-80.userapi.com/impg/v7frH9a6JEkhEDd6mDmndvDsbsD8_5SVPV8bNg/73I8cefbHHA.jpg?size=420x480&quality=96&sign=b0d60c7234af29fe872f385891dbc05b&type=album"
-  },
-  {
-    id: 5,
-    name: "Выставки 2",
-    url: "https://sun9-76.userapi.com/impg/l7BLKfu0n-0lwgUBb9WUnHJu4SM4YWnOqYb6kw/wEhUFqT8AyU.jpg?size=420x480&quality=96&sign=91af51c3e275cace1e204de8d9f592d1&type=album"
-  }];
 
   return (
     <div className={styles.Menu}>

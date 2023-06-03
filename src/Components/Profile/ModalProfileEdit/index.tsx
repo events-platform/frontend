@@ -83,7 +83,7 @@ export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden
       <p className={styles.ModalBlockTitle}>Контактная информация</p>
       <ModalField titleText="Имя" valueText={profileName} setValueText={setprofileName} inputMode={inputMode}/>
       <ModalField titleText="Телефон" valueText={profileNumber} setValueText={setprofileNumber} inputMode={inputMode}/>
-      <ModalField titleText="адрес эл. почты" valueText={profileMail} setValueText={setprofileMail} inputMode={inputMode}/>
+      <ModalField titleText="Адрес эл. почты" valueText={profileMail} setValueText={setprofileMail} inputMode={inputMode}/>
       <div className={styles.underline}></div>
       <p className={styles.ModalBlockTitle}>Описание</p>
       <textarea readOnly={!inputMode} className={styles.ModalHug} value={profileAbout || ""} onChange={handleChange} name="" id="" cols={30} rows={10}></textarea>
