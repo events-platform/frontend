@@ -22,21 +22,27 @@ export const ModalEditAvatar: FC<ModalEditAvatarInterface> = ({ closeModal, load
   const handleScroll = (event: WheelEvent) => {
     event.preventDefault();
     const scrollDelta = Math.sign(event.deltaY);
-    const scaleStep = 0.1;
-    const minScale = 0.5;
+    const scaleStep = 0.2;
+    const minScale = 0.1;
     const maxScale = 10;
     const newScale = scale + scrollDelta * scaleStep;
+
     if (newScale >= minScale && newScale <= maxScale) {
       setScale(newScale);
     }
   };
 
   useEffect(() => {
-    document.addEventListener("wheel", handleScroll);
+    if (avatarPreview) {
+      document.addEventListener("wheel", handleScroll, { passive: false });
+    } else {
+      document.removeEventListener("wheel", handleScroll);
+    }
+
     return () => {
       document.removeEventListener("wheel", handleScroll);
     };
-  }, []);
+  }, [avatarPreview, scale]);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const editorRef = useRef<AvatarEditor | null>(null);
@@ -133,24 +139,37 @@ export const ModalEditAvatar: FC<ModalEditAvatarInterface> = ({ closeModal, load
           />
         </form>
       </div>
-      <div className={styles.Footer}>
-        <CloseButton onClick={closeModal} />
-        {avatarPreview
-          ? <>
-            <SaveButton onClick={saveImage} />
-            <CloseButton onClick={removePicture} text="Сбросить" />
+      {!avatarPreview
+        ? <div className={styles.Footer}>
+          <CloseButton onClick={closeModal} />
+        </div>
+        : <div className={styles.FooterActive}>
+          <div className={styles.scroll}>
+            <span>
+              Зум:
+            </span>
             <input
               type="range"
-              min="0.5"
+              min="0.1"
               max="10"
               step="0.1"
               value={scale}
               onChange={handleScaleChange}
               onWheel={(e) => e.preventDefault()}
             />
-          </>
-          : null}
-      </div>
+          </div>
+          <div className={styles.FooterActiveContent}>
+            <div className={styles.buttons}>
+              <CloseButton onClick={() => {
+                setavatarPreview(null);
+                closeModal();
+              }
+              } />
+              <CloseButton onClick={removePicture} text="Сбросить" />
+            </div>
+            <SaveButton onClick={saveImage} />
+          </div>
+        </div>}
     </div>
   );
 };
