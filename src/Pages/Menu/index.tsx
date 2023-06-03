@@ -90,7 +90,7 @@ export const Menu = () => {
   },
   {
     id: 3,
-    name: "Вечеринки 2",
+    name: "Митап",
     url: "https://sun9-78.userapi.com/impg/jCSv0NFk-7kmgEoDqUQA5TK0GIyyC7qSWkDWlw/fYn23QYvBxg.jpg?size=420x480&quality=96&sign=fbf315e1ac4d5df7f7ed222d07d9fabb&type=album"
   },
   {
