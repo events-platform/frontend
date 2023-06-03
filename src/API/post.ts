@@ -185,7 +185,12 @@ export const formatDate = (date: Date): string => {
 };
 
 export const subscribeToEvent = (postId: number) => {
-  return axios.post("/user/post/subscriptions", { postId });
+  const JWT = getJWT();
+  return axios.post("/user/post/subscriptions", { postId }, {
+    headers: {
+      Authorization: JWT
+    }
+  });
 };
 
 interface IgetPostsParams {
@@ -220,8 +225,6 @@ interface getPostsParamsOptions {
   beginDate?: Date, endDate?: Date, organizer?: string[], type?: string[], page?: number, size?: number, sort?: string[]
 }
 export const getPostsParams = (options: getPostsParamsOptions) => {
-  // eslint-disable-next-line no-console
-  console.log(options);
   return axios.get<IgetPostsParams>("/post/search", {
     params: {
       ...options

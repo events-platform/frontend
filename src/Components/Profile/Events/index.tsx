@@ -63,7 +63,7 @@ export const Events: FC<EventsInterface> = ({
             ? content.length !== 0
               ? content.map((el, index) => (
                 <EventCard
-                  key={index}
+                  key={el.id}
                   onFavoriteClick={addPostToFavorite}
                   preview={el.image}
                   author={el.ownerName}
