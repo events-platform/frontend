@@ -13,6 +13,7 @@ import { SaveButton } from "../../Components/SaveButton";
 import { FavoriteStar } from "../../Components/EventCard/FavoriteStar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { guardIsSigned } from "../../API/cookies";
 
 export const Post = () => {
   const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
@@ -76,14 +77,16 @@ export const Post = () => {
     setOptionalHide(!isOptionalHide);
   };
   const subscribe = () => {
-    const postId = +(eventId || 0);
-    subscribeToEvent(postId)
-      .then((res) => {
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log(err);
-      });
+    guardIsSigned(navigate, () => {
+      const postId = +(eventId || 0);
+      subscribeToEvent(postId)
+        .then((res) => {
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    });
   };
   return (
     <div className={styles.Post}>

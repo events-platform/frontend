@@ -30,7 +30,7 @@ export const Login = () => {
             dispatch(setSignIn(true));
             dispatch(setUserName(res.data.username));
             dispatch(setAvatarUrl(res.data.avatar));
-            navigate("/");
+            navigate("/", { replace: true });
           });
       })
       .catch((err) => {

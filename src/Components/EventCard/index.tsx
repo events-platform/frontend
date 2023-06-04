@@ -1,8 +1,9 @@
 import React, { FC, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./EventCard.module.sass";
 import { convertDateToString } from "../../API/post";
 import { FavoriteStar } from "./FavoriteStar";
+import { guardIsSigned } from "../../API/cookies";
 
 interface EventCardProps {
   preview: string;
@@ -20,14 +21,17 @@ export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beg
   const [favorite, setFavorite] = useState(false);
   const [lasted] = useState(new Date() > new Date(endDate));
   const typeDateRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   return (
     <>
       <div className={styles.EventCard}>
         <div className={styles.wrapper}>
           <FavoriteStar favorite={favorite} style={styles.star} onClick={() => {
-            onFavoriteClick(id);
-            setFavorite(!favorite);
+            guardIsSigned(navigate, () => {
+              onFavoriteClick(id);
+              setFavorite(!favorite);
+            });
           }}/>
           {lasted
             ? <div className={styles.lasted}>
