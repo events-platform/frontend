@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { EventCard } from "../../EventCard";
 import { SelectedTab } from "../../../Pages/Profile";
 import { Ipost } from "../../../API/post";
 import styles from "./Events.module.sass";
 import { HiddenEventCard } from "../../HiddenEventCard";
+import { EventsEmpty } from "../EventsEmpty";
 
 interface EventsInterface {
   selected: SelectedTab,
@@ -15,21 +15,6 @@ interface EventsInterface {
   isProfileFavoriteEventsLoaded: boolean,
   profileSubscribeEvents: Ipost[]
 }
-
-const EventsEmpty = () => {
-  return (
-    <div className={styles.EventsEmpty}>
-      <img src={require("../../../assets/profile/Yn6hmt4S69A.jpg")} alt="здесь пусто" width={328}/>
-      <p className={styles.EmptyEventsText}>
-        Ой, тут пусто.<br />
-        <Link to="/events/create" className={styles.link}>
-          Создайте мероприятие
-        </Link>
-        &nbsp;нажав на соответствующую кнопку в верхней части профиля.
-      </p>
-    </div>
-  );
-};
 
 export const Events: FC<EventsInterface> = ({
   selected,
@@ -57,11 +42,11 @@ export const Events: FC<EventsInterface> = ({
   }, [profileOwnEvents, isProfileEventsLoaded, selected, profileFavoriteEvents, isProfileFavoriteEventsLoaded, profileSubscribeEvents]);
   return (
     <div className={styles.profileEvents}>
-      <div className={styles.eventsContent}>
-        {
-          loaded
-            ? content.length !== 0
-              ? content.map((el, index) => (
+      {
+        loaded
+          ? content.length !== 0
+            ? <div className={styles.eventsContent}>
+              {content.map((el, index) => (
                 <EventCard
                   key={el.id}
                   onFavoriteClick={addPostToFavorite}
@@ -74,13 +59,17 @@ export const Events: FC<EventsInterface> = ({
                   id={el.id}
                   ownerAvatar={el.ownerAvatar}
                 />
-              ))
-              : <EventsEmpty />
-            : Array.from({ length: 15 }, (_, index) => (
+              ))}
+            </div>
+            : <div className={styles.empty}>
+              <EventsEmpty />
+            </div>
+          : <div className={styles.eventsContent}>
+            {Array.from({ length: 15 }, (_, index) => (
               <HiddenEventCard key={index}/>
-            ))
-        }
-      </div>
+            ))}
+          </div>
+      }
     </div>
   );
 };

@@ -20,7 +20,8 @@ interface InputProps {
   type?: InputType;
   selectValues?: string[];
   focus?: boolean;
-  border?: string ;
+  border?: string;
+  limit?: number;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -33,7 +34,8 @@ export const Input: React.FC<InputProps> = ({
   type,
   selectValues,
   focus,
-  border
+  border,
+  limit
 }) => {
   const [focused, setfocused] = useState(focus);
   const onInputChange = (e: any) => {

@@ -10,9 +10,10 @@ interface InputProps {
   ref?: RefObject<HTMLInputElement>;
   onEnter: Function;
   width?: number;
+  limit?: number;
 }
 
-export const Input: React.FC<InputProps> = ({ text, children, type, color, setState, ref, onEnter, width }) => {
+export const Input: React.FC<InputProps> = ({ text, children, type, color, setState, ref, onEnter, width, limit }) => {
   const handleChange = (event: { target: { value: any; }}) => {
     setState(event.target.value);
   };
@@ -34,6 +35,7 @@ export const Input: React.FC<InputProps> = ({ text, children, type, color, setSt
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         ref={ref}
+        maxLength={limit}
       />
       {children}
     </div>

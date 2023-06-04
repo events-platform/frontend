@@ -9,6 +9,7 @@ import { SecondaryButton } from "../../Components/SecondaryButton";
 import { Checkbox } from "../../Components/CheckBox";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { paths } from "../../API/paths";
+import { EventsEmpty } from "../../Components/Posts/EventsEmpty";
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Ipost[]>();
@@ -103,10 +104,10 @@ export const Posts = () => {
         <h1>
            Мероприятия
         </h1>
-        <div className={styles.events}>
-          {posts
-            ? getViewPosts().length !== 0
-              ? getViewPosts().map((el, index) => (
+        {posts
+          ? getViewPosts().length !== 0
+            ? <div className={styles.events}>
+              { getViewPosts().map((el) => (
                 <EventCard
                   onFavoriteClick={onFavoriteClick}
                   key={el.id}
@@ -119,12 +120,16 @@ export const Posts = () => {
                   id={el.id}
                   ownerAvatar={el.ownerAvatar}
                 />
-              ))
-              : null
-            : Array.from({ length: 15 }, (_, index) => (
+              ))}
+            </div>
+            : <div className={styles.empty}>
+              <EventsEmpty />
+            </div>
+          : <div className={styles.events}>
+            { Array.from({ length: 15 }, (_, index) => (
               <HiddenEventCard key={index} />
             ))}
-        </div>
+          </div>}
       </div>
     </div>
   );
