@@ -9,6 +9,7 @@ import { CalendarContainer } from "../../Components/PostCreation/Calendar";
 import { Description } from "../../Components/Auth/Description";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { InputType } from "../../Components/PostCreation/Input";
 
 enum PostErrors {
   file = "Загрузите изображение",
@@ -39,7 +40,7 @@ export const PostCreation = () => {
   const [typeFocus, settypeFocus] = useState(false);
   const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
   const inputWidth = viewportWidth < 380 ? "300px" : "377px";
-  const dateWidth = viewportWidth < 380 ? "130px" : "168.5px";
+  const dateWidth = viewportWidth < 380 ? "125px" : "168.5px";
 
   const closeModal = () => {
     setmodalHidden(true);
@@ -130,7 +131,7 @@ export const PostCreation = () => {
             require={true}
             state={eventFormat}
             setState={setFormat}
-            selectMode={true}
+            type={InputType.select}
             selectValues={["Онлайн", "Офлайн", "Смешанное"]}
             focus={formatFocus}
           />
@@ -158,7 +159,7 @@ export const PostCreation = () => {
             require={true}
             state={eventType}
             setState={setEventType}
-            selectMode={true}
+            type={InputType.select}
             selectValues={eventsFormats}
             focus={typeFocus}
           />
@@ -173,6 +174,7 @@ export const PostCreation = () => {
           <div style={{ width: inputWidth }} className={styles.dateWrapper}>
             <div onFocus={() => setshowBeginCalendar(true)} >
               <Input
+                type={InputType.datetimeLocal}
                 name="Дата начала"
                 placeholder="YYYY-MM-DD"
                 require={true}
@@ -180,10 +182,10 @@ export const PostCreation = () => {
                 state={formatDate(beginDate)}
                 setState={() => {}}
               />
-              {showBeginCalendar ? <CalendarContainer defaultValue={beginDate} setBeginDate={(val) => { setBeginDate(val); }} setShowCalendar={setshowBeginCalendar} /> : null}
             </div>
             <div onFocus={() => setshowEndCalendar(true)}>
               <Input
+                type={InputType.datetimeLocal}
                 name="Дата окончания"
                 placeholder="YYYY-MM-DD"
                 require={true}
@@ -191,7 +193,6 @@ export const PostCreation = () => {
                 state={formatDate(endDate)}
                 setState={() => {}}
               />
-              {showEndCalendar ? <CalendarContainer defaultValue={endDate} setBeginDate={(val) => { setEndDate(val); }} setShowCalendar={setshowEndCalendar} /> : null}
             </div>
 
           </div>

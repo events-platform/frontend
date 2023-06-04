@@ -11,17 +11,20 @@
 
 .ProfileInfo
   display: flex
+  flex-wrap: wrap
+  gap: 50px 40px
+  @media (max-width: 507px)
+    justify-content: space-around
 .ProfileName
-  /* Дядя Богдан */
   font-family: 'Roboto'
   font-style: normal
   font-size: 24px
   line-height: 28px
   color: rgba(0, 0, 0, 0.85)
   margin-bottom: 15px
-.Description
-  margin-left: 40px
-  margin-top: 22px
+  max-width: 320px
+  @media (max-width: 507px)
+    text-align: center
 .ProfileDescription
   font-family: 'Roboto'
   font-style: normal
@@ -30,19 +33,27 @@
   line-height: 19px
   color: rgba(0, 0, 0, 0.85)
   margin-bottom: 15px
+  max-width: 320px
+  padding: 0 5px
+  overflow-wrap: break-word
+
+
 .ProfileTools
   margin-left: auto
   display: flex
+  flex-wrap: wrap
   gap: 15px
+  @media (max-width: 1004px)
+    margin: 0 
+  @media (max-width: 507px)
+    justify-content: space-around
 .addsvg
   display: flex
   height: 100%
   align-items: center
   justify-content: center
   margin-left: 16px
-
-
-
-
-
+.flexwrap
+  display: flex
+  flex-wrap: wrap
 
