@@ -39,6 +39,8 @@ export const Post = () => {
   const [optionalColor, setOptionalColor] = useState("#5AAE81");
   const [isOptionalHide, setOptionalHide] = useState(true);
   const [favorite, setfavorite] = useState(false);
+  const [hiddenHeigth, setHiddenHeigth] = useState(106);
+
   useEffect(() => {
     if (eventId) {
       getPostById(+eventId).then((res) => {
@@ -46,6 +48,12 @@ export const Post = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (hiddenRef.current) {
+      setHiddenHeigth(hiddenRef.current.offsetHeight);
+    }
+  }, [hiddenRef, data, viewportWidth]);
 
   const handleOptional = () => {
     if (isOptionalHide) {
@@ -61,7 +69,7 @@ export const Post = () => {
       if (optionalSVGRef.current !== null && hiddenRef.current) {
         optionalSVGRef.current.style.backgroundColor = "#FFFFFF";
         optionalSVGRef.current.style.transform = "rotate(0deg)";
-        hiddenRef.current.style.marginTop = "-106px";
+        hiddenRef.current.style.marginTop = `-${hiddenHeigth}px`;
         hiddenRef.current.style.opacity = "0";
       }
     }
@@ -107,7 +115,7 @@ export const Post = () => {
                   {convertDateToString(data.beginDate, data.endDate)}
                 </h2>
                 : null}
-              {viewportWidth > 425 ? <h1 className={styles.name}>{data.name}</h1> : null}
+              <h1 className={styles.name}>{data.name}</h1>
               {viewportWidth > 700
                 ? <><h2 className={styles.avatarauthor}>
                   <img src={data.ownerAvatar} alt="avatar" />
@@ -130,13 +138,27 @@ export const Post = () => {
         </div>
         <div className={styles.content}>
           <div className={styles.optional}>
+            {viewportWidth <= 700
+              ? <div className={styles.MobileContent}>
+                <h2 className={styles.MobileAuthor}>
+                  <img src={data.ownerAvatar} alt="avatar" />
+                  <LinkButton to={`/profile/${data.ownerName}`}>
+                    {data.ownerName}
+                  </LinkButton>
+                </h2>
+                <h2 className={styles.MobileTypeDate}>
+                  {data.type} |{" "}
+                  {convertDateToString(data.beginDate, data.endDate)}
+                </h2>
+              </div>
+              : null}
             <button className={styles.show} onClick={() => handleOptional()}>
               <h3>Дополнительная информация</h3>
               <div className={styles.optionalWrapper} ref={optionalSVGRef}>
                 <Optional color={optionalColor} />
               </div>
             </button>
-            <div className={styles.hidden} ref={hiddenRef}>
+            <div className={styles.hidden} ref={hiddenRef} style={{ marginTop: isOptionalHide ? `-${hiddenHeigth}px` : "0px" }}>
               <LinkButton to={`mailto:${data.email}`}>
                 <Description name={"Почта:"} text={`${data.email}`} />
               </LinkButton>
