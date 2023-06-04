@@ -97,8 +97,10 @@ export const Post = () => {
                     favorite={favorite}
                     style={styles.star}
                     onClick={() => {
-                      addPostToFavorite(+(eventId || 0));
-                      setfavorite(true);
+                      guardIsSigned(navigate, () => {
+                        addPostToFavorite(+(eventId || 0));
+                        setfavorite(true);
+                      });
                     }}
                   />
                 </div>
