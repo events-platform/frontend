@@ -213,7 +213,7 @@ export const PostCreation = () => {
         </div>
       </div>
       <Modal isHidden={modalHidden} closeModal={closeModal}>
-        <ModalEditAvatar closeModal={closeModal} loadAvatar={loadImage} type="post" />
+        <ModalEditAvatar closeModal={closeModal} loadAvatar={loadImage} modalHidden={modalHidden} type="post" />
       </Modal>
     </>
   );
