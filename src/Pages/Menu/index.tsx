@@ -146,7 +146,7 @@ export const Menu = () => {
           />
         </Link>
         <h1 className={styles.EventShare} ref={aboutRef}>
-          Event Share
+          EventShare
         </h1>
         <div className={styles.descHeader}>
           <hr />

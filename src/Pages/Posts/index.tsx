@@ -104,34 +104,32 @@ export const Posts = () => {
         <h1>
            Мероприятия
         </h1>
-        <div className={styles.events}>
-          {posts
-            ? getViewPosts().length !== 0
-              ? <div className={styles.events}>
-                { getViewPosts().map((el) => (
-                  <EventCard
-                    onFavoriteClick={onFavoriteClick}
-                    key={el.id}
-                    preview={el.image}
-                    author={el.ownerName}
-                    name={el.name}
-                    type={el.type}
-                    beginDate={el.beginDate}
-                    endDate={el.endDate}
-                    id={el.id}
-                    ownerAvatar={el.ownerAvatar}
-                  />
-                ))}
-              </div>
-              : <div className={styles.empty}>
-                <EventsEmpty />
-              </div>
-            : <div className={styles.events}>
-              { Array.from({ length: 15 }, (_, index) => (
-                <HiddenEventCard key={index} />
+        {posts
+          ? getViewPosts().length !== 0
+            ? <div className={styles.events}>
+              { getViewPosts().map((el) => (
+                <EventCard
+                  onFavoriteClick={onFavoriteClick}
+                  key={el.id}
+                  preview={el.image}
+                  author={el.ownerName}
+                  name={el.name}
+                  type={el.type}
+                  beginDate={el.beginDate}
+                  endDate={el.endDate}
+                  id={el.id}
+                  ownerAvatar={el.ownerAvatar}
+                />
               ))}
-            </div>}
-        </div>
+            </div>
+            : <div className={styles.empty}>
+              <EventsEmpty />
+            </div>
+          : <div className={styles.events}>
+            { Array.from({ length: 15 }, (_, index) => (
+              <HiddenEventCard key={index} />
+            ))}
+          </div>}
       </div>
     </div>
   );

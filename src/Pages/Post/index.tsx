@@ -29,9 +29,11 @@ export const Post = () => {
 
   useEffect(() => {
     if (eventId) {
-      getPostById(+eventId).then((res) => {
-        setData(res.data);
-      });
+      getPostById(+eventId)
+        .then((res) => {
+          setData(res.data);
+        })
+        .catch(() => navigate("/404"));
     }
   }, []);
 

@@ -95,16 +95,19 @@ export const Profile = () => {
       .then((res) => {
         setprofileEvents(res.data);
       })
-      .then(() => setProfileEventsLoaded(true));
+      .then(() => setProfileEventsLoaded(true))
+      .catch(() => navigate("/404"));
     getUserFavoritePosts(username)
       .then((res) => {
         setProfileFavoriteEvents(res.data);
       })
-      .then(() => setProfileFavoriteEventsLoaded(true));
+      .then(() => setProfileFavoriteEventsLoaded(true))
+      .catch(() => navigate("/404"));
     getUserSubscribePosts(username)
       .then((res) => {
         setprofileSubscribeEvents(res.data);
-      });
+      })
+      .catch(() => navigate("/404"));
   }, []);
   const onFavoriteClick = (id: number) => {
     addPostToFavorite(id).then((res) =>
