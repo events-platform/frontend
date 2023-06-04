@@ -9,10 +9,11 @@ import { setAvatarUrl, setUserName } from "../../../store/reducers/userReducer";
 interface profileProps {
   username: string,
   avtarUrl: string,
-  setAvatar: (path: string) => void
+  setAvatar: (path: string) => void,
+  modalHidden: boolean
 }
 
-export const ProfileImage: React.FC<profileProps> = ({ username, avtarUrl, setAvatar }) => {
+export const ProfileImage: React.FC<profileProps> = ({ username, avtarUrl, setAvatar, modalHidden }) => {
   const [isHidden, setisHidden] = React.useState<boolean>(true);
 
   const closeModal = () => {
@@ -38,7 +39,7 @@ export const ProfileImage: React.FC<profileProps> = ({ username, avtarUrl, setAv
     <div className={styles.ImageContainer}>
       <img onClick={openModal} src={avtarUrl} className={styles.ProfileImg} />
       <Modal isHidden={isHidden} closeModal={closeModal}>
-        <ModalEditAvatar closeModal={closeModal} loadAvatar={LoadAvatar} type="avatar" />
+        <ModalEditAvatar closeModal={closeModal} loadAvatar={LoadAvatar} modalHidden={modalHidden} type="avatar" />
       </Modal>
     </div>
   );

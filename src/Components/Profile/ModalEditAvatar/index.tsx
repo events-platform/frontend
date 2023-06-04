@@ -6,10 +6,11 @@ import styles from "./ModalEditAvatar.module.sass";
 interface ModalEditAvatarInterface {
   closeModal: () => void,
   loadAvatar: (profileImage: File | null) => void,
-  type: string
+  type: string,
+  modalHidden?: boolean
 }
 
-export const ModalEditAvatar: FC<ModalEditAvatarInterface> = ({ closeModal, loadAvatar, type }) => {
+export const ModalEditAvatar: FC<ModalEditAvatarInterface> = ({ closeModal, loadAvatar, type, modalHidden }) => {
   const [avatarPreview, setavatarPreview] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [scale, setScale] = useState(2);
@@ -33,7 +34,7 @@ export const ModalEditAvatar: FC<ModalEditAvatarInterface> = ({ closeModal, load
   };
 
   useEffect(() => {
-    if (avatarPreview) {
+    if (!modalHidden) {
       document.addEventListener("wheel", handleScroll, { passive: false });
     } else {
       document.removeEventListener("wheel", handleScroll);
@@ -42,7 +43,7 @@ export const ModalEditAvatar: FC<ModalEditAvatarInterface> = ({ closeModal, load
     return () => {
       document.removeEventListener("wheel", handleScroll);
     };
-  }, [avatarPreview, scale]);
+  }, [modalHidden, scale]);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const editorRef = useRef<AvatarEditor | null>(null);
