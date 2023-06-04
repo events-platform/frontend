@@ -12,10 +12,14 @@
     row-gap: 40px
     grid-column-gap: 50px
     column-gap: 50px
-    justify-content: center
     overflow: visible
     width: 100%
     margin-bottom: 40px
+    justify-content: center
+  .empty
+    display: flex
+    justify-content: center
+    align-items: center
   
   /* Ой, тут пусто. Создайте мероприятие нажав на соответствующую кнопку в верхней части профиля. */
 .EmptyEventsText
@@ -36,6 +40,11 @@
 .link
   color: rgba(90, 174, 129, 1)
   text-decoration: none
+
+@media (max-width: 1250px)
+  .profileEvents
+    .eventsContent
+      justify-content: center
 
 @media (max-width: 455px)
   .profileEvents

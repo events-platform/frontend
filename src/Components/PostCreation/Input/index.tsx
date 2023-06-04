@@ -13,7 +13,8 @@ interface InputProps {
   selectMode?: boolean;
   selectValues?: string[];
   focus?: boolean;
-  border?: string ;
+  border?: string;
+  limit?: number;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -26,7 +27,8 @@ export const Input: React.FC<InputProps> = ({
   selectMode,
   selectValues,
   focus,
-  border
+  border,
+  limit
 }) => {
   const [focused, setfocused] = useState(focus);
   const onInputChange = (e: any) => {
@@ -52,7 +54,7 @@ export const Input: React.FC<InputProps> = ({
           border={require && focused && state === "" ? "1px solid red" : border}
         />
         : <div className={styles.inputContainer} style={{ width, border: require && focused && state === "" ? "1px solid red" : border }}>
-          <input onBlur={() => setfocused(require ? state === "" : false)} value={state} onChange={onInputChange} placeholder={placeholder} />
+          <input onBlur={() => setfocused(require ? state === "" : false)} value={state} onChange={onInputChange} placeholder={placeholder} maxLength={limit} />
         </div>
       }
     </div>

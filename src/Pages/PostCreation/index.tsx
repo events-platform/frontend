@@ -10,12 +10,11 @@ import { Description } from "../../Components/Auth/Description";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
-// eslint-disable-next-line no-unused-vars
 enum PostErrors {
-  // eslint-disable-next-line no-unused-vars
   file = "Загрузите изображение",
-  // eslint-disable-next-line no-unused-vars
-  fields = "Не заполненны все обязательные поля"
+  fields = "Не заполненны все обязательные поля",
+  nameLength = "Название не может быть длинее 40 символов",
+  descriptionLength = "Описание не может быть длинее 4096 символов"
 }
 
 export const PostCreation = () => {
@@ -63,11 +62,19 @@ export const PostCreation = () => {
     settypeFocus(true);
     setlimitFocus(true);
     if (!file) {
-      setErrorState("Загрузите изображение");
+      setErrorState(PostErrors.file);
       return;
     }
     if (name === "" || eventFormat === "" || registrationLimit === "" || eventType === "") {
       setErrorState(PostErrors.fields);
+      return;
+    }
+    if (name.length > 40) {
+      setErrorState(PostErrors.nameLength);
+      return;
+    }
+    if (description.length > 4096) {
+      setErrorState(PostErrors.descriptionLength);
       return;
     }
     createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description }, file)
@@ -114,6 +121,7 @@ export const PostCreation = () => {
             state={name}
             setState={setName}
             focus={nameFocus}
+            limit={40}
           />
           <Input
             width={inputWidth}
@@ -203,6 +211,7 @@ export const PostCreation = () => {
           placeholder="Введите описание"
           value={description}
           onChange={handleChange}
+          maxLength={4096}
         ></textarea>
         <div className={styles.error}>
           <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />

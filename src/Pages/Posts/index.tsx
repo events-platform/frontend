@@ -9,6 +9,7 @@ import { SecondaryButton } from "../../Components/SecondaryButton";
 import { Checkbox } from "../../Components/CheckBox";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { paths } from "../../API/paths";
+import { EventsEmpty } from "../../Components/Posts/EventsEmpty";
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Ipost[]>();
@@ -106,24 +107,30 @@ export const Posts = () => {
         <div className={styles.events}>
           {posts
             ? getViewPosts().length !== 0
-              ? getViewPosts().map((el, index) => (
-                <EventCard
-                  onFavoriteClick={onFavoriteClick}
-                  key={el.id}
-                  preview={el.image}
-                  author={el.ownerName}
-                  name={el.name}
-                  type={el.type}
-                  beginDate={el.beginDate}
-                  endDate={el.endDate}
-                  id={el.id}
-                  ownerAvatar={el.ownerAvatar}
-                />
-              ))
-              : null
-            : Array.from({ length: 15 }, (_, index) => (
-              <HiddenEventCard key={index} />
-            ))}
+              ? <div className={styles.events}>
+                { getViewPosts().map((el) => (
+                  <EventCard
+                    onFavoriteClick={onFavoriteClick}
+                    key={el.id}
+                    preview={el.image}
+                    author={el.ownerName}
+                    name={el.name}
+                    type={el.type}
+                    beginDate={el.beginDate}
+                    endDate={el.endDate}
+                    id={el.id}
+                    ownerAvatar={el.ownerAvatar}
+                  />
+                ))}
+              </div>
+              : <div className={styles.empty}>
+                <EventsEmpty />
+              </div>
+            : <div className={styles.events}>
+              { Array.from({ length: 15 }, (_, index) => (
+                <HiddenEventCard key={index} />
+              ))}
+            </div>}
         </div>
       </div>
     </div>
