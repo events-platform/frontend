@@ -39,6 +39,8 @@ export const PostCreation = () => {
   const [formatFocus, setformatFocus] = useState(false);
   const [typeFocus, settypeFocus] = useState(false);
   const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
+  const inputWidth = viewportWidth < 380 ? "300px" : "377px";
+  const dateWidth = viewportWidth < 380 ? "130px" : "168.5px";
 
   const closeModal = () => {
     setmodalHidden(true);
@@ -105,7 +107,7 @@ export const PostCreation = () => {
         <h2>Основная информация</h2>
         <div className={styles.inputWrapper}>
           <Input
-            width="377px"
+            width={inputWidth}
             name="Название"
             placeholder="Название"
             require={true}
@@ -114,7 +116,7 @@ export const PostCreation = () => {
             focus={nameFocus}
           />
           <Input
-            width="377px"
+            width={inputWidth}
             name="Формат мероприятия"
             placeholder="Формат мероприятия"
             require={true}
@@ -125,7 +127,7 @@ export const PostCreation = () => {
             focus={formatFocus}
           />
           <Input
-            width="377px"
+            width={inputWidth}
             name="Почта"
             placeholder="Почта"
             require={false}
@@ -134,7 +136,7 @@ export const PostCreation = () => {
           />
 
           <Input
-            width="377px"
+            width={inputWidth}
             name="Адрес проведения"
             placeholder="Адрес проведения"
             require={false}
@@ -142,7 +144,7 @@ export const PostCreation = () => {
             setState={setLocation}
           />
           <Input
-            width="377px"
+            width={inputWidth}
             name="Тип мероприятия"
             placeholder="Тип мероприятия"
             require={true}
@@ -153,20 +155,20 @@ export const PostCreation = () => {
             focus={typeFocus}
           />
           <Input
-            width="377px"
+            width={inputWidth}
             name="Сайт или соц.сети"
             placeholder="Сайт или соц.сети"
             require={false}
             state={externalLink}
             setState={setEventLink}
           />
-          <div className={styles.dateWrapper}>
+          <div style={{ width: inputWidth }} className={styles.dateWrapper}>
             <div onFocus={() => setshowBeginCalendar(true)} >
               <Input
                 name="Дата начала"
                 placeholder="YYYY-MM-DD"
                 require={true}
-                width="168.5px"
+                width={dateWidth}
                 state={formatDate(beginDate)}
                 setState={() => {}}
               />
@@ -177,7 +179,7 @@ export const PostCreation = () => {
                 name="Дата окончания"
                 placeholder="YYYY-MM-DD"
                 require={true}
-                width="168.5px"
+                width={dateWidth}
                 state={formatDate(endDate)}
                 setState={() => {}}
               />
@@ -186,7 +188,7 @@ export const PostCreation = () => {
 
           </div>
           <Input
-            width="377px"
+            width={inputWidth}
             name="Количество мест"
             placeholder="Количество мест"
             require={true}
@@ -194,6 +196,7 @@ export const PostCreation = () => {
             setState={setRegistrationLimit}
             focus={limitFocus}
           />
+          <div style={{ width: "377px" }}></div>
         </div>
         <h2>Описание</h2>
         <textarea
@@ -205,7 +208,7 @@ export const PostCreation = () => {
           <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
         </div>
         <div className={styles.SaveButton}>
-          <SaveButton width={178} height={50} onClick={onSaveButtonClick} />
+          <SaveButton width={viewportWidth < 500 ? 120 : 178 } height={viewportWidth < 500 ? 40 : 50} onClick={onSaveButtonClick} />
         </div>
       </div>
       <Modal isHidden={modalHidden} closeModal={closeModal}>

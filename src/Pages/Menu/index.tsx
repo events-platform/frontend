@@ -51,7 +51,10 @@ export const Menu = () => {
   }, []);
 
   const onFavoriteClick = (id: number) => {
-    addPostToFavorite(id).then();
+    addPostToFavorite(id)
+      .then()
+      // eslint-disable-next-line no-console
+      .catch(err => console.log(err));
   };
 
   const handlePrevButtonClick = () => {
