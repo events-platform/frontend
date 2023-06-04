@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input, Arrow, Cross } from "../../Components/PostCreation";
@@ -6,6 +7,8 @@ import { Modal, ModalEditAvatar, SaveButton } from "../../Components/Profile";
 import { createPost, formatDate, getEventFormats } from "../../API/post";
 import { CalendarContainer } from "../../Components/PostCreation/Calendar";
 import { Description } from "../../Components/Auth/Description";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 // eslint-disable-next-line no-unused-vars
 enum PostErrors {
@@ -35,6 +38,7 @@ export const PostCreation = () => {
   const [limitFocus, setlimitFocus] = useState(false);
   const [formatFocus, setformatFocus] = useState(false);
   const [typeFocus, settypeFocus] = useState(false);
+  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
 
   const closeModal = () => {
     setmodalHidden(true);
@@ -128,8 +132,7 @@ export const PostCreation = () => {
             state={email}
             setState={setEmail}
           />
-        </div>
-        <div className={styles.inputWrapper}>
+
           <Input
             width="377px"
             name="Адрес проведения"
@@ -157,8 +160,6 @@ export const PostCreation = () => {
             state={externalLink}
             setState={setEventLink}
           />
-        </div>
-        <div className={styles.inputWrapper}>
           <div className={styles.dateWrapper}>
             <div onFocus={() => setshowBeginCalendar(true)} >
               <Input

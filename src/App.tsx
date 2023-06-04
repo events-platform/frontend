@@ -11,6 +11,7 @@ import { updateViewportWidth } from "./store/reducers/viewportSlice";
 import "./style/clear.sass";
 import "./style/fonts.sass";
 import "./style/other.sass";
+import { Undefined } from "./Pages/Undefined";
 
 export const App = () => {
   const { pathname } = useLocation();
@@ -45,7 +46,7 @@ export const App = () => {
         <Route path='/login' element={<Auth><Login /></Auth>} />
         <Route path='/login/reset' element={<Auth><ResetPassword /></Auth>} />
         <Route path='/reg' element={<Auth><Register /></Auth>} />
-        <Route path='*' element={<div>404</div>} />
+        <Route path='*' element={<Undefined />} />
       </Routes>
     </div>
   );

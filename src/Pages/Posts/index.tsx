@@ -34,6 +34,8 @@ export const Posts = () => {
     const type = params.get("type");
     if (type) {
       onTypeChanged(type);
+    } else {
+      getSortPosts({});
     }
   }, []);
 
