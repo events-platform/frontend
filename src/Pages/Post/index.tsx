@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Arrow, Optional, Description } from "../../Components/Post";
+import { Arrow, Optional, Description, HiddenPost } from "../../Components/Post";
 import {
+  Ipost,
   addPostToFavorite,
   convertDateToString,
   getPostById,
@@ -21,22 +22,7 @@ export const Post = () => {
   const { eventId } = useParams();
   const optionalSVGRef = useRef<HTMLDivElement>(null);
   const hiddenRef = useRef<HTMLDivElement>(null);
-  const [data, setData] = useState({
-    beginDate: "",
-    description: "",
-    email: "",
-    endDate: "",
-    externalLink: "",
-    format: "",
-    id: 0,
-    image: "",
-    location: "",
-    name: "",
-    ownerName: "",
-    registrationLimit: 0,
-    type: "",
-    ownerAvatar: ""
-  });
+  const [data, setData] = useState<Ipost>();
   const [optionalColor, setOptionalColor] = useState("#5AAE81");
   const [isOptionalHide, setOptionalHide] = useState(true);
   const [favorite, setfavorite] = useState(false);
@@ -44,9 +30,11 @@ export const Post = () => {
 
   useEffect(() => {
     if (eventId) {
-      getPostById(+eventId).then((res) => {
-        setData(res.data);
-      });
+      getPostById(+eventId)
+        .then((res) => {
+          setData(res.data);
+        })
+        .catch(() => navigate("/404"));
     }
   }, []);
 
@@ -89,117 +77,127 @@ export const Post = () => {
     });
   };
   return (
-    <div className={styles.Post}>
-      <div className={styles.postContent}>
-        <div className={styles.preview}>
-          <img className={styles.image} src={data.image} alt="preview" />
-          <div className={styles.black}>
-            <div className={styles.postHeader}>
-              <button className={styles.arrow} onClick={() => navigate(-1)}>
-                <Arrow />
-              </button>
-              <FavoriteStar
-                width={viewportWidth > 900 ? "78px" : "46px"}
-                height={viewportWidth > 900 ? "78px" : "46px"}
-                starWidth={viewportWidth > 900 ? "60px" : "32px"}
-                starHeight={viewportWidth > 900 ? "60px" : "32px"}
-                favorite={favorite}
-                style={styles.star}
-                onClick={() => {
-                  addPostToFavorite(+(eventId || 0));
-                  setfavorite(true);
-                }}
-              />
-            </div>
-            <div className={styles.description}>
-              {viewportWidth > 700
-                ? <h2 className={styles.typedate}>
-                  {data.type} |{" "}
-                  {convertDateToString(data.beginDate, data.endDate)}
-                </h2>
-                : null}
-              <h1 className={styles.name}>{data.name}</h1>
-              {viewportWidth > 700
-                ? <><h2 className={styles.avatarauthor}>
-                  <img src={data.ownerAvatar} alt="avatar" />
-                  <LinkButton to={`/profile/${data.ownerName}`}>
-                    {data.ownerName}
-                  </LinkButton>
-                </h2>
-                <div className={styles.buttons}>
-                  <SaveButton
-                    text="Буду участвовать"
-                    onClick={subscribe}
-                    width={164}
-                    height={38}
+    <>
+      {!data
+        ? <HiddenPost />
+        : <div className={styles.Post}>
+          <div className={styles.postContent}>
+            <div className={styles.preview}>
+              <img className={styles.image} src={data.image} alt="preview" />
+              <div className={styles.black}>
+                <div className={styles.postHeader}>
+                  <button className={styles.arrow} onClick={() => navigate(-1)}>
+                    <Arrow />
+                  </button>
+                  <FavoriteStar
+                    width={viewportWidth > 900 ? "78px" : "46px"}
+                    height={viewportWidth > 900 ? "78px" : "46px"}
+                    starWidth={viewportWidth > 900 ? "60px" : "32px"}
+                    starHeight={viewportWidth > 900 ? "60px" : "32px"}
+                    favorite={favorite}
+                    style={styles.star}
+                    onClick={() => {
+                      addPostToFavorite(+(eventId || 0));
+                      setfavorite(true);
+                    }}
                   />
                 </div>
-                </>
-                : null}
+                <div className={styles.description}>
+                  {viewportWidth > 700
+                    ? <h2 className={styles.typedate}>
+                      {data.type} |{" "}
+                      {convertDateToString(data.beginDate, data.endDate)}
+                    </h2>
+                    : null}
+                  <h1 className={styles.name}>{data.name}</h1>
+                  {viewportWidth > 700
+                    ? <><h2 className={styles.avatarauthor}>
+                      <img src={data.ownerAvatar} alt="avatar" />
+                      <LinkButton to={`/profile/${data.ownerName}`}>
+                        {data.ownerName}
+                      </LinkButton>
+                    </h2>
+                    <div className={styles.buttons}>
+                      <SaveButton
+                        text="Буду участвовать"
+                        onClick={subscribe}
+                        width={164}
+                        height={38}
+                      />
+                    </div>
+                    </>
+                    : null}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className={styles.content}>
-          <div className={styles.optional}>
-            {viewportWidth <= 700
-              ? <div className={styles.MobileContent}>
-                <h2 className={styles.MobileAuthor}>
-                  <img src={data.ownerAvatar} alt="avatar" />
-                  <LinkButton to={`/profile/${data.ownerName}`}>
-                    {data.ownerName}
+            <div className={styles.content}>
+              <div className={styles.optional}>
+                {viewportWidth <= 700
+                  ? <div className={styles.MobileContent}>
+                    <h2 className={styles.MobileAuthor}>
+                      <img src={data.ownerAvatar} alt="avatar" />
+                      <LinkButton to={`/profile/${data.ownerName}`}>
+                        {data.ownerName}
+                      </LinkButton>
+                    </h2>
+                    <h2 className={styles.MobileTypeDate}>
+                      {data.type} |{" "}
+                      {convertDateToString(data.beginDate, data.endDate)}
+                    </h2>
+                  </div>
+                  : null}
+                <button className={styles.show} onClick={() => handleOptional()}>
+                  <h3>Дополнительная информация</h3>
+                  <div className={styles.optionalWrapper} ref={optionalSVGRef}>
+                    <Optional color={optionalColor} />
+                  </div>
+                </button>
+                <div className={styles.hidden} ref={hiddenRef} style={{ marginTop: isOptionalHide ? `-${hiddenHeigth}px` : "0px" }}>
+                  <LinkButton to={`mailto:${data.email}`}>
+                    <Description
+                      name={"Почта:"}
+                      text={data.email.length > 23 ? data.email.slice(0, 20) + "..." : data.email }
+                    />
                   </LinkButton>
-                </h2>
-                <h2 className={styles.MobileTypeDate}>
-                  {data.type} |{" "}
-                  {convertDateToString(data.beginDate, data.endDate)}
-                </h2>
+                  <Description
+                    name={"Кол-во мест:"}
+                    text={`${data.registrationLimit}`}
+                  />
+                  <LinkButton to={`http://maps.google.com/?q=г.+Екатеринбург,+${data.location}`}>
+                    <Description
+                      name={"Место проведения:"}
+                      text={data.location.length > 30 ? data.location.slice(0, 27) + "..." : data.location }
+                      color={"rgba(90, 174, 129, 1)"}
+                    />
+                  </LinkButton>
+                  <LinkButton to={`${data.externalLink}`}>
+                    <Description
+                      name={"Сайт:"}
+                      text={data.externalLink.length > 35 ? data.externalLink.slice(0, 32) + "..." : data.externalLink }
+                    />
+                  </LinkButton>
+                </div>
               </div>
-              : null}
-            <button className={styles.show} onClick={() => handleOptional()}>
-              <h3>Дополнительная информация</h3>
-              <div className={styles.optionalWrapper} ref={optionalSVGRef}>
-                <Optional color={optionalColor} />
-              </div>
-            </button>
-            <div className={styles.hidden} ref={hiddenRef} style={{ marginTop: isOptionalHide ? `-${hiddenHeigth}px` : "0px" }}>
-              <LinkButton to={`mailto:${data.email}`}>
-                <Description name={"Почта:"} text={`${data.email}`} />
-              </LinkButton>
-              <Description
-                name={"Кол-во мест:"}
-                text={`${data.registrationLimit}`}
-              />
-              <LinkButton to={`http://maps.google.com/?q=г.+Екатеринбург,+${data.location}`}>
-                <Description
-                  name={"Место проведения:"}
-                  text={`${data.location}`}
-                  color={"rgba(90, 174, 129, 1)"}
+              <h2 className={styles.about}>О мероприятии</h2>
+              <p className={styles.text}>
+                {data.description.split("\n").map((line, index) => (
+                  <React.Fragment key={index}>
+                    {line}
+                    <br />
+                  </React.Fragment>
+                ))}
+              </p>
+              <div className={styles.submit}>
+                <SaveButton
+                  onClick={subscribe}
+                  text="Буду участвовать"
+                  width={164}
+                  height={38}
                 />
-              </LinkButton>
-              <LinkButton to={`${data.externalLink}`}>
-                <Description name={"Сайт:"} text={`${data.externalLink}`} />
-              </LinkButton>
+              </div>
             </div>
           </div>
-          <h2 className={styles.about}>О мероприятии</h2>
-          <p className={styles.text}>
-            {data.description.split("\n").map((line, index) => (
-              <React.Fragment key={index}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))}
-          </p>
-          <div className={styles.submit}>
-            <SaveButton
-              onClick={subscribe}
-              text="Буду участвовать"
-              width={164}
-              height={38}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+        </div>}
+    </>
   );
 };

@@ -28,7 +28,7 @@ export const Register = () => {
   const [, setCookie] = useCookies(["access_token", "refresh_token"]);
 
   const onCreateAccountClicked = (): boolean => {
-    if (nameState) {
+    if (nameState || nameState.length <= 36) {
       setNameColor("#D9D9D9");
     } else {
       setNameColor("rgba(255, 77, 77, 0.9)");
@@ -57,6 +57,10 @@ export const Register = () => {
       setErrorState("Пароли не совпадают");
       return false;
     }
+    if (nameState.length > 36) {
+      setErrorState("Имя не может быть длинее 36 символов");
+    }
+
     create(nameState, emailState, passwordState)
       .then((res) => {
         if (res.status === 201) {
@@ -88,6 +92,7 @@ export const Register = () => {
             color={nameColor}
             onEnter={onCreateAccountClicked}
             width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220}
+            limit={36}
           >
             <User />
           </Input>

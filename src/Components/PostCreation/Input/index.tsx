@@ -20,7 +20,8 @@ interface InputProps {
   type?: InputType;
   selectValues?: string[];
   focus?: boolean;
-  border?: string ;
+  border?: string;
+  limit?: number;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -33,7 +34,8 @@ export const Input: React.FC<InputProps> = ({
   type,
   selectValues,
   focus,
-  border
+  border,
+  limit
 }) => {
   const [focused, setfocused] = useState(focus);
   const onInputChange = (e: any) => {
@@ -60,11 +62,11 @@ export const Input: React.FC<InputProps> = ({
         />
         : type === InputType.text
           ? <div className={styles.inputContainer} style={{ width, border: require && focused && state === "" ? "1px solid red" : border }}>
-            <input onBlur={() => setfocused(require ? state === "" : false)} value={state} onChange={onInputChange} placeholder={placeholder} />
+            <input onBlur={() => setfocused(require ? state === "" : false)} value={state} onChange={onInputChange} placeholder={placeholder} maxLength={limit} />
           </div>
           : <>
             <div className={styles.inputContainer} style={{ width, border: require && focused && state === "" ? "1px solid red" : border }}>
-              <input min={state} max="2100-06-14T00:00" onBlur={() => setfocused(require ? state === "" : false)} type="datetime-local" id="meeting-time" className={styles.datetime} defaultValue={state} onChange={e => setState(e.target.value)} placeholder={placeholder} />
+              <input min={state} max="2100-06-14T00:00" onBlur={() => setfocused(require ? state === "" : false)} type="datetime-local" id="meeting-time" className={styles.datetime} defaultValue={state} onChange={e => setState(e.target.value)} placeholder={placeholder} maxLength={limit} />
             </div>
           </>
       }
