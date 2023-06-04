@@ -1,4 +1,5 @@
 .PostCreation
+  padding: 0 10px
   padding-top: 83px
   padding-bottom: 95px
   color: black
@@ -66,15 +67,20 @@
 
 .inputWrapper
   display: flex
-  gap: 30px 115px
+  gap: 30px 5px
   margin-top: 30px
   flex-wrap: wrap
+  justify-content: space-between
   .dateWrapper
     display: flex
     max-width: 377px
-    gap: 40px
+    gap: 30px 5px
+    justify-content: space-between
     div
       flex-shrink: 1
+  @media (max-width: 790px)
+    justify-content: space-around
+
 
 .image
   border-radius: 10px
