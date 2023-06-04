@@ -1,9 +1,14 @@
 .Navbar
   padding-top: 5px
   display: flex
-  
   max-width: 1440px
   margin: 0 auto
+  gap: 15px
+  padding-left: 50px
+  @media (max-width: 500px)
+    padding-left: 0
+    justify-content: space-around
+    gap: 5px
 .Container
   width: 100%
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.05)

@@ -1,7 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import styles from "./Input.module.sass";
 import { SelectArrow } from "../SelectArrow";
 import { OutsideAlerter } from "../../OutsideAlerter/OutsideAlerter";
+
+export enum InputType {
+  text = "text",
+  select = "select",
+  datetimeLocal = "datetime-local"
+}
 
 interface InputProps {
   name?: string;
@@ -10,7 +17,7 @@ interface InputProps {
   require?: boolean;
   state: string;
   setState: (val: string) => void;
-  selectMode?: boolean;
+  type?: InputType;
   selectValues?: string[];
   focus?: boolean;
   border?: string ;
@@ -23,7 +30,7 @@ export const Input: React.FC<InputProps> = ({
   width,
   state,
   setState,
-  selectMode,
+  type,
   selectValues,
   focus,
   border
@@ -42,7 +49,7 @@ export const Input: React.FC<InputProps> = ({
         <span>{require ? "* " : null}</span>
         {name}
       </p>
-      {selectMode
+      {type === InputType.select
         ? <Select
           width={width}
           placeholder={placeholder}
@@ -51,15 +58,21 @@ export const Input: React.FC<InputProps> = ({
           selectValues={selectValues}
           border={require && focused && state === "" ? "1px solid red" : border}
         />
-        : <div className={styles.inputContainer} style={{ width, border: require && focused && state === "" ? "1px solid red" : border }}>
-          <input onBlur={() => setfocused(require ? state === "" : false)} value={state} onChange={onInputChange} placeholder={placeholder} />
-        </div>
+        : type === InputType.text
+          ? <div className={styles.inputContainer} style={{ width, border: require && focused && state === "" ? "1px solid red" : border }}>
+            <input onBlur={() => setfocused(require ? state === "" : false)} value={state} onChange={onInputChange} placeholder={placeholder} />
+          </div>
+          : <>
+            <div className={styles.inputContainer} style={{ width, border: require && focused && state === "" ? "1px solid red" : border }}>
+              <input min={state} max="2100-06-14T00:00" onBlur={() => setfocused(require ? state === "" : false)} type="datetime-local" id="meeting-time" className={styles.datetime} defaultValue={state} onChange={e => setState(e.target.value)} placeholder={placeholder} />
+            </div>
+          </>
       }
     </div>
   );
 };
 Input.defaultProps = {
-  selectMode: false,
+  type: InputType.text,
   selectValues: [],
   focus: false,
   border: "1px solid #D9D9D9"

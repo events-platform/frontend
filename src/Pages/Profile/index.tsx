@@ -131,7 +131,7 @@ export const Profile = () => {
             </div>
             {isOwnProfile
               ? <div className={styles.ProfileTools}>
-                <SaveButton onClick={() => navigate("/events/create")} text="Создать мероприятие" width={223} height={38}>
+                <SaveButton onClick={() => navigate("/events/create")} text="Создать мероприятие" width={241} height={38}>
                   <div className={styles.addsvg}>
                     <AddSVG viewBox="2 2 10 10" />
                   </div>
