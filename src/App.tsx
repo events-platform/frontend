@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Main, Auth } from "./Screens";
-import { Login, Register, Posts, Post, PostCreation, Menu, Profile, ResetPassword } from "./Pages";
+import { Login, Register, Posts, Post, PostCreation, Menu, Profile, ResetPassword, Undefined } from "./Pages";
 import { useCookies } from "react-cookie";
 import { getUserSelf } from "./API/login";
 import { useAppDispatch } from "./store/store";
@@ -11,7 +11,6 @@ import { updateViewportWidth } from "./store/reducers/viewportSlice";
 import "./style/clear.sass";
 import "./style/fonts.sass";
 import "./style/other.sass";
-import { Undefined } from "./Pages/Undefined";
 
 export const App = () => {
   const { pathname } = useLocation();

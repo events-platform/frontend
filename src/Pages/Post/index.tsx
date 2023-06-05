@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Arrow, Optional, Description, HiddenPost } from "../../Components/Post";
+import { Arrow, Optional, Description, HiddenPost, Form } from "../../Components/Post";
 import {
   Ipost,
   addPostToFavorite,
@@ -15,6 +15,8 @@ import { FavoriteStar } from "../../Components/EventCard/FavoriteStar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { guardIsSigned } from "../../API/cookies";
+import { Modal } from "../../Components/Modal";
+import { Cross } from "../../Components/PostCreation";
 
 export const Post = () => {
   const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
@@ -27,6 +29,7 @@ export const Post = () => {
   const [isOptionalHide, setOptionalHide] = useState(true);
   const [favorite, setfavorite] = useState(false);
   const [hiddenHeigth, setHiddenHeigth] = useState(106);
+  const [isModalHidden, setModalHidden] = useState(true);
 
   useEffect(() => {
     if (eventId) {
@@ -65,6 +68,7 @@ export const Post = () => {
     setOptionalHide(!isOptionalHide);
   };
   const subscribe = () => {
+    setModalHidden(!isModalHidden);
     guardIsSigned(navigate, () => {
       const postId = +(eventId || 0);
       subscribeToEvent(postId)
@@ -197,6 +201,12 @@ export const Post = () => {
                   height={38}
                 />
               </div>
+              <Modal isHidden={isModalHidden} closeModal={() => setModalHidden(true)}>
+                <button className={styles.cross} onClick={() => setModalHidden(true)} >
+                  <Cross />
+                </button>
+                <Form />
+              </Modal>
             </div>
           </div>
         </div>}

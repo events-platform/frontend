@@ -12,6 +12,7 @@ export interface postObject {
   email: string;
   externalLink: string;
   description: string;
+  formURL: string;
 }
 
 export interface Ipost {
@@ -29,6 +30,7 @@ export interface Ipost {
   image: string;
   ownerName: string;
   ownerAvatar: string;
+  formURL: string;
 }
 
 export const createPost = (obj: postObject, file: File) => {

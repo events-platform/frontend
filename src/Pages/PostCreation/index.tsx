@@ -5,7 +5,6 @@ import { Input, Arrow, Cross } from "../../Components/PostCreation";
 import styles from "./PostCreation.module.sass";
 import { Modal, ModalEditAvatar, SaveButton } from "../../Components/Profile";
 import { createPost, formatDate, getEventFormats } from "../../API/post";
-import { CalendarContainer } from "../../Components/PostCreation/Calendar";
 import { Description } from "../../Components/Auth/Description";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -24,9 +23,10 @@ export const PostCreation = () => {
   const [name, setName] = useState("");
   const [eventFormat, setFormat] = useState("");
   const [registrationLimit, setRegistrationLimit] = useState("");
-  const [beginDate, setBeginDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [beginDate] = useState<Date>(new Date());
+  const [endDate] = useState<Date>(new Date());
   const [location, setLocation] = useState("");
+  const [formURL, setFormURL] = useState("");
   const [modalHidden, setmodalHidden] = useState<boolean>(true);
   const [file, setFile] = useState<File | null>();
   const [email, setEmail] = useState("");
@@ -78,7 +78,7 @@ export const PostCreation = () => {
       setErrorState(PostErrors.descriptionLength);
       return;
     }
-    createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description }, file)
+    createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description, formURL }, file)
       .then((res) => {
         navigate(-1);
       })
@@ -207,13 +207,24 @@ export const PostCreation = () => {
           />
           <div style={{ width: "377px" }}></div>
         </div>
-        <h2>Описание</h2>
+        <h2 className={styles.registration}>
+          Запись на мероприятие
+        </h2>
+        <Input
+          width={inputWidth}
+          name="Вставьте ссылку на Google форму для посетителей"
+          placeholder="Ссылка"
+          require={false}
+          state={formURL}
+          setState={setFormURL}
+        />
+        <h2 className={styles.about}>Описание</h2>
         <textarea
           placeholder="Введите описание"
           value={description}
           onChange={handleChange}
           maxLength={4096}
-        ></textarea>
+        />
         <div className={styles.error}>
           <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
         </div>
