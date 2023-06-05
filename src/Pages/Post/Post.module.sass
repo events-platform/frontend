@@ -117,6 +117,7 @@
       margin-top: -106px
       opacity: 0
       flex-wrap: wrap
+      justify-content: space-between
     button:focus
       outline: none
       -webkit-tap-highlight-color: transparent
@@ -217,7 +218,32 @@
           width: 100vw
           height: calc(100vw * 0.423611)
 
-@media (max-width: 950px)
+@media (max-width: 940px)
+  .Post
+    .preview
+      .black
+        .description
+          .typedate
+            font-size: 26px
+          .name
+            font-size: 26px
+          .avatarauthor
+            margin-top: 20px
+            font-size: 26px
+          .buttons
+            margin-top: 20px
+  .content
+    .about
+      font-size: 26px
+    .text
+      font-size: 18px
+      line-height: 28px
+    .optional
+      .show
+        h3
+          font-size: 18px
+
+@media (max-width: 770px)
   .Post
     .preview
       .black
@@ -225,102 +251,132 @@
           .typedate
             font-size: 22px
           .name
-            font-size: 24px
-  .content
-    .about
-      font-size: 20px
-    .text
-      font-size: 18px
-      line-height: 30px
-
-@media (max-width: 750px)
-  .Post
-    .preview
-      .black
-        .description
+            margin-top: 10px
+            font-size: 22px
           .avatarauthor
             margin-top: 10px
-          .name
-            margin-top: 10px
+            font-size: 22px
           .buttons
             margin-top: 10px
-
-@media (max-width: 700px)
-  .nameAvatar
-    display: flex
-    gap: 20px
-    align-items: center
-    flex-direction: row-reverse
-    justify-content: flex-end
-
-@media (max-width: 580px)
-  .postHeader
-    margin-top: 20px
-
-@media (max-width: 520px)
-  .Post
-    .preview
-      .black
-        .description
-          .name
-            font-size: 18px
-            line-height: unset
   .content
+    .submit
+      padding-top: 30px
     .about
-      margin-top: 14px
-      font-size: 18px
+      margin-top: 30px
+      font-size: 22px
     .text
-      line-height: 20px
       font-size: 16px
-      margin-top: 10px
+      line-height: 28px
     .optional
       .show
         h3
-          font-size: 18px
-  .MobileTypeDate
-    font-size: 18px
-  .MobileAuthor
-    font-size: 18px
+          font-size: 16px
 
-@media (max-width: 425px)
-  .content
-    padding: 0 10px
-    .submit
-      padding-top: 15px
-  .star
-    background-color: rgba(0,0,0,1)
-
-@media (max-width: 375px)
+@media (max-width: 770px)
   .Post
     .preview
       .black
         .postHeader
-          margin: 16px 16px 0 16px
-        .description
-          margin: 0 16px 16px 16px
+          margin-top: 20px
 
-@media (max-width: 320px)
+@media (max-width: 570px)
   .Post
     .preview
       .black
         .description
-          .name
-            font-size: 16px
+          margin-bottom: 20px
+  .buttons
+    margin-top: 20px
+    z-index: 2
   .content
+    .optional
+      .show
+        padding-top: 30px
+
+@media (max-width: 530px)
+  .Post
+    .preview
+      .black
+        .description
+          .typedate
+            font-size: 20px
+          .name
+            font-size: 20px
+          .avatarauthor
+            font-size: 20px
+            img
+              width: 20px
+              height: 20px
+  .content
+    padding: 0 15px
     .about
-      font-size: 16px
+      font-size: 20px
     .text
       font-size: 14px
+      line-height: 24px
+    .optional
+      .show
+        h3
+          font-size: 14px
+  .Post
+    .preview
+      .black
+        .postHeader
+          margin: 15px 15px 0 15px
+        .description
+          margin: 0 15px 15px 15px
 
-@media (max-width: 290px)
+@media (max-width: 459px)
+  .Post
+    .preview
+      .black
+        .description
+          .typedate
+            font-size: 14px
+            line-height: 10px
+          .name
+            font-size: 16px
+            line-height: 20px
+          .avatarauthor
+            gap: 8px
+            font-size: 14px
+            line-height: 10px
+            img
+              width: 16px
+              height: 16px
+
+@media (max-width: 360px)
   .Post
     .preview
       .black
         .description
           .name
-            font-size: 12px
-  .content
-    .about
-      font-size: 12px
-    .text
-      font-size: 10px
+            font-size: 14px
+          .avatarauthor
+            gap: 5px
+            font-size: 10px
+            line-height: 10px
+          .typedate
+            font-size: 10px
+            line-height: 10px
+
+@media (max-width: 319px)
+  .Post
+    .preview
+      .black
+        .description
+          .name
+            margin: 0
+          .avatarauthor
+            margin: 0
+          .typedate
+            margin: 0
+
+@media (max-width: 260px)
+  .Post
+    .preview
+      .black
+        .postHeader
+          margin-top: 5px
+        .description
+          margin-bottom: 5px

@@ -30,6 +30,19 @@ export const Post = () => {
   const [favorite, setfavorite] = useState(false);
   const [hiddenHeigth, setHiddenHeigth] = useState(106);
   const [isModalHidden, setModalHidden] = useState(true);
+  const [starSize, setStarSize] = useState(32);
+
+  useEffect(() => {
+    if (viewportWidth < 320) {
+      setStarSize(14);
+    } else if (viewportWidth < 460) {
+      setStarSize(18);
+    } else if (viewportWidth < 940) {
+      setStarSize(28);
+    } else {
+      setStarSize(32);
+    }
+  }, [viewportWidth]);
 
   useEffect(() => {
     if (eventId) {
@@ -91,13 +104,13 @@ export const Post = () => {
               <div className={styles.black}>
                 <div className={styles.postHeader}>
                   <button className={styles.arrow} onClick={() => navigate(-1)}>
-                    <Arrow />
+                    <Arrow size={starSize} />
                   </button>
                   <FavoriteStar
-                    width={viewportWidth > 900 ? "78px" : "46px"}
-                    height={viewportWidth > 900 ? "78px" : "46px"}
-                    starWidth={viewportWidth > 900 ? "60px" : "32px"}
-                    starHeight={viewportWidth > 900 ? "60px" : "32px"}
+                    width={`${starSize * 1.5}px`}
+                    height={`${starSize * 1.5}px`}
+                    starWidth={`${starSize}px`}
+                    starHeight={`${starSize}px`}
                     favorite={favorite}
                     style={styles.star}
                     onClick={() => {
@@ -109,21 +122,19 @@ export const Post = () => {
                   />
                 </div>
                 <div className={styles.description}>
-                  {viewportWidth > 700
-                    ? <h2 className={styles.typedate}>
-                      {data.type} |{" "}
-                      {convertDateToString(data.beginDate, data.endDate)}
-                    </h2>
-                    : null}
+                  <h2 className={styles.typedate}>
+                    {data.type} |{" "}
+                    {convertDateToString(data.beginDate, data.endDate)}
+                  </h2>
                   <h1 className={styles.name}>{data.name}</h1>
-                  {viewportWidth > 700
-                    ? <><h2 className={styles.avatarauthor}>
-                      <img src={data.ownerAvatar} alt="avatar" />
-                      <LinkButton to={`/profile/${data.ownerName}`}>
-                        {data.ownerName}
-                      </LinkButton>
-                    </h2>
-                    <div className={styles.buttons}>
+                  <h2 className={styles.avatarauthor}>
+                    <img src={data.ownerAvatar} alt="avatar" />
+                    <LinkButton to={`/profile/${data.ownerName}`}>
+                      {data.ownerName}
+                    </LinkButton>
+                  </h2>
+                  {viewportWidth > 570
+                    ? <div className={styles.buttons}>
                       <SaveButton
                         text="Буду участвовать"
                         onClick={subscribe}
@@ -131,27 +142,22 @@ export const Post = () => {
                         height={38}
                       />
                     </div>
-                    </>
                     : null}
                 </div>
               </div>
             </div>
             <div className={styles.content}>
+              {viewportWidth > 570
+                ? null
+                : <div className={styles.buttons}>
+                  <SaveButton
+                    text="Буду участвовать"
+                    onClick={subscribe}
+                    width={"100%"}
+                    height={38}
+                  />
+                </div>}
               <div className={styles.optional}>
-                {viewportWidth <= 700
-                  ? <div className={styles.MobileContent}>
-                    <h2 className={styles.MobileAuthor}>
-                      <img src={data.ownerAvatar} alt="avatar" />
-                      <LinkButton to={`/profile/${data.ownerName}`}>
-                        {data.ownerName}
-                      </LinkButton>
-                    </h2>
-                    <h2 className={styles.MobileTypeDate}>
-                      {data.type} |{" "}
-                      {convertDateToString(data.beginDate, data.endDate)}
-                    </h2>
-                  </div>
-                  : null}
                 <button className={styles.show} onClick={() => handleOptional()}>
                   <h3>Дополнительная информация</h3>
                   <div className={styles.optionalWrapper} ref={optionalSVGRef}>
@@ -193,14 +199,16 @@ export const Post = () => {
                   </React.Fragment>
                 ))}
               </p>
-              <div className={styles.submit}>
-                <SaveButton
-                  onClick={subscribe}
-                  text="Буду участвовать"
-                  width={164}
-                  height={38}
-                />
-              </div>
+              {/* {viewportWidth > 570
+                ? <div className={styles.submit}>
+                  <SaveButton
+                    onClick={subscribe}
+                    text="Буду участвовать"
+                    width={viewportWidth > 570 ? 164 : "100%"}
+                    height={38}
+                  />
+                </div>
+                : null} */}
               <Modal isHidden={isModalHidden} closeModal={() => setModalHidden(true)}>
                 <button className={styles.cross} onClick={() => setModalHidden(true)} >
                   <Cross />
