@@ -40,9 +40,6 @@ export const createPost = (obj: postObject, file: File) => {
   obj.beginDate = parseDate(obj.beginDate as Date);
   obj.endDate = parseDate(obj.endDate as Date);
 
-  obj.format = obj.format.toUpperCase();
-  obj.type = obj.type.toUpperCase();
-
   formData.append("file", file, file?.name);
   formData.append("data", new Blob([JSON.stringify(obj)], { type: "application/json" }));
   return axios.post<string>(
