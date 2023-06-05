@@ -5,8 +5,8 @@ interface SaveButtonInterface {
   onClick?: () => void,
   text?: string,
   children?: React.ReactNode,
-  width?: number,
-  height?: number
+  width?: number | string,
+  height?: number | string
 }
 
 export const SaveButton: React.FC<SaveButtonInterface> = ({ onClick, text, children, width, height }) => {

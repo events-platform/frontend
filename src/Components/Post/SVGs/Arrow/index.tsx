@@ -1,9 +1,15 @@
-export const Arrow = () => {
+import { FC } from "react";
+
+interface ArrowProps {
+  size: number
+}
+
+export const Arrow: FC<ArrowProps> = ({ size }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="30"
-      height="30"
+      width={size}
+      height={size}
       fill="none"
       viewBox="0 0 30 30"
     >
