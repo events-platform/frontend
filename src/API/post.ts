@@ -221,13 +221,14 @@ interface IgetPostsParams {
   last: boolean,
   empty: boolean
 }
-interface getPostsParamsOptions {
-  beginDate?: Date, endDate?: Date, organizer?: string[], type?: string[], page?: number, size?: number, sort?: string[]
+export interface IPostsParamsOptions {
+  beginDate?: Date, endDate?: Date, organizer?: string[], type?: string[], format?: string[], showEnded?: boolean, searchQuery?: string, page?: number, size?: number, sort?: string[]
 }
-export const getPostsParams = (options: getPostsParamsOptions) => {
+export const getPostsParams = (options: IPostsParamsOptions) => {
   return axios.get<IgetPostsParams>("/post/search", {
     params: {
-      ...options
+      ...options,
+      size: 50
     },
     paramsSerializer: {
       indexes: null

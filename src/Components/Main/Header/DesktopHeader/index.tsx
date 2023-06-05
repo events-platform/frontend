@@ -28,11 +28,12 @@ export const DesktopHeader = () => {
   const onInputChange = (value: string) => {
     const params = new URLSearchParams(location.search);
     const type = params.get("type") || "";
+    // если не находимся на events
     if (location.pathname.replaceAll("/", "") !== paths.events.replaceAll("/", "")) {
       navigate({
         pathname: paths.events,
         search: createSearchParams({
-          search: value,
+          searchQuery: value,
           type
         }).toString()
       });
@@ -40,7 +41,7 @@ export const DesktopHeader = () => {
       navigate({
         pathname: "/events",
         search: createSearchParams({
-          search: value,
+          searchQuery: value,
           type
         }).toString()
       });
@@ -49,7 +50,7 @@ export const DesktopHeader = () => {
   };
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const search = params.get("search") || "";
+    const search = params.get("searchQuery") || "";
     setsearch(search);
   }, []);
 

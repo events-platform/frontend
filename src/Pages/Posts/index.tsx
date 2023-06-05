@@ -2,23 +2,23 @@
 import { useEffect, useState } from "react";
 import { EventCard } from "../../Components/EventCard";
 import styles from "./Posts.module.sass";
-import { Ipost, addPostToFavorite, getEventFormats, getPostsParams } from "../../API/post";
+import { Ipost, addPostToFavorite, getEventFormats, getPostsParams, IPostsParamsOptions } from "../../API/post";
 import { HiddenEventCard } from "../../Components/HiddenEventCard";
 import { Select } from "../../Components/PostCreation/Input";
 import { SecondaryButton } from "../../Components/SecondaryButton";
 import { Checkbox } from "../../Components/CheckBox";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { paths } from "../../API/paths";
 import { EventsEmpty } from "../../Components/Posts/EventsEmpty";
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Ipost[]>();
   const [category, setcategory] = useState<string>("");
-  const [timeFilter, settimeFilter] = useState("По Времени");
-  const [checkBox, setcheckBox] = useState(true);
+  const [timeFilter, settimeFilter] = useState("От ближайших к поздним");
+  const [checkBox, setcheckBox] = useState(false);
   const navigate = useNavigate();
 
-  const getSortPosts = (options: { beginDate?: Date, endDate?: Date, organizer?: string[], type?: string[], page?: number, size?: number, sort?: string[] }) => {
+  const getSortPosts = (options: IPostsParamsOptions) => {
     setPosts(undefined);
     getPostsParams(options)
       .then((res) => {
@@ -30,19 +30,18 @@ export const Posts = () => {
       });
   };
 
+  const location = useLocation();
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const type = params.get("type");
-    if (type) {
-      onTypeChanged(type);
-    } else {
-      getSortPosts({});
-    }
-  }, []);
+    const type = params.get("type") || "";
+    const sort = timeFilter === "От ближайших к поздним" ? "beginDate" : "beginDate,desc";
+    onTypeChanged(type, checkBox, sort);
+  }, [location.search, checkBox, timeFilter]);
 
   const onFavoriteClick = (id: number) => {
     addPostToFavorite(id).then();
   };
+
   const getViewPosts = (): Ipost[] => {
     if (!posts) return [];
     return posts.filter((el) => {
@@ -50,18 +49,18 @@ export const Posts = () => {
     });
   };
 
-  const onTypeChanged = (category: string) => {
-    setcategory(category);
+  const onTypeChanged = (_category: string = category, showEnded: boolean = checkBox, sort: string = "") => {
+    setcategory(_category);
     const params = new URLSearchParams(location.search);
-    const search = params.get("search") || "";
+    const searchQuery = params.get("searchQuery") || "";
     navigate({
       pathname: paths.events,
       search: createSearchParams({
-        search,
-        type: category
+        type: _category,
+        searchQuery
       }).toString()
     });
-    getSortPosts({ type: [category] });
+    getSortPosts({ type: [_category], showEnded, searchQuery, sort: [sort] });
   };
 
   return (
@@ -74,7 +73,6 @@ export const Posts = () => {
               {category !== ""
                 ? <SecondaryButton height={32} text={category} onClick={() => onTypeChanged("")}></SecondaryButton>
                 : null}
-              {timeFilter !== "По Времени" ? <SecondaryButton height={32} text={timeFilter} onClick={() => settimeFilter("По Времени")}></SecondaryButton> : null}
             </div>
             <div className={styles.filterTools}>
               <Select
@@ -88,15 +86,15 @@ export const Posts = () => {
               />
               <Select
                 placeholder="По Времени"
-                width="220px"
+                width="260px"
                 height="32px"
                 state={timeFilter}
                 setState={settimeFilter}
-                selectValues={["От новых к старым", "От старых к новым"]}
+                selectValues={["От ближайших к поздним", "От поздних к ближайшим"]}
                 selectBackGroundColor="white"
               />
               <div className={styles.CheckBox}>
-                <Checkbox label="Показывать прошедшие мероприятия" onChange={(val) => setcheckBox(val)} checked={checkBox} />
+                <Checkbox label="Показывать прошедшие мероприятия" onChange={(val) => { setcheckBox(val); } } checked={checkBox} />
               </div>
             </div>
           </div>
