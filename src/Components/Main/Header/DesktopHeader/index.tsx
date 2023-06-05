@@ -1,28 +1,59 @@
-import { FC } from "react";
+import { useEffect, useState } from "react";
 import { SearchInput } from "../Components/SearchInput";
-import { Logo, LogoutSVG, MapPoint } from "../Components/SVGs";
-import styles from "./DesktopHeader.module.sass";
-import { Link } from "react-router-dom";
+import { Logo, LogoutSVG } from "../Components/SVGs";
+import { Link, createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { useAppDispatch } from "../../../../store/store";
+import { RootState, useAppDispatch } from "../../../../store/store";
 import { logoutUser } from "../../../../store/reducers/userReducer";
+import { logout } from "../../../../API/cookies";
+import { paths } from "../../../../API/paths";
+import styles from "./DesktopHeader.module.sass";
+import { useSelector } from "react-redux";
 
-interface DesktopHeaderProps {
-  name?: string,
-  city?: string,
-  isSignedIn?: boolean,
-  avatarUrl?: string
-}
+export const DesktopHeader = () => {
+  const name = useSelector((state: RootState) => state.user.username);
+  const isSignedIn = useSelector((state: RootState) => state.user.isSignedIn);
+  const avatarUrl = useSelector((state: RootState) => state.user.avatarUrl);
 
-export const DesktopHeader: FC<DesktopHeaderProps> = ({ name, city, isSignedIn, avatarUrl }) => {
   const profileUrl = "/profile/" + name;
   const [, setCookie] = useCookies(["access_token", "refresh_token"]);
   const dispatch = useAppDispatch();
+  const [search, setsearch] = useState<string>("");
+  const location = useLocation();
+  const navigate = useNavigate();
   const logOutClicked = () => {
-    setCookie("access_token", undefined);
-    setCookie("refresh_token", undefined);
+    logout(setCookie);
     dispatch(logoutUser());
   };
+  const onInputChange = (value: string) => {
+    const params = new URLSearchParams(location.search);
+    const type = params.get("type") || "";
+    // если не находимся на events
+    if (location.pathname.replaceAll("/", "") !== paths.events.replaceAll("/", "")) {
+      navigate({
+        pathname: paths.events,
+        search: createSearchParams({
+          searchQuery: value,
+          type
+        }).toString()
+      });
+    } else {
+      navigate({
+        pathname: "/events",
+        search: createSearchParams({
+          searchQuery: value,
+          type
+        }).toString()
+      });
+    }
+    setsearch(value);
+  };
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const search = params.get("searchQuery") || "";
+    setsearch(search);
+  }, []);
+
   return (
     <header className={styles.Header}>
       <div className={styles.headerContent}>
@@ -30,7 +61,7 @@ export const DesktopHeader: FC<DesktopHeaderProps> = ({ name, city, isSignedIn, 
           <Link to={"/"}>
             <Logo />
           </Link>
-          <SearchInput />
+          <SearchInput state={search} setState={onInputChange}/>
         </div>
         {isSignedIn
           ? <div className={styles.rigthSide}>
@@ -39,14 +70,6 @@ export const DesktopHeader: FC<DesktopHeaderProps> = ({ name, city, isSignedIn, 
               Все мероприятия
               </span>
             </Link>
-            <div className={styles.mapPoint}>
-              <Link to={`http://maps.google.com/?q=${city}`} >
-                <MapPoint />
-              </Link>
-              <span>
-                {city}
-              </span>
-            </div>
             <Link to={profileUrl}>
               <img className={styles.Avatar} src={avatarUrl} alt="avatar" />
               <span>
@@ -63,18 +86,21 @@ export const DesktopHeader: FC<DesktopHeaderProps> = ({ name, city, isSignedIn, 
               Все мероприятия
               </span>
             </Link>
-            <div className={styles.mapPoint}>
+            <div className={styles.auth}>
+              <Link to={"/login/"}>
+                <span>
+                  Вход
+                </span>
+              </Link>
+              <span>
+                |
+              </span>
+              <Link to={"/reg/"}>
+                <span>
+                  Регистрация
+                </span>
+              </Link>
             </div>
-            <Link to={"/login/"}>
-              <span>
-            Вход
-              </span>
-            </Link>
-            <Link to={"/reg/"}>
-              <span>
-            Регистрация
-              </span>
-            </Link>
           </div>
         }
       </div>

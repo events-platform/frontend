@@ -12,6 +12,7 @@ export interface postObject {
   email: string;
   externalLink: string;
   description: string;
+  formURL: string;
 }
 
 export interface Ipost {
@@ -29,6 +30,7 @@ export interface Ipost {
   image: string;
   ownerName: string;
   ownerAvatar: string;
+  formURL: string;
 }
 
 export const createPost = (obj: postObject, file: File) => {
@@ -68,6 +70,12 @@ export const getUserPosts = (username: string) => {
 
 export const getUserFavoritePosts = (username: string) => {
   return axios.get<Ipost[]>("user/post/favorite", {
+    params: { username }
+  });
+};
+
+export const getUserSubscribePosts = (username: string) => {
+  return axios.get<Ipost[]>("user/post/subscriptions", {
     params: { username }
   });
 };
@@ -176,4 +184,56 @@ export const formatDate = (date: Date): string => {
   if (day.length < 2) day = "0" + day;
 
   return [year, month, day].join("-") + ` ${convertTimeToFormat(date.getHours())}:${convertTimeToFormat(date.getMinutes())}`;
+};
+
+export const subscribeToEvent = (postId: number) => {
+  const JWT = getJWT();
+  return axios.post("/user/post/subscriptions", { postId }, {
+    headers: {
+      Authorization: JWT
+    }
+  });
+};
+
+interface IgetPostsParams {
+  totalPages: number,
+  totalElements: number,
+  size: number,
+  content: Ipost[],
+  number: number,
+  sort: {
+    empty: boolean,
+    sorted: boolean,
+    unsorted: boolean
+  },
+  pageable: {
+    offset: 0,
+    sort: {
+      empty: boolean,
+      sorted: boolean,
+      unsorted: boolean
+    },
+    pageNumber: number,
+    pageSize: number,
+    paged: boolean,
+    unpaged: boolean
+  },
+  first: boolean,
+  numberOfElements: number,
+  last: boolean,
+  empty: boolean
+}
+export interface IPostsParamsOptions {
+  beginDate?: Date, endDate?: Date, organizer?: string[], type?: string[], format?: string[], showEnded?: boolean, searchQuery?: string, page?: number, size?: number, sort?: string[]
+}
+export const getPostsParams = (options: IPostsParamsOptions) => {
+  return axios.get<IgetPostsParams>("/post/search", {
+    params: {
+      ...options,
+      size: 50
+    },
+    paramsSerializer: {
+      indexes: null
+    }
+  });
 };

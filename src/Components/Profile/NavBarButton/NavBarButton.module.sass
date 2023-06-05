@@ -1,6 +1,5 @@
 .NavbarButton
-  height: 40px
-  padding: 0 15px
+  min-height: 40px
   border-radius: 10px 10px 0 0
   font-family: 'Roboto'
   font-style: normal
@@ -10,7 +9,8 @@
   display: flex
   align-items: center
   color: #5AAE81
-  margin: 0 25px
+  @media (max-width: 420px)
+    font-size: 11px
   &:hover
     background-color: #e6e6e6
     cursor: pointer

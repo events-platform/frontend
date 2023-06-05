@@ -1,12 +1,15 @@
 .Green
   width: 400px
-  height: 420px
+  min-height: 420px
   background: #69CC96
   border-radius: 10px
   position: relative
   padding: 60px 30px
   display: flex
   flex-direction: column
+  @media (max-width: 424px)
+    width: 300px
+
   .number
     position: absolute
     top: 10px
@@ -28,7 +31,6 @@
     color: #FFFFFF
     max-width: 300px
   .text
-    position: absolute
     top: 150px
     font-family: 'Roboto'
     font-style: normal

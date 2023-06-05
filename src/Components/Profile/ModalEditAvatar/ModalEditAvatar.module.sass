@@ -1,6 +1,5 @@
 .ModalBody
   width: 100%
-  height: 500px
 .UploadContainer
   width: 100%
   padding: 15px
@@ -18,18 +17,29 @@
     cursor: pointer
   canvas
     transform-origin: top left
-    transform: scale(0.379)
 .UploadBoxDrop
   background-color: #e9e8e8
+  border: none
 .Header
-  font-family: 'Roboto'
-  font-style: normal
-  font-weight: 500
-  font-size: 20px
-  line-height: 24px
+  display: flex
+  justify-content: space-between
   align-items: center
-  color: #000000
   margin: 20px 15px
+  .heading
+    font-family: 'Roboto'
+    font-style: normal
+    font-weight: 500
+    font-size: 20px
+    line-height: 24px
+    align-items: center
+    color: #000000
+  .cross
+    padding: 0
+    margin: 0
+    border: none
+    background-color: inherit
+    width: 38px
+    height: 38px
 .underline
   width: 100%
   height: 1px
@@ -44,6 +54,25 @@
   display: flex
   margin-top: 50px
   gap: 15px
+  margin-bottom: 20px
+.FooterActive
+  padding: 0 15px
+  display: flex
+  margin-top: 11px
+  flex-direction: column
+  gap: 15px
+  margin-bottom: 20px
+  .scroll
+    display: flex
+    gap: 12px
+    align-items: center
+    padding: 0 4px
+  .FooterActiveContent
+    display: flex
+    justify-content: space-between
+    .buttons
+      display: flex
+      gap: 12px
 .UploadBoxText
   font-family: 'Roboto'
   font-style: normal
@@ -54,3 +83,13 @@
   color: #000000
   margin: 20px 10px
   text-align: center
+
+.scroll
+  input
+    width: 360px
+  span
+    font-family: "Roboto"
+    font-style: normal
+    font-weight: 400
+    font-size: 16px
+    line-height: 24px

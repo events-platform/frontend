@@ -1,11 +1,10 @@
 .PostCreation
+  padding: 0 10px
   padding-top: 83px
   padding-bottom: 95px
   color: black
   max-width: 1441px
   margin: 0 auto
-  padding-left: 40px
-  padding-right: 40px
   .topBar
     display: flex
     gap: 25px
@@ -68,14 +67,20 @@
 
 .inputWrapper
   display: flex
-  gap: 115px
+  gap: 30px 5px
   margin-top: 30px
+  flex-wrap: wrap
+  justify-content: space-between
   .dateWrapper
     display: flex
     max-width: 377px
-    gap: 40px
+    gap: 30px 5px
+    justify-content: space-between
     div
       flex-shrink: 1
+  @media (max-width: 790px)
+    justify-content: space-around
+
 
 .image
   border-radius: 10px
@@ -83,4 +88,17 @@
 .CancelButton
   background-color: #cf1f1f
 .SaveButton
-  margin-top: 50px
+  margin-top: 16px
+
+.error
+  height: 22px
+  margin-top: 16px
+  p
+    font-size: 18px
+
+.registration
+  margin-top: 20px
+  margin-bottom: 15px
+
+.about
+  margin-top: 20px

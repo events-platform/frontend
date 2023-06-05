@@ -1,18 +1,20 @@
+/* eslint-disable no-unused-vars */
 import { SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input, Arrow, Cross } from "../../Components/PostCreation";
 import styles from "./PostCreation.module.sass";
 import { Modal, ModalEditAvatar, SaveButton } from "../../Components/Profile";
 import { createPost, formatDate, getEventFormats } from "../../API/post";
-import { CalendarContainer } from "../../Components/PostCreation/Calendar";
 import { Description } from "../../Components/Auth/Description";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { InputType } from "../../Components/PostCreation/Input";
 
-// eslint-disable-next-line no-unused-vars
 enum PostErrors {
-  // eslint-disable-next-line no-unused-vars
   file = "Загрузите изображение",
-  // eslint-disable-next-line no-unused-vars
-  fields = "Не заполненны все обязательные поля"
+  fields = "Не заполненны все обязательные поля",
+  nameLength = "Название не может быть длинее 40 символов",
+  descriptionLength = "Описание не может быть длинее 4096 символов"
 }
 
 export const PostCreation = () => {
@@ -21,9 +23,10 @@ export const PostCreation = () => {
   const [name, setName] = useState("");
   const [eventFormat, setFormat] = useState("");
   const [registrationLimit, setRegistrationLimit] = useState("");
-  const [beginDate, setBeginDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [beginDate] = useState<Date>(new Date());
+  const [endDate] = useState<Date>(new Date());
   const [location, setLocation] = useState("");
+  const [formURL, setFormURL] = useState("");
   const [modalHidden, setmodalHidden] = useState<boolean>(true);
   const [file, setFile] = useState<File | null>();
   const [email, setEmail] = useState("");
@@ -35,6 +38,10 @@ export const PostCreation = () => {
   const [limitFocus, setlimitFocus] = useState(false);
   const [formatFocus, setformatFocus] = useState(false);
   const [typeFocus, settypeFocus] = useState(false);
+  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
+  const inputWidth = viewportWidth < 380 ? "300px" : "377px";
+  const dateWidth = viewportWidth < 380 ? "125px" : "168.5px";
+
   const closeModal = () => {
     setmodalHidden(true);
   };
@@ -56,14 +63,22 @@ export const PostCreation = () => {
     settypeFocus(true);
     setlimitFocus(true);
     if (!file) {
-      setErrorState("Загрузите изображение");
+      setErrorState(PostErrors.file);
       return;
     }
     if (name === "" || eventFormat === "" || registrationLimit === "" || eventType === "") {
       setErrorState(PostErrors.fields);
       return;
     }
-    createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description }, file)
+    if (name.length > 40) {
+      setErrorState(PostErrors.nameLength);
+      return;
+    }
+    if (description.length > 4096) {
+      setErrorState(PostErrors.descriptionLength);
+      return;
+    }
+    createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description, formURL }, file)
       .then((res) => {
         navigate(-1);
       })
@@ -100,37 +115,37 @@ export const PostCreation = () => {
         <h2>Основная информация</h2>
         <div className={styles.inputWrapper}>
           <Input
-            width="377px"
+            width={inputWidth}
             name="Название"
             placeholder="Название"
             require={true}
             state={name}
             setState={setName}
             focus={nameFocus}
+            limit={40}
           />
           <Input
-            width="377px"
+            width={inputWidth}
             name="Формат мероприятия"
             placeholder="Формат мероприятия"
             require={true}
             state={eventFormat}
             setState={setFormat}
-            selectMode={true}
+            type={InputType.select}
             selectValues={["Онлайн", "Офлайн", "Смешанное"]}
             focus={formatFocus}
           />
           <Input
-            width="377px"
+            width={inputWidth}
             name="Почта"
             placeholder="Почта"
             require={false}
             state={email}
             setState={setEmail}
           />
-        </div>
-        <div className={styles.inputWrapper}>
+
           <Input
-            width="377px"
+            width={inputWidth}
             name="Адрес проведения"
             placeholder="Адрес проведения"
             require={false}
@@ -138,53 +153,51 @@ export const PostCreation = () => {
             setState={setLocation}
           />
           <Input
-            width="377px"
+            width={inputWidth}
             name="Тип мероприятия"
             placeholder="Тип мероприятия"
             require={true}
             state={eventType}
             setState={setEventType}
-            selectMode={true}
+            type={InputType.select}
             selectValues={eventsFormats}
             focus={typeFocus}
           />
           <Input
-            width="377px"
+            width={inputWidth}
             name="Сайт или соц.сети"
             placeholder="Сайт или соц.сети"
             require={false}
             state={externalLink}
             setState={setEventLink}
           />
-        </div>
-        <div className={styles.inputWrapper}>
-          <div className={styles.dateWrapper}>
+          <div style={{ width: inputWidth }} className={styles.dateWrapper}>
             <div onFocus={() => setshowBeginCalendar(true)} >
               <Input
+                type={InputType.datetimeLocal}
                 name="Дата начала"
                 placeholder="YYYY-MM-DD"
                 require={true}
-                width="168.5px"
+                width={dateWidth}
                 state={formatDate(beginDate)}
                 setState={() => {}}
               />
-              {showBeginCalendar ? <CalendarContainer defaultValue={beginDate} setBeginDate={(val) => { setBeginDate(val); }} setShowCalendar={setshowBeginCalendar} /> : null}
             </div>
             <div onFocus={() => setshowEndCalendar(true)}>
               <Input
+                type={InputType.datetimeLocal}
                 name="Дата окончания"
                 placeholder="YYYY-MM-DD"
                 require={true}
-                width="168.5px"
+                width={dateWidth}
                 state={formatDate(endDate)}
                 setState={() => {}}
               />
-              {showEndCalendar ? <CalendarContainer defaultValue={endDate} setBeginDate={(val) => { setEndDate(val); }} setShowCalendar={setshowEndCalendar} /> : null}
             </div>
 
           </div>
           <Input
-            width="377px"
+            width={inputWidth}
             name="Количество мест"
             placeholder="Количество мест"
             require={true}
@@ -192,22 +205,35 @@ export const PostCreation = () => {
             setState={setRegistrationLimit}
             focus={limitFocus}
           />
+          <div style={{ width: "377px" }}></div>
         </div>
-        <h2>Описание</h2>
+        <h2 className={styles.registration}>
+          Запись на мероприятие
+        </h2>
+        <Input
+          width={inputWidth}
+          name="Вставьте ссылку на Google форму для посетителей"
+          placeholder="Ссылка"
+          require={false}
+          state={formURL}
+          setState={setFormURL}
+        />
+        <h2 className={styles.about}>Описание</h2>
         <textarea
           placeholder="Введите описание"
           value={description}
           onChange={handleChange}
-        ></textarea>
-        <div>
+          maxLength={4096}
+        />
+        <div className={styles.error}>
           <Description text={errorState} color={"rgba(255, 77, 77, 0.9)"} />
         </div>
         <div className={styles.SaveButton}>
-          <SaveButton width={178} height={50} onClick={onSaveButtonClick} />
+          <SaveButton width={viewportWidth < 500 ? 120 : 178 } height={viewportWidth < 500 ? 40 : 50} onClick={onSaveButtonClick} />
         </div>
       </div>
       <Modal isHidden={modalHidden} closeModal={closeModal}>
-        <ModalEditAvatar closeModal={closeModal} loadAvatar={loadImage} type="post" />
+        <ModalEditAvatar closeModal={closeModal} loadAvatar={loadImage} modalHidden={modalHidden} type="post" />
       </Modal>
     </>
   );

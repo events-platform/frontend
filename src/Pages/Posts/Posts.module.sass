@@ -13,16 +13,68 @@
       margin-bottom: 42px
       margin-top: 25px
     .events
+      display: grid
+      grid-template-columns: repeat(auto-fit, 420px)
+      grid-auto-rows: 349px
+      grid-row-gap: 40px
+      row-gap: 40px
+      grid-column-gap: 50px
+      column-gap: 50px
+      overflow: visible
+      width: 100%
+      margin-bottom: 40px
+      justify-content: center
+    .empty
       display: flex
-      flex-wrap: wrap
-      justify-content: space-around
+      justify-content: center
+      align-items: center
     .mobileEvents
       justify-content: center
 
 @media (max-width: 455px)
   .Posts
     padding: 75px 0
-    h1
-      padding-right: 15px
-      padding-left: 15px
-      
+    .postContent
+      h1
+        padding-right: 15px
+        padding-left: 15px
+      .events
+        display: flex
+        flex-wrap: wrap
+        justify-content: space-around
+        div
+          margin-bottom: 0
+
+@media (max-width: 300px)
+  .Posts
+    .postContent
+.postFilter
+  display: flex
+  justify-content: space-between
+  flex-wrap: wrap
+  gap: 15px
+  .filterTabs
+    display: flex
+    gap: 15px
+    font-family: 'Roboto'
+    font-style: normal
+    font-weight: 400
+    font-size: 16px
+    align-items: center
+  .filterTools
+    display: flex
+    gap: 15px
+    align-items: center
+    flex-wrap: wrap-reverse
+.CheckBox
+  margin-top: 5px
+  width: 285px
+
+@media (max-width: 1340px)
+  .postFilter
+    flex-direction: column-reverse
+@media (max-width: 455px)
+  .postFilter
+    padding-right: 15px
+    padding-left: 15px
+    overflow-x: hidden

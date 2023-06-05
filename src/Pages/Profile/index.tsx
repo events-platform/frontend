@@ -17,7 +17,7 @@ import styles from "./Profile.module.sass";
 import { editUser, getUserData } from "../../API/profile";
 import { store, useAppDispatch } from "../../store/store";
 import { setUserName } from "../../store/reducers/userReducer";
-import { Ipost, addPostToFavorite, getUserFavoritePosts, getUserPosts } from "../../API/post";
+import { Ipost, addPostToFavorite, getUserFavoritePosts, getUserPosts, getUserSubscribePosts } from "../../API/post";
 import { SecondaryButton } from "../../Components/SecondaryButton";
 
 export enum SelectedTab {
@@ -48,6 +48,7 @@ export const Profile = () => {
   const [profileEvents, setprofileEvents] = useState<Ipost[]>([]);
   const [isProfileEventsLoaded, setProfileEventsLoaded] = useState(false);
   const [profileFavoriteEvents, setProfileFavoriteEvents] = useState<Ipost[]>([]);
+  const [profileSubscribeEvents, setprofileSubscribeEvents] = useState<Ipost[]>([]);
   const [isProfileFavoriteEventsLoaded, setProfileFavoriteEventsLoaded] = useState(false);
 
   const openModal = () => {
@@ -94,12 +95,19 @@ export const Profile = () => {
       .then((res) => {
         setprofileEvents(res.data);
       })
-      .then(() => setProfileEventsLoaded(true));
+      .then(() => setProfileEventsLoaded(true))
+      .catch(() => navigate("/404"));
     getUserFavoritePosts(username)
       .then((res) => {
         setProfileFavoriteEvents(res.data);
       })
-      .then(() => setProfileFavoriteEventsLoaded(true));
+      .then(() => setProfileFavoriteEventsLoaded(true))
+      .catch(() => navigate("/404"));
+    getUserSubscribePosts(username)
+      .then((res) => {
+        setprofileSubscribeEvents(res.data);
+      })
+      .catch(() => navigate("/404"));
   }, []);
   const onFavoriteClick = (id: number) => {
     addPostToFavorite(id).then((res) =>
@@ -118,7 +126,7 @@ export const Profile = () => {
       <div className={styles.AccountInfo}>
         <div className={styles.accContent}>
           <div className={styles.ProfileInfo}>
-            <ProfileImage username={username} avtarUrl={avatar} setAvatar={setAvatar} />
+            <ProfileImage username={username} avtarUrl={avatar} setAvatar={setAvatar} modalHidden={modalHidden} />
             <div className={styles.Description}>
               <h1 className={styles.ProfileName}>{username}</h1>
               <p className={styles.ProfileDescription}>{description}</p>
@@ -126,14 +134,14 @@ export const Profile = () => {
             </div>
             {isOwnProfile
               ? <div className={styles.ProfileTools}>
-                <SaveButton onClick={() => navigate("/events/create")} text="Создать мероприятие" width={223} height={38}>
+                <SaveButton onClick={() => navigate("/events/create")} text="Создать мероприятие" width={241} height={38}>
                   <div className={styles.addsvg}>
-                    <AddSVG />
+                    <AddSVG viewBox="2 2 10 10" />
                   </div>
                 </SaveButton>
                 <div>
                   <SecondaryButton onClick={openModalChangeMode} text="Редактировать профиль" width={241} height={38} >
-                    <EditSVG />
+                    <EditSVG fill="black" viewBox="0 -5 10 30"/>
                   </SecondaryButton>
                 </div>
               </div>
@@ -145,7 +153,7 @@ export const Profile = () => {
         <EventsNavbar
           profileEvents={profileEvents.length}
           profileFavoriteEvents={profileFavoriteEvents.length}
-          profileActiveEvents={profileEvents.length}
+          profileActiveEvents={profileSubscribeEvents.length}
           selected={selectedTab}
           setSelected={setselectedTab}
         />
@@ -154,6 +162,7 @@ export const Profile = () => {
           selected={selectedTab}
           profileOwnEvents={profileEvents}
           profileFavoriteEvents={profileFavoriteEvents}
+          profileSubscribeEvents={profileSubscribeEvents}
           isProfileEventsLoaded={isProfileEventsLoaded}
           isProfileFavoriteEventsLoaded={isProfileFavoriteEventsLoaded}
         />
