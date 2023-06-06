@@ -47,7 +47,7 @@ export const Login = () => {
       <div className={styles.LoginContent}>
         <Heading text={"Вход"} />
         <div className={styles.field}>
-          <Input type={"email"} text={"Логин"} setState={setMailState} onEnter={onLoginClicked} width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220}>
+          <Input type={"email"} text={"Почта"} setState={setMailState} onEnter={onLoginClicked} width={viewportWidth > 400 ? 352 : viewportWidth >= 320 ? 280 : 220}>
             <Mail />
           </Input>
         </div>

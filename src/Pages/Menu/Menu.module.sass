@@ -3,7 +3,7 @@
     max-width: 1370px
     margin: 0 auto
     margin-top: 134px
-    padding-bottom: 134px
+    padding-bottom: 80px
 
   .popular
     position: relative
@@ -53,6 +53,7 @@
   overflow-x: scroll
   transform: rotateX(180deg)
   margin-top: 15px
+  -webkit-overflow-scrolling: touch
 .events > div
   transform: rotateX(180deg)
   margin-top: 10px
@@ -62,24 +63,34 @@
   margin-top: 10px
   margin-bottom: 25px
   flex-shrink: 0
-.events::-webkit-scrollbar
+.scroll::-webkit-scrollbar
   background-color: rgba(0, 0, 0, 0.1)
   height: 10px
   width: 284px
   border-radius: 10px
-.events::-webkit-scrollbar-thumb
+.scroll::-webkit-scrollbar-thumb
+  background: #5AAE81
+  border-radius: 10px
+.scroll::-moz-scrollbar
+  background-color: rgba(0, 0, 0, 0.1)
+  height: 10px
+  width: 284px
+  border-radius: 10px
+.scroll::-moz-scrollbar-thumb
   background: #5AAE81
   border-radius: 10px
 
+
 .buttons
   position: absolute
-  top: 163px
+  top: 205px
   width: calc(100% - 30px)
   padding: 0 8px
   display: flex
   justify-content: space-between
   z-index: 1
   align-items: center
+  height: 0px
 
 .popularArrow
   border: none

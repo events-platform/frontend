@@ -1,5 +1,4 @@
 import { useEffect, useState, SyntheticEvent, RefObject, useRef } from "react";
-import { Link } from "react-router-dom";
 import { EventCard } from "../../Components/EventCard";
 import { Header, Heading, Green, DesktopCategories, MobileCategories } from "../../Components/Menu";
 import { SaveButton } from "../../Components/SaveButton";
@@ -8,9 +7,11 @@ import { HiddenEventCard } from "../../Components/HiddenEventCard";
 import styles from "./Menu.module.sass";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { useNavigate } from "react-router-dom";
 
 export const Menu = () => {
   const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const [posts, setPosts] = useState<Ipost[]>([]);
   const categoriesRef = useRef<HTMLDivElement>(null);
@@ -56,7 +57,7 @@ export const Menu = () => {
       // eslint-disable-next-line no-console
       .catch(err => console.log(err));
   };
-
+  const navigate = useNavigate();
   return (
     <div className={styles.Menu}>
       <Header
@@ -70,7 +71,7 @@ export const Menu = () => {
         {viewportWidth > 920 ? <DesktopCategories /> : <MobileCategories />}
         <div ref={popularRef} />
         <Heading text="Популярное" />
-        <div className={styles.events}>
+        <div className={`${styles.events} ${isIOS ? "" : styles.scroll}`}>
           {posts.length !== 0
             ? posts.map((el, index) => (
               <EventCard
@@ -88,13 +89,14 @@ export const Menu = () => {
             ))
             : Array.from({ length: 6 }, (_, index) => <HiddenEventCard key={index} />)}
         </div>
-        <Link to="/events" className={styles.linkToEvents}>
+        <div style={{ width: "100%", padding: "10px 15px" }}>
           <SaveButton
             text="Посмотреть все мероприятия"
-            width={258}
             height={38.8}
+            width={viewportWidth < 880 ? undefined : 258 }
+            onClick={() => navigate("/events")}
           />
-        </Link>
+        </div>
         <h1 className={styles.EventShare} ref={aboutRef}>
           EventShare
         </h1>

@@ -9,13 +9,17 @@ interface DescriptionProps {
 
 export const Description: React.FC<DescriptionProps> = ({ name, text, color }) => {
   return (
-    <div className={styles.Description}>
-      <p className={styles.name}>
-        {name}
-      </p>
-      <p style={{ color }}>
-        {text}
-      </p>
-    </div>
+    <>
+      {text.length > 0
+        ? <div className={styles.Description}>
+          <p className={styles.name}>
+            {name}
+          </p>
+          <p style={{ color }}>
+            {text}
+          </p>
+        </div>
+        : null}
+    </>
   );
 };

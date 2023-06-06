@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Arrow, Optional, Description, HiddenPost, Form } from "../../Components/Post";
@@ -5,6 +6,8 @@ import {
   Ipost,
   addPostToFavorite,
   convertDateToString,
+  deletePost,
+  deletePostFromFavorite,
   getPostById,
   subscribeToEvent
 } from "../../API/post";
@@ -17,6 +20,7 @@ import { RootState } from "../../store/store";
 import { guardIsSigned } from "../../API/cookies";
 import { Modal } from "../../Components/Modal";
 import { Cross } from "../../Components/PostCreation";
+import { DeleteSvg } from "../../Components/Post/SVGs/Delete";
 
 export const Post = () => {
   const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
@@ -27,10 +31,31 @@ export const Post = () => {
   const [data, setData] = useState<Ipost>();
   const [optionalColor, setOptionalColor] = useState("#5AAE81");
   const [isOptionalHide, setOptionalHide] = useState(true);
+  const [isOptionalRealyHide, setOptionalRealyHide] = useState(true);
   const [favorite, setfavorite] = useState(false);
   const [hiddenHeigth, setHiddenHeigth] = useState(106);
   const [isModalHidden, setModalHidden] = useState(true);
   const [starSize, setStarSize] = useState(32);
+
+  useEffect(() => {
+    if (viewportWidth < 366) {
+      setHiddenHeigth(361);
+    } else if (viewportWidth < 425) {
+      setHiddenHeigth(331);
+    } else if (viewportWidth < 842) {
+      setHiddenHeigth(256);
+    } else if (viewportWidth < 1389) {
+      setHiddenHeigth(181);
+    } else {
+      setHiddenHeigth(106);
+    }
+  }, []);
+
+  //   1389 - 106
+  // 842 - 181
+  // 425 - 256
+  // 366 - 331
+  // 361
 
   useEffect(() => {
     if (viewportWidth < 320) {
@@ -54,32 +79,35 @@ export const Post = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (hiddenRef.current) {
-      setHiddenHeigth(hiddenRef.current.offsetHeight);
-    }
-  }, [hiddenRef, data, viewportWidth]);
-
   const handleOptional = () => {
-    if (isOptionalHide) {
-      setOptionalColor("#FFFFFF");
-      if (optionalSVGRef.current !== null && hiddenRef.current) {
-        optionalSVGRef.current.style.backgroundColor = "#5AAE81";
-        optionalSVGRef.current.style.transform = "rotate(180deg)";
-        hiddenRef.current.style.marginTop = "0";
-        hiddenRef.current.style.opacity = "1";
-      }
-    } else {
-      setOptionalColor("#5AAE81");
-      if (optionalSVGRef.current !== null && hiddenRef.current) {
-        optionalSVGRef.current.style.backgroundColor = "#FFFFFF";
-        optionalSVGRef.current.style.transform = "rotate(0deg)";
-        hiddenRef.current.style.marginTop = `-${hiddenHeigth}px`;
-        hiddenRef.current.style.opacity = "0";
+    if (optionalSVGRef.current !== null && hiddenRef.current) {
+      if (isOptionalHide) {
+        setOptionalRealyHide(false);
+        setTimeout(() => {
+          setOptionalColor("#FFFFFF");
+          if (optionalSVGRef.current !== null && hiddenRef.current) {
+            optionalSVGRef.current.style.backgroundColor = "#5AAE81";
+            optionalSVGRef.current.style.transform = "rotate(180deg)";
+            hiddenRef.current.style.marginTop = "0";
+            hiddenRef.current.style.opacity = "1";
+          }
+          setOptionalHide(false);
+        }, 10);
+      } else {
+        setHiddenHeigth(hiddenRef.current.offsetHeight);
+        setOptionalColor("#5AAE81");
+        if (optionalSVGRef.current !== null && hiddenRef.current) {
+          optionalSVGRef.current.style.backgroundColor = "#FFFFFF";
+          optionalSVGRef.current.style.transform = "rotate(0deg)";
+          hiddenRef.current.style.marginTop = `-${hiddenHeigth}px`;
+          hiddenRef.current.style.opacity = "0";
+        }
+        setOptionalHide(true);
+        setTimeout(() => setOptionalRealyHide(true), 500);
       }
     }
-    setOptionalHide(!isOptionalHide);
   };
+
   const subscribe = () => {
     setModalHidden(!isModalHidden);
     guardIsSigned(navigate, () => {
@@ -93,6 +121,8 @@ export const Post = () => {
         });
     });
   };
+  const username = useSelector((state: RootState) => state.user.username);
+  const isOwnPost = data?.ownerName === username;
   return (
     <>
       {!data
@@ -106,20 +136,36 @@ export const Post = () => {
                   <button className={styles.arrow} onClick={() => navigate(-1)}>
                     <Arrow size={starSize} />
                   </button>
-                  <FavoriteStar
-                    width={`${starSize * 1.5}px`}
-                    height={`${starSize * 1.5}px`}
-                    starWidth={`${starSize}px`}
-                    starHeight={`${starSize}px`}
-                    favorite={favorite}
-                    style={styles.star}
-                    onClick={() => {
-                      guardIsSigned(navigate, () => {
-                        addPostToFavorite(+(eventId || 0));
-                        setfavorite(true);
-                      });
-                    }}
-                  />
+                  <div style={{ display: "flex" }}>
+                    {isOwnPost
+                      ? <div onClick={() => { deletePost(+(eventId || 0)).then(res => navigate("/")); }}>
+                        <DeleteSvg
+                          width={`${starSize * 1.5}px`}
+                          height={`${starSize * 1.5}px`}
+                          starWidth={`${starSize}px`}
+                          starHeight={`${starSize}px`}
+                        />
+                      </div>
+                      : null }
+                    <FavoriteStar
+                      width={`${starSize * 1.5}px`}
+                      height={`${starSize * 1.5}px`}
+                      starWidth={`${starSize}px`}
+                      starHeight={`${starSize}px`}
+                      favorite={favorite}
+                      style={styles.star}
+                      onClick={() => {
+                        guardIsSigned(navigate, () => {
+                          if (!favorite) {
+                            addPostToFavorite(+(eventId || 0));
+                          } else {
+                            deletePostFromFavorite(+(eventId || 0));
+                          }
+                          setfavorite(!favorite);
+                        });
+                      }}
+                    />
+                  </div>
                 </div>
                 <div className={styles.description}>
                   <h2 className={styles.typedate}>
@@ -158,13 +204,13 @@ export const Post = () => {
                   />
                 </div>}
               <div className={styles.optional}>
-                <button className={styles.show} onClick={() => handleOptional()}>
+                <button className={styles.show} onClick={handleOptional}>
                   <h3>Дополнительная информация</h3>
                   <div className={styles.optionalWrapper} ref={optionalSVGRef}>
                     <Optional color={optionalColor} />
                   </div>
                 </button>
-                <div className={styles.hidden} ref={hiddenRef} style={{ marginTop: isOptionalHide ? `-${hiddenHeigth}px` : "0px" }}>
+                <div className={styles.hidden} ref={hiddenRef} style={{ marginTop: isOptionalHide ? `-${hiddenHeigth}px` : "0px", display: isOptionalRealyHide ? "none" : "flex" }}>
                   <LinkButton to={`mailto:${data.email}`}>
                     <Description
                       name={"Почта:"}
@@ -185,7 +231,7 @@ export const Post = () => {
                   <LinkButton to={`${data.externalLink}`}>
                     <Description
                       name={"Сайт:"}
-                      text={data.externalLink.length > 35 ? data.externalLink.slice(0, 32) + "..." : data.externalLink }
+                      text={data.externalLink.length > 33 ? data.externalLink.slice(0, 31) + "..." : data.externalLink }
                     />
                   </LinkButton>
                 </div>

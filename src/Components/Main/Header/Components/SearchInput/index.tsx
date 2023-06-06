@@ -21,7 +21,7 @@ export const SearchInput: FC<ISearchInput> = ({ state, setState }) => {
         setQuery(e.target.value);
       }} />
       <div>
-        <SearchLogo />
+        <SearchLogo scale="0.8" />
       </div>
     </div>
   );

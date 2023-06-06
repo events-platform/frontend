@@ -62,7 +62,7 @@ export const Input: React.FC<InputProps> = ({
         />
         : type === InputType.text
           ? <div className={styles.inputContainer} style={{ width, border: require && focused && state === "" ? "1px solid red" : border }}>
-            <input onBlur={() => setfocused(require ? state === "" : false)} value={state} onChange={onInputChange} placeholder={placeholder} maxLength={limit} />
+            <input type="text" onBlur={() => setfocused(require ? state === "" : false)} value={state} onChange={onInputChange} placeholder={placeholder} maxLength={limit} />
           </div>
           : <>
             <div className={styles.inputContainer} style={{ width, border: require && focused && state === "" ? "1px solid red" : border }}>
