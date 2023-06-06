@@ -7,6 +7,7 @@
 
   .popular
     position: relative
+    padding: 0 15px
     .hidden
       max-width: 1440px
       overflow: hidden
@@ -70,6 +71,16 @@
   background: #5AAE81
   border-radius: 10px
 
+.buttons
+  position: absolute
+  top: 163px
+  width: calc(100% - 30px)
+  padding: 0 8px
+  display: flex
+  justify-content: space-between
+  z-index: 1
+  align-items: center
+
 .popularArrow
   border: none
   padding: 0
@@ -82,15 +93,10 @@
   background-color: #5AAE81
   border-radius: 64px
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
-  position: absolute
-  top: 163px
-  left: 0px
-  margin-left: -32px
-  z-index: 1
   cursor: pointer
+  svg
+    rotate: 0deg
 .rightArrow
-  left: unset
-  right: 0px
   svg
     rotate: 180deg
 
@@ -103,12 +109,14 @@
   color: rgba(0, 0, 0, 0.85)
   text-align: center
   margin-top: 40px
+  padding: 0 15px
 .descHeader
   display: flex
   align-items: center
   gap: 15px
   margin-top: 10px
   justify-content: center
+  padding: 0 15px
   hr
     width: 60px
     height: 2px
@@ -122,14 +130,12 @@
     font-size: 24px
     line-height: 40px
     color: #5AAE81
+    text-align: center
 .greens
+  padding: 0 15px
   display: flex
-  gap: 60px
   margin-top: 40px
-  @media (max-width: 1400px)
-    flex-direction: column
-    justify-content: space-around
-    align-items: center
+  justify-content: space-between
 .linkToEvents
   text-decoration: none
   display: flex
@@ -140,3 +146,15 @@
 
 .transitioning
   transition: transform 0.3s ease-in-out
+
+@media (max-width: 920px)
+  .greens
+    gap: 20px
+    flex-direction: column
+    justify-content: unset
+    align-items: center
+  
+@media (max-width: 540px)
+  .Menu
+    .menuContent
+      margin-top: 115px
