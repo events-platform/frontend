@@ -7,8 +7,7 @@
   padding: 60px 30px
   display: flex
   flex-direction: column
-  @media (max-width: 424px)
-    width: 300px
+  gap: 20px
 
   .number
     position: absolute
@@ -39,3 +38,18 @@
     line-height: 30px
     color: #FFFFFF
     max-width: 340px
+
+@media (max-width: 1439px)
+  .Green
+    width: calc((100vw - 65px) / 3)
+
+@media (max-width: 920px)
+  .Green
+    width: calc(100vw - 30px)
+
+@media (max-width: 920px)
+  .Green
+    min-height: 1px
+    .text
+      font-size: 18px
+      line-height: 25px

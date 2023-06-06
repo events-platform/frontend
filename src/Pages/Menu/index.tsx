@@ -1,21 +1,21 @@
 import { useEffect, useState, SyntheticEvent, RefObject, useRef } from "react";
 import { Link } from "react-router-dom";
 import { EventCard } from "../../Components/EventCard";
-import { Header, Popular, Heading, PopularArrow, Green } from "../../Components/Menu";
+import { Header, Heading, Green, DesktopCategories, MobileCategories } from "../../Components/Menu";
 import { SaveButton } from "../../Components/SaveButton";
 import { Ipost, addPostToFavorite, getAllPosts } from "../../API/post";
 import { HiddenEventCard } from "../../Components/HiddenEventCard";
 import styles from "./Menu.module.sass";
-import { populars } from "./populars";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export const Menu = () => {
-  const [posts, setPosts] = useState<Ipost[]>([]);
-  const [sliderPosition, setSliderPosition] = useState(0);
+  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
 
+  const [posts, setPosts] = useState<Ipost[]>([]);
   const categoriesRef = useRef<HTMLDivElement>(null);
   const popularRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLHeadingElement>(null);
-  const sliderRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (event: SyntheticEvent, targetRef: RefObject<HTMLDivElement>) => {
     event.preventDefault();
@@ -57,26 +57,6 @@ export const Menu = () => {
       .catch(err => console.log(err));
   };
 
-  const handlePrevButtonClick = () => {
-    if (sliderRef.current) {
-      if (sliderPosition !== 0) {
-        setSliderPosition(sliderPosition + 470);
-      } else {
-        setSliderPosition((-populars.length + 3) * 470);
-      }
-    }
-  };
-
-  const handleNextButtonClick = () => {
-    if (sliderRef.current) {
-      if (-sliderRef.current.offsetWidth < sliderPosition) {
-        setSliderPosition(sliderPosition - 470);
-      } else {
-        setSliderPosition(0);
-      }
-    }
-  };
-
   return (
     <div className={styles.Menu}>
       <Header
@@ -87,37 +67,7 @@ export const Menu = () => {
       />
       <section className={styles.menuContent} ref={categoriesRef}>
         <Heading text="Популярные категории" />
-        <div className={styles.popular}>
-          <button
-            className={styles.popularArrow}
-            onClick={handlePrevButtonClick}
-          >
-            <PopularArrow />
-          </button>
-          <div className={styles.hidden}>
-            <div
-              className={styles.sliderContainer}
-              style={{ transform: `translateX(${sliderPosition}px)` }}
-              ref={sliderRef}
-            >
-              {populars.map((el) => (
-                <Popular
-                  link={"/events"}
-                  key={el.id}
-                  name={`${el.name}`}
-                  type={el.type}
-                  backgroundImage={`url(${el.url})`}
-                />
-              ))}
-            </div>
-          </div>
-          <button
-            className={`${styles.popularArrow} ${styles.rightArrow}`}
-            onClick={handleNextButtonClick}
-          >
-            <PopularArrow />
-          </button>
-        </div>
+        {viewportWidth > 920 ? <DesktopCategories /> : <MobileCategories />}
         <div ref={popularRef} />
         <Heading text="Популярное" />
         <div className={styles.events}>
