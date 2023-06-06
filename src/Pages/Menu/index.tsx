@@ -11,6 +11,7 @@ import { RootState } from "../../store/store";
 
 export const Menu = () => {
   const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const [posts, setPosts] = useState<Ipost[]>([]);
   const categoriesRef = useRef<HTMLDivElement>(null);
@@ -70,7 +71,7 @@ export const Menu = () => {
         {viewportWidth > 920 ? <DesktopCategories /> : <MobileCategories />}
         <div ref={popularRef} />
         <Heading text="Популярное" />
-        <div className={styles.events}>
+        <div className={`${styles.events} ${isIOS ? "" : styles.scroll}`}>
           {posts.length !== 0
             ? posts.map((el, index) => (
               <EventCard

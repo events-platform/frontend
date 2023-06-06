@@ -4,6 +4,22 @@
 *::after
   box-sizing: border-box
 
+*:focus
+  outline: none !important
+
+*:focus
+  outline: -webkit-focus-ring-color auto 0px !important
+
+*:focus
+  outline: none !important
+  -webkit-tap-highlight-color: transparent !important
+
+*:focus:not(:focus-visible)
+  outline: none !important
+
+*
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important
+
 /* Убираем внутренние отступы */
 ul[class],
 ol[class]
