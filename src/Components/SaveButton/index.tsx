@@ -11,15 +11,12 @@ interface SaveButtonInterface {
 
 export const SaveButton: React.FC<SaveButtonInterface> = ({ onClick, text, children, width, height }) => {
   return (
-    <>
-      <button className={styles.ModalSaveButton} onClick={onClick} style={{ width, height }} >{children} <div className={styles.text}>{text}</div></button>
-    </>
+    <button className={styles.ModalSaveButton} onClick={onClick} style={{ width, height }} >{children} <div className={styles.text}>{text}</div></button>
   );
 };
 
 SaveButton.defaultProps = {
   onClick: () => {},
   text: "Сохранить",
-  width: 102,
   height: 32
 };
