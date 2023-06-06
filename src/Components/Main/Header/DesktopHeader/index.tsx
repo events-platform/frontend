@@ -17,10 +17,10 @@ export const DesktopHeader = () => {
 
   const profileUrl = "/profile/" + name;
   const [, setCookie] = useCookies(["access_token", "refresh_token"]);
-  const dispatch = useAppDispatch();
   const [search, setsearch] = useState<string>("");
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const logOutClicked = () => {
     logout(setCookie);
     dispatch(logoutUser());

@@ -10,6 +10,7 @@ import { Checkbox } from "../../Components/CheckBox";
 import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { paths } from "../../API/paths";
 import { EventsEmpty } from "../../Components/Posts/EventsEmpty";
+import { CrossSvg } from "../../Components/Posts/crsossSvg";
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Ipost[]>();
@@ -71,7 +72,9 @@ export const Posts = () => {
             <div className={styles.filterTabs}>
               {category !== "" || timeFilter !== "По Времени" ? "Фильтры:" : null}
               {category !== ""
-                ? <SecondaryButton height={32} text={category} onClick={() => onTypeChanged("")}></SecondaryButton>
+                ? <SecondaryButton height={32} text={category} onClick={() => onTypeChanged("")}>
+                  <CrossSvg />
+                </SecondaryButton>
                 : null}
             </div>
             <div className={styles.filterTools}>

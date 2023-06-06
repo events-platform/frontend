@@ -15,10 +15,14 @@ import {
 
 import styles from "./Profile.module.sass";
 import { editUser, getUserData } from "../../API/profile";
-import { store, useAppDispatch } from "../../store/store";
-import { setUserName } from "../../store/reducers/userReducer";
+import { RootState, store, useAppDispatch } from "../../store/store";
+import { logoutUser, setUserName } from "../../store/reducers/userReducer";
 import { Ipost, addPostToFavorite, deletePostFromFavorite, getUserFavoritePosts, getUserPosts, getUserSubscribePosts } from "../../API/post";
 import { SecondaryButton } from "../../Components/SecondaryButton";
+import { useSelector } from "react-redux";
+import { LogoutSVG } from "../../Components/Main/Header/Components/SVGs";
+import { logout } from "../../API/cookies";
+import { useCookies } from "react-cookie";
 
 export enum SelectedTab {
   // eslint-disable-next-line no-unused-vars
@@ -30,6 +34,7 @@ export enum SelectedTab {
 }
 
 export const Profile = () => {
+  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
   const params = useParams();
   const username: string = params.profileId || "";
   const dispatch = useAppDispatch();
@@ -50,7 +55,11 @@ export const Profile = () => {
   const [profileFavoriteEvents, setProfileFavoriteEvents] = useState<Ipost[]>([]);
   const [profileSubscribeEvents, setprofileSubscribeEvents] = useState<Ipost[]>([]);
   const [isProfileFavoriteEventsLoaded, setProfileFavoriteEventsLoaded] = useState(false);
-
+  const [, setCookie] = useCookies(["access_token", "refresh_token"]);
+  const logOutClicked = () => {
+    logout(setCookie);
+    dispatch(logoutUser());
+  };
   const openModal = () => {
     setinputMode(false);
     setModalHidden(false);
@@ -139,6 +148,7 @@ export const Profile = () => {
       <div className={styles.AccountInfo}>
         <div className={styles.accContent}>
           <div className={styles.ProfileInfo}>
+            {isOwnProfile && viewportWidth < 700 ? <div onClick={logOutClicked} className={styles.mobileLogout}><LogoutSVG /></div> : null}
             <ProfileImage username={username} avtarUrl={avatar} setAvatar={setAvatar} modalHidden={modalHidden} />
             <div className={styles.Description}>
               <h1 className={styles.ProfileName}>{username}</h1>
