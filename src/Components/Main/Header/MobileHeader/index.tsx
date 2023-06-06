@@ -25,9 +25,11 @@ const BurgerHeader: FC<IBurgerHeader> = ({ showInput, setshowInput }) => {
             ? <Burger />
             : <Close /> }
         </div>
-        <Link to="/">
-          <Logo />
-        </Link>
+        <div className={styles.logo}>
+          <Link to="/">
+            <Logo />
+          </Link>
+        </div>
         <div onClick={() => setshowInput(true)}>
           <SearchLogo scale={styles.scale} />
         </div>
