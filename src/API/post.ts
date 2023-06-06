@@ -12,7 +12,7 @@ export interface postObject {
   email: string;
   externalLink: string;
   description: string;
-  formURL: string;
+  formLink: string;
 }
 
 export interface Ipost {
@@ -30,7 +30,7 @@ export interface Ipost {
   image: string;
   ownerName: string;
   ownerAvatar: string;
-  formURL: string;
+  formLink: string;
 }
 
 export const createPost = (obj: postObject, file: File) => {
@@ -93,6 +93,18 @@ export const addPostToFavorite = (postId: number) => {
   {
     headers: {
       Authorization: JWT
+    }
+  });
+};
+
+export const deletePostFromFavorite = (postId: number) => {
+  const JWT = getJWT();
+  return axios.delete("/user/post/favorite", {
+    headers: {
+      Authorization: JWT
+    },
+    data: {
+      postId
     }
   });
 };

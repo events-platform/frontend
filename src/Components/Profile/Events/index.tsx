@@ -10,7 +10,7 @@ interface EventsInterface {
   selected: SelectedTab,
   profileOwnEvents: Ipost[],
   profileFavoriteEvents: Ipost[],
-  addPostToFavorite: (id: number) => void,
+  addPostToFavorite: (id: number, subscribe: boolean | undefined) => void,
   isProfileEventsLoaded: boolean,
   isProfileFavoriteEventsLoaded: boolean,
   profileSubscribeEvents: Ipost[]

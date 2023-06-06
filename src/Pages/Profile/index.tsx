@@ -17,7 +17,7 @@ import styles from "./Profile.module.sass";
 import { editUser, getUserData } from "../../API/profile";
 import { store, useAppDispatch } from "../../store/store";
 import { setUserName } from "../../store/reducers/userReducer";
-import { Ipost, addPostToFavorite, getUserFavoritePosts, getUserPosts, getUserSubscribePosts } from "../../API/post";
+import { Ipost, addPostToFavorite, deletePostFromFavorite, getUserFavoritePosts, getUserPosts, getUserSubscribePosts } from "../../API/post";
 import { SecondaryButton } from "../../Components/SecondaryButton";
 
 export enum SelectedTab {
@@ -109,16 +109,29 @@ export const Profile = () => {
       })
       .catch(() => navigate("/404"));
   }, []);
-  const onFavoriteClick = (id: number) => {
-    addPostToFavorite(id).then((res) =>
-      getUserFavoritePosts(username).then((res) => {
-        setProfileFavoriteEvents(res.data);
-      })
-    )
-      .catch(err => {
-        // eslint-disable-next-line no-console
-        console.log(err);
-      });
+  const onFavoriteClick = (id: number, subscribe: boolean = true) => {
+    if (subscribe) {
+      addPostToFavorite(id).then((res) =>
+        getUserFavoritePosts(username).then((res) => {
+          setProfileFavoriteEvents(res.data);
+        })
+      )
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    } else {
+      deletePostFromFavorite(id)
+        .then((res) =>
+          getUserFavoritePosts(username).then((res) => {
+            setProfileFavoriteEvents(res.data);
+          })
+        )
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    }
   };
 
   return (

@@ -13,7 +13,7 @@ interface EventCardProps {
   beginDate: string;
   endDate: string;
   id: number;
-  onFavoriteClick: (id: number) => void;
+  onFavoriteClick: (id: number, subscribe: boolean | undefined) => void;
   ownerAvatar: string;
 }
 
@@ -29,7 +29,7 @@ export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beg
         <div className={styles.wrapper}>
           <FavoriteStar favorite={favorite} style={styles.star} onClick={() => {
             guardIsSigned(navigate, () => {
-              onFavoriteClick(id);
+              onFavoriteClick(id, !favorite);
               setFavorite(!favorite);
             });
           }}/>
