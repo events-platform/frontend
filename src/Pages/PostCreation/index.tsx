@@ -23,8 +23,8 @@ export const PostCreation = () => {
   const [name, setName] = useState("");
   const [eventFormat, setFormat] = useState("");
   const [registrationLimit, setRegistrationLimit] = useState("");
-  const [beginDate] = useState<Date>(new Date());
-  const [endDate] = useState<Date>(new Date());
+  const [beginDate, setbeginDate] = useState<Date>(new Date());
+  const [endDate, setendDate] = useState<Date>(new Date());
   const [location, setLocation] = useState("");
   const [formURL, setFormURL] = useState("");
   const [modalHidden, setmodalHidden] = useState<boolean>(true);
@@ -90,8 +90,6 @@ export const PostCreation = () => {
   const onCancelButtonClick = () => {
     setFile(null);
   };
-  const [showBeginCalendar, setshowBeginCalendar] = useState(false);
-  const [showEndCalendar, setshowEndCalendar] = useState(false);
   return (
     <>
       <div className={styles.PostCreation}>
@@ -172,28 +170,24 @@ export const PostCreation = () => {
             setState={setEventLink}
           />
           <div style={{ width: inputWidth }} className={styles.dateWrapper}>
-            <div onFocus={() => setshowBeginCalendar(true)} >
-              <Input
-                type={InputType.datetimeLocal}
-                name="Дата начала"
-                placeholder="YYYY-MM-DD"
-                require={true}
-                width={dateWidth}
-                state={formatDate(beginDate)}
-                setState={() => {}}
-              />
-            </div>
-            <div onFocus={() => setshowEndCalendar(true)}>
-              <Input
-                type={InputType.datetimeLocal}
-                name="Дата окончания"
-                placeholder="YYYY-MM-DD"
-                require={true}
-                width={dateWidth}
-                state={formatDate(endDate)}
-                setState={() => {}}
-              />
-            </div>
+            <Input
+              type={InputType.datetimeLocal}
+              name="Дата начала"
+              placeholder="YYYY-MM-DD"
+              require={true}
+              width={dateWidth}
+              state={formatDate(beginDate)}
+              setState={(val) => { setbeginDate(new Date(val)); }}
+            />
+            <Input
+              type={InputType.datetimeLocal}
+              name="Дата окончания"
+              placeholder="YYYY-MM-DD"
+              require={true}
+              width={dateWidth}
+              state={formatDate(endDate)}
+              setState={(val) => { setendDate(new Date(val)); }}
+            />
 
           </div>
           <Input

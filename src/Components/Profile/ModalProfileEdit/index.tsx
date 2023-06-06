@@ -9,9 +9,10 @@ interface modalFieldInterface {
   valueText: string,
   setValueText: Function,
   inputMode?: boolean,
-  limit?: number
+  limit?: number,
+  type?: string
 }
-const ModalField: React.FC<modalFieldInterface> = ({ titleText, valueText, inputMode, setValueText, limit }) => {
+const ModalField: React.FC<modalFieldInterface> = ({ titleText, valueText, inputMode, setValueText, limit, type }) => {
   const valueChange = (event: { target: { value: any; }; }) => {
     setValueText(event.target.value);
   };
@@ -19,13 +20,14 @@ const ModalField: React.FC<modalFieldInterface> = ({ titleText, valueText, input
     <div className={styles.ModalField}>
       <p className={styles.fieldTitle}>{titleText}</p>
       {inputMode
-        ? <input className={styles.fieldValue} value={valueText || ""} onChange={valueChange} maxLength={limit}/>
+        ? <input type={type} className={styles.fieldValue} value={valueText || ""} onChange={valueChange} maxLength={limit}/>
         : <input className={`${styles.fieldValue} ${styles.fieldValueNoInput}`} value={valueText || ""} maxLength={limit}/>}
     </div>
   );
 };
 ModalField.defaultProps = {
-  inputMode: false
+  inputMode: false,
+  type: "text"
 };
 
 interface ModalHeaderInterface {
@@ -97,9 +99,10 @@ export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden
     <div className={styles.ModalContainer}>
       <ModalHeader setInputMode={setInputMode} inputMode={inputMode} myOwnProfile={myOwnProfile}/>
       <p className={styles.ModalBlockTitle}>Контактная информация</p>
-      <ModalField titleText="Имя" valueText={profileName} setValueText={setprofileName} inputMode={inputMode} limit={36} />
-      <ModalField titleText="Телефон" valueText={profileNumber} setValueText={setprofileNumber} inputMode={inputMode} />
-      <ModalField titleText="Адрес эл. почты" valueText={profileMail} setValueText={setprofileMail} inputMode={inputMode} />
+      <ModalField type="text" titleText="Имя" valueText={profileName} setValueText={setprofileName} inputMode={inputMode} limit={36} />
+      <ModalField type="tel" titleText="Телефон" valueText={profileNumber} setValueText={setprofileNumber} inputMode={inputMode} />
+      <ModalField type="email" titleText="Адрес эл. почты" valueText={profileMail} setValueText={setprofileMail} inputMode={inputMode} />
+      <input type='tel' pattern='[\+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}' title='Phone Number (Format: +99(99)9999-9999)'></input>
       <div className={styles.underline}></div>
       <p className={styles.ModalBlockTitle}>Описание</p>
       <textarea maxLength={100} readOnly={!inputMode} className={styles.ModalHug} value={profileAbout || ""} onChange={handleChange} name="" id="" cols={30} rows={10}></textarea>

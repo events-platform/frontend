@@ -107,6 +107,7 @@ export const MobileHeader = () => {
 
   return (
     <header className={styles.Header}>
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"></meta>
       {!showInput ? <BurgerHeader showInput={showInput} setshowInput={setshowInput} /> : <InputHeader showInput={showInput} setshowInput={setshowInput} input={input} setinput={setinput} />}
     </header>
   );

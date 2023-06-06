@@ -34,6 +34,8 @@ export interface Ipost {
 }
 
 export const createPost = (obj: postObject, file: File) => {
+  // eslint-disable-next-line no-console
+  console.log(obj);
   const JWT = getJWT();
   const formData:any = new FormData();
 
@@ -133,37 +135,6 @@ export const getEventFormats = (): string[] => {
   ];
 };
 
-const eventsFormatsEng = [
-  "ACCELERATOR",
-  "WORKSHOP",
-  "MEETING",
-  "EXHIBITION",
-  "DEMO_DAY",
-  "OPEN_DAY",
-  "CONFERENCE",
-  "ROUND_TABLE",
-  "LECTURE",
-  "MASTER_CLASS",
-  "MEETUP",
-  "SURVEY",
-  "PANEL_DISCUSSION",
-  "PITCH",
-  "SEMINAR",
-  "SPORTS_EVENT",
-  "FORUM",
-  "HACKATHON",
-  "CONCERT"
-];
-
-export const convertFormat = (eventFormat: string): string => {
-  const id = getEventFormats().findIndex((el) => el === eventFormat);
-  return eventsFormatsEng[id];
-};
-
-export const reConvertFormat = (eventFormat: string): string => {
-  const id = eventsFormatsEng.findIndex((el) => el === eventFormat);
-  return getEventFormats()[id];
-};
 const convertTimeToFormat = (time: number): string => {
   return ("00" + time).substring(time.toString().length);
 };
@@ -243,6 +214,18 @@ export const getPostsParams = (options: IPostsParamsOptions) => {
     },
     paramsSerializer: {
       indexes: null
+    }
+  });
+};
+
+export const deletePost = (postId: number) => {
+  const JWT = getJWT();
+  return axios.delete("/post", {
+    headers: {
+      Authorization: JWT
+    },
+    data: {
+      postId
     }
   });
 };

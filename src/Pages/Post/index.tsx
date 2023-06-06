@@ -5,6 +5,8 @@ import {
   Ipost,
   addPostToFavorite,
   convertDateToString,
+  deletePost,
+  deletePostFromFavorite,
   getPostById,
   subscribeToEvent
 } from "../../API/post";
@@ -17,6 +19,7 @@ import { RootState } from "../../store/store";
 import { guardIsSigned } from "../../API/cookies";
 import { Modal } from "../../Components/Modal";
 import { Cross } from "../../Components/PostCreation";
+import { DeleteSvg } from "../../Components/Post/SVGs/Delete";
 
 export const Post = () => {
   const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
@@ -93,6 +96,8 @@ export const Post = () => {
         });
     });
   };
+  const username = useSelector((state: RootState) => state.user.username);
+  const isOwnPost = data?.ownerName === username;
   return (
     <>
       {!data
@@ -106,20 +111,36 @@ export const Post = () => {
                   <button className={styles.arrow} onClick={() => navigate(-1)}>
                     <Arrow size={starSize} />
                   </button>
-                  <FavoriteStar
-                    width={`${starSize * 1.5}px`}
-                    height={`${starSize * 1.5}px`}
-                    starWidth={`${starSize}px`}
-                    starHeight={`${starSize}px`}
-                    favorite={favorite}
-                    style={styles.star}
-                    onClick={() => {
-                      guardIsSigned(navigate, () => {
-                        addPostToFavorite(+(eventId || 0));
-                        setfavorite(true);
-                      });
-                    }}
-                  />
+                  <div style={{ display: "flex" }}>
+                    {isOwnPost
+                      ? <div onClick={() => { deletePost(+(eventId || 0)).then(res => navigate("/")); }}>
+                        <DeleteSvg
+                          width={`${starSize * 1.5}px`}
+                          height={`${starSize * 1.5}px`}
+                          starWidth={`${starSize}px`}
+                          starHeight={`${starSize}px`}
+                        />
+                      </div>
+                      : null }
+                    <FavoriteStar
+                      width={`${starSize * 1.5}px`}
+                      height={`${starSize * 1.5}px`}
+                      starWidth={`${starSize}px`}
+                      starHeight={`${starSize}px`}
+                      favorite={favorite}
+                      style={styles.star}
+                      onClick={() => {
+                        guardIsSigned(navigate, () => {
+                          if (!favorite) {
+                            addPostToFavorite(+(eventId || 0));
+                          } else {
+                            deletePostFromFavorite(+(eventId || 0));
+                          }
+                          setfavorite(!favorite);
+                        });
+                      }}
+                    />
+                  </div>
                 </div>
                 <div className={styles.description}>
                   <h2 className={styles.typedate}>

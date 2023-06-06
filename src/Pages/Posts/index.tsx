@@ -7,7 +7,7 @@ import { HiddenEventCard } from "../../Components/HiddenEventCard";
 import { Select } from "../../Components/PostCreation/Input";
 import { SecondaryButton } from "../../Components/SecondaryButton";
 import { Checkbox } from "../../Components/CheckBox";
-import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
+import { createSearchParams, useLocation } from "react-router-dom";
 import { paths } from "../../API/paths";
 import { EventsEmpty } from "../../Components/Posts/EventsEmpty";
 import { CrossSvg } from "../../Components/Posts/crsossSvg";
@@ -17,7 +17,6 @@ export const Posts = () => {
   const [category, setcategory] = useState<string>("");
   const [timeFilter, settimeFilter] = useState("От ближайших к поздним");
   const [checkBox, setcheckBox] = useState(false);
-  const navigate = useNavigate();
 
   const getSortPosts = (options: IPostsParamsOptions) => {
     setPosts(undefined);
@@ -54,13 +53,11 @@ export const Posts = () => {
     setcategory(_category);
     const params = new URLSearchParams(location.search);
     const searchQuery = params.get("searchQuery") || "";
-    navigate({
-      pathname: paths.events,
-      search: createSearchParams({
-        type: _category,
-        searchQuery
-      }).toString()
-    });
+    history.replaceState(null, "EventShare", `${paths.events}?${createSearchParams({
+      type: _category,
+      searchQuery
+    }).toString()}`);
+
     getSortPosts({ type: [_category], showEnded, searchQuery, sort: [sort] });
   };
 
