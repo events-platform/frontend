@@ -10,9 +10,10 @@ interface modalFieldInterface {
   setValueText: Function,
   inputMode?: boolean,
   limit?: number,
-  type?: string
+  type?: string,
+  error?: boolean
 }
-const ModalField: React.FC<modalFieldInterface> = ({ titleText, valueText, inputMode, setValueText, limit, type }) => {
+const ModalField: React.FC<modalFieldInterface> = ({ titleText, valueText, inputMode, setValueText, limit, type, error }) => {
   const valueChange = (event: { target: { value: any; }; }) => {
     setValueText(event.target.value);
   };
@@ -20,7 +21,7 @@ const ModalField: React.FC<modalFieldInterface> = ({ titleText, valueText, input
     <div className={styles.ModalField}>
       <p className={styles.fieldTitle}>{titleText}</p>
       {inputMode
-        ? <input type={type} className={styles.fieldValue} value={valueText || ""} onChange={valueChange} maxLength={limit}/>
+        ? <input type={type} className={styles.fieldValue} value={valueText || ""} onChange={valueChange} maxLength={limit} style={{ borderColor: error ? "rgba(255, 77, 77, 0.9)" : undefined }} />
         : <input className={`${styles.fieldValue} ${styles.fieldValueNoInput}`} value={valueText || ""} maxLength={limit}/>}
     </div>
   );
@@ -71,6 +72,8 @@ export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden
   const [profileNumber, setprofileNumber] = useState<string>("");
   const [profileMail, setprofileMail] = useState<string>("");
   const [profileAbout, setprofileAbout] = useState<string>("");
+  const [mobileHighlite, setMobileHighlite] = useState(false);
+  const [emailHighlite, setEmailHighlite] = useState(false);
   const [error, setError] = useState<string>("");
 
   useEffect(() => { setprofileName(username); }, [username]);
@@ -91,6 +94,20 @@ export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden
       setError("Описание не может быть длинее 100 символов");
       return;
     }
+    setprofileNumber(profileNumber.replace(/\D/g, ""));
+    if (profileNumber.length < 11 || profileNumber.length > 11) {
+      setError("Неправильный формат номера");
+      setMobileHighlite(true);
+      return;
+    }
+    setprofileMail(email.replace(/[^a-zA-Z@.]/g, ""));
+    if (profileMail.indexOf("@") === -1 || profileMail.indexOf(".") === -1) {
+      setError("Неправильный формат почты");
+      setEmailHighlite(true);
+      return;
+    }
+    setMobileHighlite(false);
+    setEmailHighlite(false);
     setError("");
     sendProfileInfo(profileName, profileAbout, profileNumber, profileMail);
   };
@@ -100,9 +117,8 @@ export const ModalProfileEdit: React.FC<ModalProfileEditInterface> = ({ isHidden
       <ModalHeader setInputMode={setInputMode} inputMode={inputMode} myOwnProfile={myOwnProfile}/>
       <p className={styles.ModalBlockTitle}>Контактная информация</p>
       <ModalField type="text" titleText="Имя" valueText={profileName} setValueText={setprofileName} inputMode={inputMode} limit={36} />
-      <ModalField type="tel" titleText="Телефон" valueText={profileNumber} setValueText={setprofileNumber} inputMode={inputMode} />
-      <ModalField type="email" titleText="Адрес эл. почты" valueText={profileMail} setValueText={setprofileMail} inputMode={inputMode} />
-      <input type='tel' pattern='[\+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}' title='Phone Number (Format: +99(99)9999-9999)'></input>
+      <ModalField type="tel" titleText="Телефон" error={mobileHighlite} valueText={profileNumber} setValueText={setprofileNumber} inputMode={inputMode} />
+      <ModalField type="email" titleText="Адрес эл. почты" error={emailHighlite} valueText={profileMail} setValueText={setprofileMail} inputMode={inputMode} />
       <div className={styles.underline}></div>
       <p className={styles.ModalBlockTitle}>Описание</p>
       <textarea maxLength={100} readOnly={!inputMode} className={styles.ModalHug} value={profileAbout || ""} onChange={handleChange} name="" id="" cols={30} rows={10}></textarea>
