@@ -78,7 +78,7 @@ export const PostCreation = () => {
       setErrorState(PostErrors.descriptionLength);
       return;
     }
-    createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description, formURL }, file)
+    createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description, formLink: formURL }, file)
       .then((res) => {
         navigate(-1);
       })

@@ -12,7 +12,7 @@ export interface postObject {
   email: string;
   externalLink: string;
   description: string;
-  formURL: string;
+  formLink: string;
 }
 
 export interface Ipost {
@@ -30,7 +30,7 @@ export interface Ipost {
   image: string;
   ownerName: string;
   ownerAvatar: string;
-  formURL: string;
+  formLink: string;
 }
 
 export const createPost = (obj: postObject, file: File) => {
@@ -39,9 +39,6 @@ export const createPost = (obj: postObject, file: File) => {
 
   obj.beginDate = parseDate(obj.beginDate as Date);
   obj.endDate = parseDate(obj.endDate as Date);
-
-  obj.format = obj.format.toUpperCase();
-  obj.type = obj.type.toUpperCase();
 
   formData.append("file", file, file?.name);
   formData.append("data", new Blob([JSON.stringify(obj)], { type: "application/json" }));
@@ -96,6 +93,18 @@ export const addPostToFavorite = (postId: number) => {
   {
     headers: {
       Authorization: JWT
+    }
+  });
+};
+
+export const deletePostFromFavorite = (postId: number) => {
+  const JWT = getJWT();
+  return axios.delete("/user/post/favorite", {
+    headers: {
+      Authorization: JWT
+    },
+    data: {
+      postId
     }
   });
 };

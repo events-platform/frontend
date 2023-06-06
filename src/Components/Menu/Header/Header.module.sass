@@ -1,7 +1,7 @@
 .Header
   position: fixed
   top: 42px
-  z-index: 1000
+  z-index: 2
   background: #5AAE81
   width: 100%
   padding: 12px 40px
@@ -25,3 +25,9 @@
     color: #FFFFFF
     text-decoration: none
     cursor: pointer
+
+@media (max-width: 330px)
+  .Header
+    padding: 8px 16px
+    .headerContent
+      gap: 20px
