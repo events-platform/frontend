@@ -51,7 +51,7 @@ export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beg
                 {name}
               </p>
               <div className={styles.type} ref={typeDateRef}>
-                {type} {typeDateRef.current && typeDateRef.current.clientHeight <= 30 ? "|" : null} <div className={styles.date}>{convertDateToString(beginDate, endDate)}</div>
+                {type}, <div className={styles.date}>{convertDateToString(beginDate, endDate)}</div>
               </div>
             </div>
           </Link>
