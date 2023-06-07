@@ -110,16 +110,14 @@ export const Post = () => {
 
   const subscribe = () => {
     setModalHidden(!isModalHidden);
-    guardIsSigned(navigate, () => {
-      const postId = +(eventId || 0);
-      subscribeToEvent(postId)
-        .then((res) => {
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.log(err);
-        });
-    });
+    const postId = +(eventId || 0);
+    subscribeToEvent(postId)
+      .then((res) => {
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
   };
   const username = useSelector((state: RootState) => state.user.username);
   const isOwnPost = data?.ownerName === username;
