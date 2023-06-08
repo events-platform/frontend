@@ -63,19 +63,15 @@ export const Register = () => {
 
     create(nameState, emailState, passwordState)
       .then((res) => {
-        if (res.status === 201) {
-          setCookie("access_token", res.data.accessToken);
-          setCookie("refresh_token", res.data.refreshToken);
-          dispatch(setToken(res.data.accessToken));
-          dispatch(setUserName(nameState));
-          dispatch(setSignIn(true));
-          navigate("/");
-        }
+        setCookie("access_token", res.data.accessToken);
+        setCookie("refresh_token", res.data.refreshToken);
+        dispatch(setToken(res.data.accessToken));
+        dispatch(setUserName(nameState));
+        dispatch(setSignIn(true));
+        navigate("/");
       })
       .catch((res) => {
-        if ("response" in res) {
-          setErrorState(res.response.data);
-        }
+        setErrorState(res.response);
       });
     return true;
   };
