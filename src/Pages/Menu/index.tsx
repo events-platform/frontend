@@ -2,11 +2,11 @@ import { useEffect, useState, SyntheticEvent, RefObject, useRef } from "react";
 import { EventCard } from "../../Components/EventCard";
 import { Header, Heading, Green, DesktopCategories, MobileCategories } from "../../Components/Menu";
 import { SaveButton } from "../../Components/SaveButton";
-import { Ipost, addPostToFavorite, getAllPosts } from "../../API/post";
+import { Ipost, addPostToFavorite, getAllPosts, processFavorites } from "../../API/post";
 import { HiddenEventCard } from "../../Components/HiddenEventCard";
 import styles from "./Menu.module.sass";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState, store } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 
 export const Menu = () => {
@@ -47,6 +47,7 @@ export const Menu = () => {
 
   useEffect(() => {
     getAllPosts().then((res) => {
+      processFavorites(res.data, store.getState().favorites.favorite);
       setPosts(res.data);
     });
   }, []);
@@ -85,6 +86,7 @@ export const Menu = () => {
                 endDate={el.endDate}
                 id={el.id}
                 ownerAvatar={el.ownerAvatar}
+                isFavorite={el.favorite}
               />
             ))
             : Array.from({ length: 6 }, (_, index) => <HiddenEventCard key={index} />)}

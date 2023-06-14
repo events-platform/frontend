@@ -31,6 +31,7 @@ export interface Ipost {
   ownerName: string;
   ownerAvatar: string;
   formLink: string;
+  favorite: boolean;
 }
 
 export const createPost = (obj: postObject, file: File) => {
@@ -228,4 +229,11 @@ export const deletePost = (postId: number) => {
       postId
     }
   });
+};
+
+export const processFavorites = (source: Ipost[], favorites: Ipost[]) => {
+  for (const favorite of favorites) {
+    const post = source.find(el => el.id === favorite.id);
+    if (post) { post.favorite = true; }
+  }
 };

@@ -23,6 +23,7 @@ import { useSelector } from "react-redux";
 import { LogoutSVG } from "../../Components/Main/Header/Components/SVGs";
 import { logout } from "../../API/cookies";
 import { useCookies } from "react-cookie";
+import { updateFavorites } from "../../store/reducers/postsReducer";
 
 export enum SelectedTab {
   // eslint-disable-next-line no-unused-vars
@@ -108,6 +109,7 @@ export const Profile = () => {
       .catch(() => navigate("/404"));
     getUserFavoritePosts(username)
       .then((res) => {
+        dispatch(updateFavorites(res.data));
         setProfileFavoriteEvents(res.data);
       })
       .then(() => setProfileFavoriteEventsLoaded(true))
