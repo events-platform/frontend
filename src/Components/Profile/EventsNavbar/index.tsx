@@ -16,7 +16,7 @@ export const EventsNavbar: React.FC<EventsNavbarInterface> = ({ selected, setSel
     <div className={styles.Container}>
       <div className={styles.Navbar}>
         <NavBarButton
-          text="Мои мероприятия"
+          text="Организатор"
           active={selected === SelectedTab.MyEvents}
           count={profileEvents}
           onClick={() => { setSelected(SelectedTab.MyEvents); }}
@@ -28,7 +28,7 @@ export const EventsNavbar: React.FC<EventsNavbarInterface> = ({ selected, setSel
           onClick={() => { setSelected(SelectedTab.MyFavoriteEvents); }}
         />
         <NavBarButton
-          text="Участвую"
+          text="Участие"
           active={selected === SelectedTab.MyParticipation}
           count={profileActiveEvents}
           onClick={() => { setSelected(SelectedTab.MyParticipation); }}

@@ -209,29 +209,37 @@ export const Post = () => {
                   </div>
                 </button>
                 <div className={styles.hidden} ref={hiddenRef} style={{ marginTop: isOptionalHide ? `-${hiddenHeigth}px` : "0px", display: isOptionalRealyHide ? "none" : "flex" }}>
-                  <LinkButton to={`mailto:${data.email}`}>
-                    <Description
-                      name={"Почта:"}
-                      text={data.email.length > 23 ? data.email.slice(0, 20) + "..." : data.email }
+                  {data.email.length > 0
+                    ? <LinkButton to={`mailto:${data.email}`}>
+                      <Description
+                        name={"Почта:"}
+                        text={data.email.length > 23 ? data.email.slice(0, 20) + "..." : data.email }
+                      />
+                    </LinkButton>
+                    : null}
+                  {`${data.registrationLimit}`.length > 0
+                    ? <Description
+                      name={"Кол-во мест:"}
+                      text={`${data.registrationLimit}`}
                     />
-                  </LinkButton>
-                  <Description
-                    name={"Кол-во мест:"}
-                    text={`${data.registrationLimit}`}
-                  />
-                  <LinkButton to={`http://maps.google.com/?q=г.+Екатеринбург,+${data.location}`}>
-                    <Description
-                      name={"Место проведения:"}
-                      text={data.location.length > 30 ? data.location.slice(0, 27) + "..." : data.location }
-                      color={"rgba(90, 174, 129, 1)"}
-                    />
-                  </LinkButton>
-                  <LinkButton to={`${data.externalLink}`}>
-                    <Description
-                      name={"Сайт:"}
-                      text={data.externalLink.length > 33 ? data.externalLink.slice(0, 31) + "..." : data.externalLink }
-                    />
-                  </LinkButton>
+                    : null }
+                  {data.location.length > 0
+                    ? <LinkButton to={`http://maps.google.com/?q=г.+Екатеринбург,+${data.location}`}>
+                      <Description
+                        name={"Место проведения:"}
+                        text={data.location.length > 30 ? data.location.slice(0, 27) + "..." : data.location }
+                        color={"rgba(90, 174, 129, 1)"}
+                      />
+                    </LinkButton>
+                    : null}
+                  {data.externalLink.length > 0
+                    ? <LinkButton to={`${data.externalLink}`}>
+                      <Description
+                        name={"Сайт:"}
+                        text={data.externalLink.length > 33 ? data.externalLink.slice(0, 31) + "..." : data.externalLink }
+                      />
+                    </LinkButton>
+                    : null}
                 </div>
               </div>
               <h2 className={styles.about}>О мероприятии</h2>
