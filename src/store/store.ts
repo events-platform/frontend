@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./reducers/userReducer";
 import viewportReducer from "./reducers/viewportSlice";
+import favoritePostsReducer from "./reducers/postsReducer";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 
 const preloadedState = {
@@ -9,7 +10,8 @@ const preloadedState = {
 export const store = configureStore({
   reducer: {
     viewport: viewportReducer,
-    user: userReducer
+    user: userReducer,
+    favorites: favoritePostsReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   devTools: process.env.NODE_ENV !== "production",

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { EventCard } from "../../Components/EventCard";
 import styles from "./Posts.module.sass";
-import { Ipost, addPostToFavorite, getEventFormats, getPostsParams, IPostsParamsOptions } from "../../API/post";
+import { Ipost, addPostToFavorite, getEventFormats, getPostsParams, IPostsParamsOptions, processFavorites } from "../../API/post";
 import { HiddenEventCard } from "../../Components/HiddenEventCard";
 import { Select } from "../../Components/PostCreation/Input";
 import { SecondaryButton } from "../../Components/SecondaryButton";
@@ -11,16 +11,23 @@ import { createSearchParams, useLocation } from "react-router-dom";
 import { paths } from "../../API/paths";
 import { EventsEmpty } from "../../Components/Posts/EventsEmpty";
 import { CrossSvg } from "../../Components/Posts/crsossSvg";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export const Posts = () => {
   const [posts, setPosts] = useState<Ipost[]>();
   const [category, setcategory] = useState<string>("");
   const [timeFilter, settimeFilter] = useState("От ближайших к поздним");
   const [checkBox, setcheckBox] = useState(false);
+  const favorites = useSelector((root: RootState) => root.favorites.favorite);
 
   const getSortPosts = (options: IPostsParamsOptions) => {
     setPosts(undefined);
     getPostsParams(options)
+      .then(res => {
+        processFavorites(res.data.content, favorites);
+        return res;
+      })
       .then((res) => {
         setPosts(res.data.content);
       })
@@ -36,7 +43,7 @@ export const Posts = () => {
     const type = params.get("type") || "";
     const sort = timeFilter === "От ближайших к поздним" ? "beginDate" : "beginDate,desc";
     onTypeChanged(type, checkBox, sort);
-  }, [location.search, checkBox, timeFilter]);
+  }, [location.search, checkBox, timeFilter, favorites]);
 
   const onFavoriteClick = (id: number) => {
     addPostToFavorite(id).then();
@@ -117,6 +124,7 @@ export const Posts = () => {
                   endDate={el.endDate}
                   id={el.id}
                   ownerAvatar={el.ownerAvatar}
+                  isFavorite={el.favorite}
                 />
               ))}
             </div>

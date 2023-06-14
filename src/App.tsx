@@ -11,6 +11,8 @@ import { updateViewportWidth } from "./store/reducers/viewportSlice";
 import "./style/clear.sass";
 import "./style/fonts.sass";
 import "./style/other.sass";
+import { getUserFavoritePosts } from "./API/post";
+import { updateFavorites } from "./store/reducers/postsReducer";
 
 export const App = () => {
   const { pathname } = useLocation();
@@ -63,6 +65,13 @@ export const CookiesApp = () => {
         dispatch(setUserName(res.data.username));
         dispatch(setAvatarUrl(res.data.avatar));
         dispatch(setSignIn(true));
+        return res;
+      })
+      .then(res => {
+        getUserFavoritePosts(res.data.username)
+          .then((res) => {
+            dispatch(updateFavorites(res.data));
+          });
       });
   }
   return (

@@ -15,10 +15,11 @@ interface EventCardProps {
   id: number;
   onFavoriteClick: (id: number, subscribe: boolean | undefined) => void;
   ownerAvatar: string;
+  isFavorite?: boolean;
 }
 
-export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beginDate, endDate, id, onFavoriteClick, ownerAvatar }) => {
-  const [favorite, setFavorite] = useState(false);
+export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beginDate, endDate, id, onFavoriteClick, ownerAvatar, isFavorite }) => {
+  const [favorite, setFavorite] = useState<boolean>(isFavorite || false);
   const [lasted] = useState(new Date() > new Date(endDate));
   const typeDateRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -59,4 +60,8 @@ export const EventCard: FC<EventCardProps> = ({ preview, author, name, type, beg
       </div>
     </>
   );
+};
+
+EventCard.defaultProps = {
+  isFavorite: false
 };
