@@ -66,8 +66,8 @@ export const DesktopHeader = () => {
         {isSignedIn
           ? <div className={styles.rigthSide}>
             <Link to={"/events"}>
-              <span>
-              Все мероприятия
+              <span className={styles.all}>
+                Все мероприятия
               </span>
             </Link>
             <Link to={profileUrl}>
@@ -82,7 +82,7 @@ export const DesktopHeader = () => {
           </div>
           : <div className={styles.rigthSide}>
             <Link to={"/events"}>
-              <span>
+              <span className={styles.all}>
               Все мероприятия
               </span>
             </Link>

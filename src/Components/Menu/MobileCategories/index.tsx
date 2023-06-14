@@ -21,7 +21,7 @@ export const MobileCategories = () => {
         backgroundImage={`url(${populars[1].urlMobile})`} />
       {isExtended
         ? null
-        : <SecondaryButton height={40} text="Показаать все категории" onClick={() => setExtended(true)} />}
+        : <SecondaryButton height={40} text="Показать все категории" onClick={() => setExtended(true)} />}
     </div>
     <div className={styles.MobileCategories} style={{ display: isExtended ? "flex" : "none", marginTop: "10px" }}>
       <PopularMobile link={"/events"}
