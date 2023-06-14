@@ -197,7 +197,9 @@ export const ModalEditAvatar: FC<ModalEditAvatarInterface> = ({ closeModal, load
                 : null}
               <CloseButton onClick={removePicture} text="Сбросить" />
             </div>
-            <SaveButton onClick={saveImage} />
+            <div style={{ margin: "0 10px", width: "100%" }}>
+              <SaveButton onClick={saveImage} />
+            </div>
           </div>
         </div>}
     </div>
