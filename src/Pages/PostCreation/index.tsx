@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
-import { SetStateAction, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { SetStateAction, useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Input, Arrow, Cross } from "../../Components/PostCreation";
 import styles from "./PostCreation.module.sass";
 import { Modal, ModalEditAvatar, SaveButton } from "../../Components/Profile";
-import { createPost, formatDate, getEventFormats } from "../../API/post";
+import { createPost, formatDate, getEventFormats, Ipost } from "../../API/post";
 import { Description } from "../../Components/Auth/Description";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -42,21 +43,64 @@ export const PostCreation = () => {
   const inputWidth = viewportWidth < 380 ? "300px" : "377px";
   const dateWidth = viewportWidth < 380 ? "125px" : "168.5px";
 
+  // {
+  //   "id": 0,
+  //   "name": "string",
+  //   "format": "Офлайн",
+  //   "type": "Акселератор",
+  //   "registrationLimit": 0,
+  //   "beginDate": "2023-07-17T09:06:15.246Z",
+  //   "endDate": "2023-07-17T09:06:15.246Z",
+  //   "location": "string",
+  //   "description": "string",
+  //   "email": "string",
+  //   "formLink": "string",
+  //   "externalLink": "string",
+  //   "image": "string",
+  //   "ownerName": "string",
+  //   "ownerAvatar": "string"
+  // }
+
+  const locationStore = useLocation();
+  const { data, isEdit } = locationStore.state;
+
+  useEffect(() => {
+    if (data && isEdit) {
+      setTextArea(data.description);
+      setName(data.name);
+      setFormat(data.format);
+      setRegistrationLimit(data.registrationLimit + "");
+      console.log(typeof data.beginDate);
+      setbeginDate(new Date(data.beginDate));
+      setendDate(new Date(data.endDate));
+      setLocation(data.location);
+      setFormURL(data.formLink);
+      // setFile(data.image);
+      setEmail(data.email);
+      setEventType(data.type);
+      setEventLink(data.externalLink);
+    }
+  }, []);
+
   const closeModal = () => {
     setmodalHidden(true);
   };
+
   const openModal = () => {
     setmodalHidden(false);
   };
+
   const loadImage = (file: File | null) => {
     setFile(file);
     closeModal();
   };
+
   const handleChange = (event: { target: { value: SetStateAction<string>; style: { height: string; }; scrollHeight: any; }; }) => {
     setTextArea(event.target.value);
     event.target.style.height = "auto";
     event.target.style.height = `${event.target.scrollHeight}px`;
   };
+
   const onSaveButtonClick = () => {
     setnameFocus(true);
     setformatFocus(true);
@@ -87,9 +131,11 @@ export const PostCreation = () => {
         console.log(err.response.data);
       });
   };
+
   const onCancelButtonClick = () => {
     setFile(null);
   };
+
   return (
     <>
       <div className={styles.PostCreation}>
