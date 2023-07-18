@@ -108,7 +108,13 @@ export const Post = () => {
   };
 
   const subscribe = () => {
-    setModalHidden(!isModalHidden);
+    console.log(data?.formLink);
+    if (data?.formLink !== null && (data?.formLink.indexOf("google") !== -1 || data?.formLink.indexOf("yandex") !== -1)) {
+      setModalHidden(!isModalHidden);
+    } else {
+      const newWindow = window.open(data?.formLink, "_blank");
+      newWindow?.focus();
+    }
     const postId = +(eventId || 0);
     subscribeToEvent(postId)
       .then((res) => {
@@ -275,7 +281,7 @@ export const Post = () => {
                 <button className={styles.cross} onClick={() => setModalHidden(true)} >
                   <Cross />
                 </button>
-                <Form url={data.externalLink} />
+                <Form url={data.formLink} />
               </Modal>
             </div>
           </div>
