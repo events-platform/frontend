@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Input, Arrow, Cross } from "../../Components/PostCreation";
 import styles from "./PostCreation.module.sass";
 import { Modal, ModalEditAvatar, SaveButton } from "../../Components/Profile";
-import { createPost, formatDate, getEventFormats, Ipost } from "../../API/post";
+import { createPost, editPost, formatDate, getEventFormats, Ipost } from "../../API/post";
 import { Description } from "../../Components/Auth/Description";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -122,14 +122,25 @@ export const PostCreation = () => {
       setErrorState(PostErrors.descriptionLength);
       return;
     }
-    createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description, formLink: formURL }, file)
-      .then((res) => {
-        navigate(-1);
-      })
-      .catch((err) => {
+    if (isEdit) {
+      editPost({ postId: Number(data.id), name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description, formLink: formURL }, file)
+        .then((res) => {
+          navigate(-1);
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err.response.data);
+        });
+    } else {
+      createPost({ name, location, beginDate, endDate, format: eventFormat, type: eventType, registrationLimit: Number(registrationLimit), email, externalLink, description, formLink: formURL }, file)
+        .then((res) => {
+          navigate(-1);
+        })
+        .catch((err) => {
         // eslint-disable-next-line no-console
-        console.log(err.response.data);
-      });
+          console.log(err.response.data);
+        });
+    }
   };
 
   const onCancelButtonClick = () => {
@@ -143,7 +154,7 @@ export const PostCreation = () => {
           <button onClick={() => navigate(-1)}>
             <Arrow />
           </button>
-          <h1>Создание мероприятия</h1>
+          <h1>{isEdit ? "Редактирование мероприятия" : "Создание мероприятия"}</h1>
         </div>
         <div className={styles.imageContainer}>
           { file
@@ -252,7 +263,7 @@ export const PostCreation = () => {
         </h2>
         <Input
           width={inputWidth}
-          name="Вставьте ссылку на Google форму для посетителей"
+          name="Вставьте ссылку на форму для регистрации посетителей"
           placeholder="Ссылка"
           require={false}
           state={formURL}
