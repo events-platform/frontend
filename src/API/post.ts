@@ -15,6 +15,21 @@ export interface postObject {
   formLink: string;
 }
 
+export interface editObject {
+  name: string;
+  location: string;
+  beginDate: Date | string;
+  endDate: Date | string;
+  format: string;
+  type: string;
+  registrationLimit: number;
+  email: string;
+  externalLink: string;
+  description: string;
+  formLink: string;
+  postId: number;
+}
+
 export interface Ipost {
   id: number;
   name: string;
@@ -47,6 +62,28 @@ export const createPost = (obj: postObject, file: File) => {
   formData.append("data", new Blob([JSON.stringify(obj)], { type: "application/json" }));
   return axios.post<string>(
     "/post",
+    formData,
+    {
+      headers: {
+        Authorization: JWT
+      }
+    }
+  );
+};
+
+export const editPost = (obj: editObject, file: File) => {
+  // eslint-disable-next-line no-console
+  console.log(obj);
+  const JWT = getJWT();
+  const formData:any = new FormData();
+
+  obj.beginDate = parseDate(obj.beginDate as Date);
+  obj.endDate = parseDate(obj.endDate as Date);
+
+  formData.append("file", file, file?.name);
+  formData.append("data", new Blob([JSON.stringify(obj)], { type: "application/json" }));
+  return axios.post<string>(
+    "/post/edit",
     formData,
     {
       headers: {
