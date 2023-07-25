@@ -49,6 +49,35 @@ export interface Ipost {
   favorite: boolean;
 }
 
+interface IgetPostsParams {
+  totalPages: number,
+  totalElements: number,
+  size: number,
+  content: Ipost[],
+  number: number,
+  sort: {
+    empty: boolean,
+    sorted: boolean,
+    unsorted: boolean
+  },
+  pageable: {
+    offset: 0,
+    sort: {
+      empty: boolean,
+      sorted: boolean,
+      unsorted: boolean
+    },
+    pageNumber: number,
+    pageSize: number,
+    paged: boolean,
+    unpaged: boolean
+  },
+  first: boolean,
+  numberOfElements: number,
+  last: boolean,
+  empty: boolean
+}
+
 export const createPost = (obj: postObject, file: File) => {
   // eslint-disable-next-line no-console
   console.log(obj);
@@ -98,7 +127,7 @@ const parseDate = (date: Date) => {
 };
 
 export const getUserPosts = (username: string) => {
-  return axios.get<Ipost[]>("/user/post/created",
+  return axios.get<IgetPostsParams>("/user/post/created",
     {
       params: { username }
     }
@@ -106,13 +135,13 @@ export const getUserPosts = (username: string) => {
 };
 
 export const getUserFavoritePosts = (username: string) => {
-  return axios.get<Ipost[]>("user/post/favorite", {
+  return axios.get<IgetPostsParams>("user/post/favorite", {
     params: { username }
   });
 };
 
 export const getUserSubscribePosts = (username: string) => {
-  return axios.get<Ipost[]>("user/post/subscriptions", {
+  return axios.get<IgetPostsParams>("user/post/subscriptions", {
     params: { username }
   });
 };
@@ -213,34 +242,6 @@ export const subscribeToEvent = (postId: number) => {
   });
 };
 
-interface IgetPostsParams {
-  totalPages: number,
-  totalElements: number,
-  size: number,
-  content: Ipost[],
-  number: number,
-  sort: {
-    empty: boolean,
-    sorted: boolean,
-    unsorted: boolean
-  },
-  pageable: {
-    offset: 0,
-    sort: {
-      empty: boolean,
-      sorted: boolean,
-      unsorted: boolean
-    },
-    pageNumber: number,
-    pageSize: number,
-    paged: boolean,
-    unpaged: boolean
-  },
-  first: boolean,
-  numberOfElements: number,
-  last: boolean,
-  empty: boolean
-}
 export interface IPostsParamsOptions {
   beginDate?: Date, endDate?: Date, organizer?: string[], type?: string[], format?: string[], showEnded?: boolean, searchQuery?: string, page?: number, size?: number, sort?: string[]
 }
@@ -269,8 +270,8 @@ export const deletePost = (postId: number) => {
 };
 
 export const processFavorites = (source: Ipost[], favorites: Ipost[]) => {
-  for (const favorite of favorites) {
-    const post = source.find(el => el.id === favorite.id);
-    if (post) { post.favorite = true; }
-  }
+  // for (const favorite of favorites) {
+  //   const post = source.find(el => el.id === favorite.id);
+  //   if (post) { post.favorite = true; }
+  // }
 };

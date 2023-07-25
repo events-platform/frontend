@@ -70,13 +70,14 @@ export const Profile = () => {
     setModalHidden(false);
   };
   const updateProfileInfo = (username: string) => {
-    getUserData(username).then((res) => {
-      setdescription(res.data.about);
-      setprofileUsername(res.data.username);
-      setphone(res.data.phone);
-      setemail(res.data.email);
-      setAvatar(res.data.avatar);
-    });
+    getUserData(username)
+      .then((res) => {
+        setdescription(res.data.about);
+        setprofileUsername(res.data.username);
+        setphone(res.data.phone);
+        setemail(res.data.email);
+        setAvatar(res.data.avatar);
+      });
     return () => {};
   };
   const sendProfileInfo = (
@@ -103,20 +104,22 @@ export const Profile = () => {
   useEffect(() => {
     getUserPosts(username)
       .then((res) => {
-        setprofileEvents(res.data);
+        // eslint-disable-next-line no-console
+        console.log(res);
+        setprofileEvents(res.data.content);
       })
       .then(() => setProfileEventsLoaded(true))
       .catch(() => navigate("/404"));
     getUserFavoritePosts(username)
       .then((res) => {
         dispatch(updateFavorites(res.data));
-        setProfileFavoriteEvents(res.data);
+        setProfileFavoriteEvents(res.data.content);
       })
       .then(() => setProfileFavoriteEventsLoaded(true))
       .catch(() => navigate("/404"));
     getUserSubscribePosts(username)
       .then((res) => {
-        setprofileSubscribeEvents(res.data);
+        setprofileSubscribeEvents(res.data.content);
       })
       .catch(() => navigate("/404"));
   }, []);
@@ -124,7 +127,7 @@ export const Profile = () => {
     if (subscribe) {
       addPostToFavorite(id).then((res) =>
         getUserFavoritePosts(username).then((res) => {
-          setProfileFavoriteEvents(res.data);
+          setProfileFavoriteEvents(res.data.content);
         })
       )
         .catch(err => {
@@ -135,7 +138,7 @@ export const Profile = () => {
       deletePostFromFavorite(id)
         .then((res) =>
           getUserFavoritePosts(username).then((res) => {
-            setProfileFavoriteEvents(res.data);
+            setProfileFavoriteEvents(res.data.content);
           })
         )
         .catch(err => {
