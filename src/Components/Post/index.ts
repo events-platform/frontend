@@ -1,9 +1,7 @@
 export { Button } from "./Button";
 export { Arrow } from "./SVGs/Arrow";
 export { Star } from "./SVGs/Star";
-export { Edit } from "./SVGs/Edit";
 export { Optional } from "./SVGs/Optional/";
 export { Description } from "./Description";
 export { HiddenPost } from "./HiddenPost";
 export { Form } from "./Form";
-export { DeleteSvg } from "./SVGs/Delete";

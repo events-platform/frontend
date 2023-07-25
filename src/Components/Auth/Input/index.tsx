@@ -1,6 +1,4 @@
-import React, { RefObject, ReactNode, useState } from "react";
-import { EyeSleep } from "./EyeSleep";
-import { EyeWake } from "./EyeWake";
+import React, { RefObject, ReactNode } from "react";
 import styles from "./Input.module.sass";
 
 interface InputProps {
@@ -26,27 +24,20 @@ export const Input: React.FC<InputProps> = ({ text, children, type, color, setSt
     }
   };
 
-  const [isShow, setShow] = useState(false);
-
   return (
     <div className={styles.InputWrapper}>
       <input
-        type={type === "password" ? !isShow ? type : "text" : type}
+        type={type}
         className={`${styles.Input} media`}
         required
         placeholder={text}
-        style={{ borderColor: color, width, paddingRight: type === "password" ? "42px" : "12px" }}
+        style={{ borderColor: color, width }}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         ref={ref}
         maxLength={limit}
       />
       {children}
-      {type === "password" ?
-        <button className={styles.show} onClick={() => setShow(!isShow)}>
-          {isShow ? <EyeWake /> : <EyeSleep />}
-        </button>
-      : null}
     </div>
   );
 };
