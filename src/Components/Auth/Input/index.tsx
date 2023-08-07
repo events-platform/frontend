@@ -42,11 +42,11 @@ export const Input: React.FC<InputProps> = ({ text, children, type, color, setSt
         maxLength={limit}
       />
       {children}
-      {type === "password" ?
-        <button className={styles.show} onClick={() => setShow(!isShow)}>
+      {type === "password"
+        ? <button className={styles.show} onClick={() => setShow(!isShow)}>
           {isShow ? <EyeWake /> : <EyeSleep />}
         </button>
-      : null}
+        : null}
     </div>
   );
 };
