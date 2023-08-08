@@ -1,4 +1,5 @@
 import { FC } from "react";
+import styles from "./Notifications.module.sass";
 
 interface NotificationsProps {
   number: number
@@ -6,7 +7,7 @@ interface NotificationsProps {
 
 export const Notifications: FC<NotificationsProps> = ({ number }) => {
   return (
-    <div style={{ position: "relative" }}>
+    <div className={styles.wrapper}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="14"
@@ -20,7 +21,7 @@ export const Notifications: FC<NotificationsProps> = ({ number }) => {
         ></path>
       </svg>
       {number > 0
-        ? <div>
+        ? <div className={styles.number}>
           {number}
         </div>
         : null}

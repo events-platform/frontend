@@ -20,6 +20,7 @@ export const DesktopHeader = () => {
   const isSignedIn = useSelector((state: RootState) => state.user.isSignedIn);
   const avatarUrl = useSelector((state: RootState) => state.user.avatarUrl);
   const isNotificationsHide = useSelector((state: RootState) => state.notifications);
+  const [activeNotifications, setActiveNotifications] = useState(1);
 
   const profileUrl = "/profile/" + name;
   const [, setCookie] = useCookies(["access_token", "refresh_token"]);
@@ -85,9 +86,9 @@ export const DesktopHeader = () => {
               <div className={styles.line} />
               <div className={styles.wrap}>
                 <button onClick={() => dispatch(setNotificationsHide())} className={styles.drop}>
-                  <Notifications number={0} />
+                  <Notifications number={activeNotifications} />
                 </button>
-                {isNotificationsHide ? null : <NotificationsMenu />}
+                {isNotificationsHide ? null : <NotificationsMenu setActiveNotifications={setActiveNotifications} activeNotifications={activeNotifications} />}
               </div>
               <div className={styles.line} />
               <Link to={profileUrl}>
