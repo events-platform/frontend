@@ -85,7 +85,7 @@ export const DesktopHeader = () => {
               <div className={styles.line} />
               <div className={styles.wrap}>
                 <button onClick={() => dispatch(setNotificationsHide())} className={styles.drop}>
-                  <Notifications />
+                  <Notifications number={0} />
                 </button>
                 {isNotificationsHide ? null : <NotificationsMenu />}
               </div>

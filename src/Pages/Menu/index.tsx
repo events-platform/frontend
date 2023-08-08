@@ -1,16 +1,16 @@
 import { useEffect, useState, SyntheticEvent, RefObject, useRef } from "react";
 import { EventCard } from "../../Components/EventCard";
-import { Header, Heading, Green, DesktopCategories, MobileCategories } from "../../Components/Menu";
+import { Header, Heading } from "../../Components/Menu";
 import { SaveButton } from "../../Components/SaveButton";
 import { Ipost, addPostToFavorite, getAllPosts, processFavorites } from "../../API/post";
 import { HiddenEventCard } from "../../Components/HiddenEventCard";
 import styles from "./Menu.module.sass";
-import { useSelector } from "react-redux";
-import { RootState, store } from "../../store/store";
+// import { useSelector } from "react-redux";
+import { store } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 
 export const Menu = () => {
-  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
+  // const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const [posts, setPosts] = useState<Ipost[]>([]);
@@ -67,11 +67,27 @@ export const Menu = () => {
         popularRef={popularRef}
         aboutRef={aboutRef}
       />
+      <div className={styles.backgroundImage}>
+        <div className={styles.black}>
+          <h1 className={styles.firstHeader}>
+          Event Share
+          </h1>
+          <h3 className={styles.secondHeader}>
+          Организация мероприятий
+          </h3>
+          <p className={styles.mainText}>
+          Создайте мероприятие в несколько кликов, а с помощью гибкой фильтрации ищите все интересующие вас мероприятия от выставок до спортивных и культурных событий.
+          </p>
+          <SaveButton
+            text="Создать мероприятие"
+            height={65}
+            width={400}
+            onClick={() => navigate("/events/create")}
+          />
+        </div>
+      </div>
       <section className={styles.menuContent} ref={categoriesRef}>
-        <Heading text="Популярные категории" />
-        {viewportWidth > 920 ? <DesktopCategories /> : <MobileCategories />}
-        <div ref={popularRef} />
-        <Heading text="Популярное" />
+        <Heading text="Конференции" />
         <div className={`${styles.events} ${isIOS ? "" : styles.scroll}`}>
           {posts.length !== 0
             ? posts.map((el, index) => (
@@ -91,43 +107,72 @@ export const Menu = () => {
             ))
             : Array.from({ length: 6 }, (_, index) => <HiddenEventCard key={index} />)}
         </div>
-        <div style={{ width: "100%", padding: "10px 15px" }}>
+        <Heading text="Фестивали" />
+        <div className={`${styles.events} ${isIOS ? "" : styles.scroll}`}>
+          {posts.length !== 0
+            ? posts.map((el, index) => (
+              <EventCard
+                onFavoriteClick={onFavoriteClick}
+                key={index}
+                preview={el.image}
+                author={el.ownerName}
+                name={el.name}
+                type={el.type}
+                beginDate={el.beginDate}
+                endDate={el.endDate}
+                id={el.id}
+                ownerAvatar={el.ownerAvatar}
+                isFavorite={el.favorite}
+              />
+            ))
+            : Array.from({ length: 6 }, (_, index) => <HiddenEventCard key={index} />)}
+        </div>
+        <Heading text="Митапы" />
+        <div className={`${styles.events} ${isIOS ? "" : styles.scroll}`}>
+          {posts.length !== 0
+            ? posts.map((el, index) => (
+              <EventCard
+                onFavoriteClick={onFavoriteClick}
+                key={index}
+                preview={el.image}
+                author={el.ownerName}
+                name={el.name}
+                type={el.type}
+                beginDate={el.beginDate}
+                endDate={el.endDate}
+                id={el.id}
+                ownerAvatar={el.ownerAvatar}
+                isFavorite={el.favorite}
+              />
+            ))
+            : Array.from({ length: 6 }, (_, index) => <HiddenEventCard key={index} />)}
+        </div>
+        <Heading text="Выставки" />
+        <div className={`${styles.events} ${isIOS ? "" : styles.scroll}`}>
+          {posts.length !== 0
+            ? posts.map((el, index) => (
+              <EventCard
+                onFavoriteClick={onFavoriteClick}
+                key={index}
+                preview={el.image}
+                author={el.ownerName}
+                name={el.name}
+                type={el.type}
+                beginDate={el.beginDate}
+                endDate={el.endDate}
+                id={el.id}
+                ownerAvatar={el.ownerAvatar}
+                isFavorite={el.favorite}
+              />
+            ))
+            : Array.from({ length: 6 }, (_, index) => <HiddenEventCard key={index} />)}
+        </div>
+        <div style={{ width: "100%", padding: "40px 15px 10px 35px" }}>
           <SaveButton
             text="Посмотреть все мероприятия"
             height={38.8}
-            width={viewportWidth < 880 ? undefined : 258 }
+            width={"100%"}
             onClick={() => navigate("/events")}
-          />
-        </div>
-        <h1 className={styles.EventShare} ref={aboutRef}>
-          EventShare
-        </h1>
-        <div className={styles.descHeader}>
-          <hr />
-          <h2>организация мероприятий</h2>
-          <hr />
-        </div>
-        <div className={styles.greens}>
-          <Green
-            id={1}
-            heading={"Простота создания мероприятий"}
-            text={
-              "Благодаря EventShare вы можете создавать свои собственные мероприятия всего в несколько кликов, благодаря интуитивно-понятному интерфейсу"
-            }
-          />
-          <Green
-            id={2}
-            heading={"Широкий выбор мероприятий"}
-            text={
-              "Сервис EventShare предоставляет доступ к списку мероприятий, которые создали другие пользователи. Вы можете легко найти интересующее вас мероприятие по категории или тематике"
-            }
-          />
-          <Green
-            id={3}
-            heading={"Удобный поиск и фильтрация"}
-            text={
-              "Сервис EventShare позволяет производить поиск мероприятий по различным параметрам, например, по дате, категории и другим. Фильтрация позволяет получить наиболее точный результат, соответствующий вашим запросам"
-            }
           />
         </div>
       </section>
