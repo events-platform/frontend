@@ -62,7 +62,7 @@ export const PostCreation = () => {
   // }
 
   const locationStore = useLocation();
-  const { data, isEdit } = locationStore.state;
+  const { data, isEdit } = locationStore.state || {};
 
   useEffect(() => {
     if (data && isEdit) {

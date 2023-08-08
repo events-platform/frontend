@@ -90,7 +90,7 @@ export const Menu = () => {
         <Heading text="Конференции" />
         <div className={`${styles.events} ${isIOS ? "" : styles.scroll}`}>
           {posts.length !== 0
-            ? posts.map((el, index) => (
+            ? posts.filter(x => x.type === "Конференция").map((el, index) => (
               <EventCard
                 onFavoriteClick={onFavoriteClick}
                 key={index}
@@ -107,10 +107,10 @@ export const Menu = () => {
             ))
             : Array.from({ length: 6 }, (_, index) => <HiddenEventCard key={index} />)}
         </div>
-        <Heading text="Фестивали" />
+        <Heading text="Встречи" />
         <div className={`${styles.events} ${isIOS ? "" : styles.scroll}`}>
           {posts.length !== 0
-            ? posts.map((el, index) => (
+            ? posts.filter(x => x.type === "Встреча").map((el, index) => (
               <EventCard
                 onFavoriteClick={onFavoriteClick}
                 key={index}
@@ -130,7 +130,7 @@ export const Menu = () => {
         <Heading text="Митапы" />
         <div className={`${styles.events} ${isIOS ? "" : styles.scroll}`}>
           {posts.length !== 0
-            ? posts.map((el, index) => (
+            ? posts.filter(x => x.type === "Митап").map((el, index) => (
               <EventCard
                 onFavoriteClick={onFavoriteClick}
                 key={index}
@@ -150,7 +150,7 @@ export const Menu = () => {
         <Heading text="Выставки" />
         <div className={`${styles.events} ${isIOS ? "" : styles.scroll}`}>
           {posts.length !== 0
-            ? posts.map((el, index) => (
+            ? posts.filter(x => x.type === "Выставка").map((el, index) => (
               <EventCard
                 onFavoriteClick={onFavoriteClick}
                 key={index}
