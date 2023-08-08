@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from "react";
 import { SearchInput } from "../Components/SearchInput";
 import { Logo, LogoutSVG } from "../Components/SVGs";
@@ -9,11 +10,16 @@ import { logout } from "../../../../API/cookies";
 import { paths } from "../../../../API/paths";
 import styles from "./DesktopHeader.module.sass";
 import { useSelector } from "react-redux";
+import { Notifications } from "../Components/SVGs/Notifications";
+import { Calendar } from "../Components/SVGs/Calendar";
+import { NotificationsMenu } from "../Components/NotificationsMenu";
+import { setNotificationsHide } from "../../../../store/reducers/dropDownReducer";
 
 export const DesktopHeader = () => {
   const name = useSelector((state: RootState) => state.user.username);
   const isSignedIn = useSelector((state: RootState) => state.user.isSignedIn);
   const avatarUrl = useSelector((state: RootState) => state.user.avatarUrl);
+  const isNotificationsHide = useSelector((state: RootState) => state.notifications);
 
   const profileUrl = "/profile/" + name;
   const [, setCookie] = useCookies(["access_token", "refresh_token"]);
@@ -55,55 +61,70 @@ export const DesktopHeader = () => {
   }, []);
 
   return (
-    <header className={styles.Header}>
-      <div className={styles.headerContent}>
-        <div className={styles.leftSide}>
-          <Link to={"/"}>
-            <Logo />
-          </Link>
-          <SearchInput state={search} setState={onInputChange}/>
-        </div>
-        {isSignedIn
-          ? <div className={styles.rigthSide}>
-            <Link to={"/events"}>
-              <span className={styles.all}>
+    <>
+      {!isNotificationsHide ? <div onClick={() => dispatch(setNotificationsHide())} className={styles.blank} /> : null }
+      <header className={styles.Header}>
+        <div className={styles.headerContent}>
+          <div className={styles.leftSide}>
+            <Link to={"/"}>
+              <Logo />
+            </Link>
+            <SearchInput state={search} setState={onInputChange}/>
+          </div>
+          {!isSignedIn
+            ? <div className={styles.rigthSide}>
+              <Link to={"/events"}>
+                <span className={styles.all}>
                 Все мероприятия
-              </span>
-            </Link>
-            <Link to={profileUrl}>
-              <img className={styles.Avatar} src={avatarUrl} alt="avatar" />
-              <span>
-                {name}
-              </span>
-            </Link>
-            <div className={styles.logoutBtn} onClick={logOutClicked}>
-              <LogoutSVG />
+                </span>
+              </Link>
+              <div className={styles.line} />
+              <button className={styles.drop}>
+                <Calendar />
+              </button>
+              <div className={styles.line} />
+              <div className={styles.wrap}>
+                <button onClick={() => dispatch(setNotificationsHide())} className={styles.drop}>
+                  <Notifications />
+                </button>
+                {isNotificationsHide ? null : <NotificationsMenu />}
+              </div>
+              <div className={styles.line} />
+              <Link to={profileUrl}>
+                <img className={styles.Avatar} src={avatarUrl} alt="avatar" />
+                <span>
+                  {name}
+                </span>
+              </Link>
+              <div className={styles.logoutBtn} onClick={logOutClicked}>
+                <LogoutSVG />
+              </div>
             </div>
-          </div>
-          : <div className={styles.rigthSide}>
-            <Link to={"/events"}>
-              <span className={styles.all}>
+            : <div className={styles.rigthSide}>
+              <Link to={"/events"}>
+                <span className={styles.all}>
               Все мероприятия
-              </span>
-            </Link>
-            <div className={styles.auth}>
-              <Link to={"/login/"}>
-                <span>
+                </span>
+              </Link>
+              <div className={styles.auth}>
+                <Link to={"/login/"}>
+                  <span>
                   Вход
-                </span>
-              </Link>
-              <span>
-                |
-              </span>
-              <Link to={"/reg/"}>
+                  </span>
+                </Link>
                 <span>
-                  Регистрация
+                |
                 </span>
-              </Link>
+                <Link to={"/reg/"}>
+                  <span>
+                  Регистрация
+                  </span>
+                </Link>
+              </div>
             </div>
-          </div>
-        }
-      </div>
-    </header>
+          }
+        </div>
+      </header>
+    </>
   );
 };
