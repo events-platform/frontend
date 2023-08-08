@@ -71,7 +71,7 @@ export const DesktopHeader = () => {
             </Link>
             <SearchInput state={search} setState={onInputChange}/>
           </div>
-          {!isSignedIn
+          {isSignedIn
             ? <div className={styles.rigthSide}>
               <Link to={"/events"}>
                 <span className={styles.all}>

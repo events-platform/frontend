@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const calendarSlice = createSlice({
   name: "isCalendarHide",
-  initialState: false,
+  initialState: true,
   reducers: {
     setCalendarHide: (state) => {
       return !state;
@@ -12,7 +12,7 @@ export const calendarSlice = createSlice({
 
 export const notificationsSlice = createSlice({
   name: "isNotificationsHide",
-  initialState: false,
+  initialState: true,
   reducers: {
     setNotificationsHide: (state) => {
       return !state;
