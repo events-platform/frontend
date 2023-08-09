@@ -1,0 +1,95 @@
+.CalendarMenu
+    width: 430px
+    height: 616px
+    background-color: white
+    position: absolute
+    top: 26px
+    border-radius-bottom-left: 20px
+    box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 6px 16px rgba(0, 0, 0, 0.08), 0px 9px 28px 8px rgba(0, 0, 0, 0.05)
+    border-radius: 0px 0px 15px 15px
+    display: flex
+    flex-direction: column
+    justify-content: flex-start
+    align-items: unset
+    right: -175px
+    .header
+        width: 100%
+        display: flex
+        background-color: #5AAE81
+        padding: 22px 20px
+        color: #FFF
+        font-family: Roboto
+        font-size: 16px
+        font-style: normal
+        font-weight: 600
+        line-height: 22px
+    .controlPanel
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        padding: 20px
+        width: 100%
+        .monthDate
+            color: #262626
+            font-family: Roboto
+            font-size: 14px
+            font-style: normal
+            font-weight: 600
+            line-height: 22px
+        .arrows
+            display: flex
+            gap: 15px
+            cursor: pointer
+        .dateBtns
+            display: flex
+            gap: 10px
+            button
+                background: none
+                border: none
+                color: #8C8C8C
+                text-align: center
+                font-family: Roboto
+                font-size: 14px
+                font-style: normal
+                font-weight: 400
+                line-height: 22px
+                border-bottom: 2px solid #D9D9D9
+                padding: 0 6px 2px 6px
+                cursor: pointer
+    .daysOfWeek
+        display: flex
+        width: 100%
+        padding: 0 20px
+        justify-content: space-between
+        .dayOfWeek
+            color: #262626
+            text-align: center
+            font-family: Roboto
+            font-size: 14px
+            font-style: normal
+            font-weight: 600
+            line-height: 22px
+    .days
+        margin-top: 15px
+        display: flex
+        width: 100%
+        padding: 0 20px
+        justify-content: space-between
+        span
+            color: #262626
+            text-align: center
+            font-family: Roboto
+            font-size: 14px
+            font-style: normal
+            font-weight: 400
+            line-height: 22px
+            cursor: pointer
+            width: 19px
+            padding: 5px
+            flex-shrink: 0
+
+.gray
+    color: #8C8C8C !important
+
+.green
+    color: #5AAE81 !important

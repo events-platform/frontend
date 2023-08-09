@@ -13,13 +13,15 @@ import { useSelector } from "react-redux";
 import { Notifications } from "../Components/SVGs/Notifications";
 import { Calendar } from "../Components/SVGs/Calendar";
 import { NotificationsMenu } from "../Components/NotificationsMenu";
-import { setNotificationsHide } from "../../../../store/reducers/dropDownReducer";
+import { setCalendarHide, setNotificationsHide } from "../../../../store/reducers/dropDownReducer";
+import { CalendarMenu } from "../Components/CalendarMenu";
 
 export const DesktopHeader = () => {
   const name = useSelector((state: RootState) => state.user.username);
   const isSignedIn = useSelector((state: RootState) => state.user.isSignedIn);
   const avatarUrl = useSelector((state: RootState) => state.user.avatarUrl);
   const isNotificationsHide = useSelector((state: RootState) => state.notifications);
+  const isCalendarHide = useSelector((state: RootState) => state.calendar);
   const [activeNotifications, setNotifications] = useState(1);
 
   useEffect(() => {
@@ -72,9 +74,17 @@ export const DesktopHeader = () => {
     setsearch(search);
   }, []);
 
+  const hide = () => {
+    if (!isCalendarHide) {
+      dispatch(setCalendarHide());
+    } else {
+      dispatch(setNotificationsHide());
+    }
+  };
+
   return (
     <>
-      {!isNotificationsHide ? <div onClick={() => dispatch(setNotificationsHide())} className={styles.blank} /> : null }
+      {!isNotificationsHide || !isCalendarHide ? <div onClick={() => hide()} className={styles.blank} /> : null }
       <header className={styles.Header}>
         <div className={styles.headerContent}>
           <div className={styles.leftSide}>
@@ -91,9 +101,12 @@ export const DesktopHeader = () => {
                 </span>
               </Link>
               <div className={styles.line} />
-              <button className={styles.drop}>
-                <Calendar />
-              </button>
+              <div className={styles.wrap}>
+                <button onClick={() => dispatch(setCalendarHide())} className={styles.drop}>
+                  <Calendar />
+                </button>
+                {isCalendarHide ? null : <CalendarMenu />}
+              </div>
               <div className={styles.line} />
               <div className={styles.wrap}>
                 <button onClick={() => dispatch(setNotificationsHide())} className={styles.drop}>
