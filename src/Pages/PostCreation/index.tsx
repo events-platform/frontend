@@ -20,12 +20,14 @@ enum PostErrors {
 
 export const PostCreation = () => {
   const navigate = useNavigate();
+  const locationStore = useLocation();
+  const { data, isEdit } = locationStore.state || {};
   const [description, setTextArea] = useState("");
   const [name, setName] = useState("");
   const [eventFormat, setFormat] = useState("");
   const [registrationLimit, setRegistrationLimit] = useState("");
-  const [beginDate, setbeginDate] = useState<Date>(new Date());
-  const [endDate, setendDate] = useState<Date>(new Date());
+  const [beginDate, setbeginDate] = useState<Date>(data ? new Date(data.beginDate) : new Date());
+  const [endDate, setendDate] = useState<Date>(data ? new Date(data.endDate) : new Date());
   const [location, setLocation] = useState("");
   const [formURL, setFormURL] = useState("");
   const [modalHidden, setmodalHidden] = useState<boolean>(true);
@@ -60,9 +62,6 @@ export const PostCreation = () => {
   //   "ownerName": "string",
   //   "ownerAvatar": "string"
   // }
-
-  const locationStore = useLocation();
-  const { data, isEdit } = locationStore.state || {};
 
   useEffect(() => {
     if (data && isEdit) {
