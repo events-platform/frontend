@@ -20,7 +20,18 @@ export const DesktopHeader = () => {
   const isSignedIn = useSelector((state: RootState) => state.user.isSignedIn);
   const avatarUrl = useSelector((state: RootState) => state.user.avatarUrl);
   const isNotificationsHide = useSelector((state: RootState) => state.notifications);
-  const [activeNotifications, setActiveNotifications] = useState(1);
+  const [activeNotifications, setNotifications] = useState(1);
+
+  useEffect(() => {
+    if (localStorage.getItem("notifications") === "0") {
+      setNotifications(0);
+    }
+  }, []);
+
+  const setActiveNotifications = (number: Number) => {
+    setNotifications(0);
+    localStorage.setItem("notifications", "0");
+  };
 
   const profileUrl = "/profile/" + name;
   const [, setCookie] = useCookies(["access_token", "refresh_token"]);

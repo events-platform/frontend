@@ -145,12 +145,12 @@ export const Post = () => {
                     <Arrow size={starSize} />
                   </button>
                   <div style={{ display: "flex" }}>
-                    {!isOwnPost
+                    {isOwnPost
                       ? <button className={styles.edit} onClick={() => editPost()}>
                         <Edit size={starSize} />
                       </button>
                       : null}
-                    {!isOwnPost
+                    {isOwnPost
                       ? <div onClick={() => { deletePost(+(eventId || 0)).then(res => navigate("/")); }}>
                         <DeleteSvg
                           width={`${starSize * 1.5}px`}
