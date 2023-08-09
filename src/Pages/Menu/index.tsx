@@ -5,12 +5,12 @@ import { SaveButton } from "../../Components/SaveButton";
 import { Ipost, addPostToFavorite, getAllPosts, processFavorites } from "../../API/post";
 import { HiddenEventCard } from "../../Components/HiddenEventCard";
 import styles from "./Menu.module.sass";
-// import { useSelector } from "react-redux";
-import { store } from "../../store/store";
+import { useSelector } from "react-redux";
+import { RootState, store } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 
 export const Menu = () => {
-  // const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
+  const viewportWidth = useSelector((state: RootState) => state.viewport.viewportWidth);
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const [posts, setPosts] = useState<Ipost[]>([]);
@@ -81,7 +81,7 @@ export const Menu = () => {
           <SaveButton
             text="Создать мероприятие"
             height={65}
-            width={400}
+            width={viewportWidth > 700 ? 400 : "100%"}
             onClick={() => navigate("/events/create")}
           />
         </div>
